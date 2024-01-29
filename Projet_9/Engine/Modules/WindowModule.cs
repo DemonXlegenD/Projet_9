@@ -31,7 +31,6 @@ namespace NModules
         public override void PreRender()
         {
             base.PreRender();   
-            Console.Clear();
         }
 
         public override void Render()

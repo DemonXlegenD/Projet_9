@@ -35,6 +35,7 @@ namespace Projet_9.PokemonTeam
             };
         }
 
+
         private StackPanel PokemonInfos(Pokemon pokemon)
         {
             StackPanel stackPanel = new StackPanel();

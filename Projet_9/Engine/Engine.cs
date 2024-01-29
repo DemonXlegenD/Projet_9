@@ -47,6 +47,7 @@ namespace NEngine
         public void Quit()
         {
             shouldQuit = true;
+            Console.WriteLine("Application fermée.");
         }
 
         public ModuleManager ModuleManager { get { return moduleManager; } }
