@@ -12,10 +12,10 @@ using Csharp_Tpt;
 
 namespace Projet_9.PokemonTeam
 {
-    internal class WindowPokemonTeam
+    public class WindowPokemonTeam
     {
-
-        private static TextBlock textblock
+        Window w = null;
+        private TextBlock textblock
             (
             string text, 
             Brush color = null, 
@@ -35,7 +35,8 @@ namespace Projet_9.PokemonTeam
             };
         }
 
-        private static StackPanel PokemonInfos(Pokemon pokemon)
+
+        private StackPanel PokemonInfos(Pokemon pokemon)
         {
             StackPanel stackPanel = new StackPanel();
 
@@ -54,11 +55,11 @@ namespace Projet_9.PokemonTeam
         
 
         [STAThread] // Définir le thread en mode STA
-        public static void WindowRun()
+        public void WindowRun()
         {
             Thread thread = new Thread(() =>
             {
-                Window w = new Window();
+                w = new Window();
                 w.Width = 600;
                 w.Height = 600;
                 w.Background = Brushes.Black;
@@ -78,6 +79,10 @@ namespace Projet_9.PokemonTeam
 
             thread.SetApartmentState(ApartmentState.STA); // Définir l'état de l'appartement sur STA
             thread.Start(); // Démarrer le thread
+        }
+        public void WindowClose()
+        { 
+            w.Dispatcher.Invoke(() => w.Close());
         }
     }
 }

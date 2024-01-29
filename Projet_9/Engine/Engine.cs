@@ -42,7 +42,6 @@ namespace NEngine
 
             moduleManager.Release();
             moduleManager.End();
-
         }
 
         public void Quit()
