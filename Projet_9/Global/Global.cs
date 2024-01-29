@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Windows.Media;
 
 
 namespace Csharp_Tpt
@@ -42,7 +43,7 @@ namespace Csharp_Tpt
     	    /* Dragon */    {1.0f,  1.0f, 1.0f,  1.0f,  0.5f,    2.0f,  1.0f,    1.0f,   1.0f,   1.0f,   1.0f,    1.0f, 1.0f,  1.0f,  1.0f,  1.0f, 2.0f,  2.0f,  0.0f }
     	};
 
-		public PokemonType TypeToIndex(string typeName) { 
+		public static PokemonType TypeToIndex(string typeName) { 
 			if (typeName == "Water"){         return PokemonType.Water;}
 			else if (typeName == "Fire"){        return PokemonType.Fire;}
 			else if (typeName == "Grass"){       return PokemonType.Grass;}
@@ -62,6 +63,29 @@ namespace Csharp_Tpt
 			else if (typeName == "Fairy"){       return PokemonType.Fairy;}
 			else if (typeName == "Dragon"){      return PokemonType.Dragon;}
             else {return PokemonType.Unknown;}
+		}
+
+		public static SolidColorBrush TypeToColor(string typeName)
+		{
+			if (typeName == "Water") { return Brushes.Blue; }
+            else if (typeName == "Fire") { return Brushes.Red; }
+            else if (typeName == "Grass") { return Brushes.Green; }
+            else if (typeName == "Electric") { return Brushes.Yellow; }
+            else if (typeName == "Normal") { return Brushes.Gray; }
+            else if (typeName == "Ice") { return Brushes.Cyan; }
+            else if (typeName == "Fighting") { return Brushes.Brown; }
+            else if (typeName == "Poison") { return Brushes.Violet; }
+            else if (typeName == "Ground") { return Brushes.SandyBrown; }
+            else if (typeName == "Flying") { return Brushes.AliceBlue; }
+            else if (typeName == "Psychic") { return Brushes.DeepPink; }
+            else if (typeName == "Bug") { return Brushes.GreenYellow; }
+            else if (typeName == "Rock") { return Brushes.SaddleBrown; }
+            else if (typeName == "Ghost") { return Brushes.DarkViolet; }
+            else if (typeName == "Steel") { return Brushes.SteelBlue; }
+            else if (typeName == "Dark") { return Brushes.DarkGray; }
+            else if (typeName == "Fairy") { return Brushes.Pink; }
+            else if (typeName == "Dragon") { return Brushes.LightBlue; }
+            else { return Brushes.Gray; }
 		}
 
 		public static bool SuccessAcc(int Acc) {
