@@ -1,9 +1,4 @@
 ﻿using Projet_9.PokemonTeam;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NEngine;
 namespace Projet_9
 {
@@ -11,10 +6,12 @@ namespace Projet_9
     {
         static void Main(string[] args)
         {
-            WindowPokemonTeam.WindowRun();
+            WindowPokemonTeam window = new WindowPokemonTeam();
+            window.WindowRun();
             Engine engine = Engine.GetInstance();
 
             engine.Run();
+            window.WindowClose();
         }
     }
 }
