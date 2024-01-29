@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Projet_9.PokemonTeam;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace Projet_9
     {
         static void Main(string[] args)
         {
+            WindowPokemonTeam.WindowRun();
         }
     }
 }
