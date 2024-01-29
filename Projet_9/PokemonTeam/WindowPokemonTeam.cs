@@ -37,7 +37,7 @@ namespace Projet_9.PokemonTeam
             };
         }
 
-        private static StackPanel Panel2Text(
+        private StackPanel Panel2Text(
             string Text1,
             string Text2,
             Brush ColorText2 = null,
