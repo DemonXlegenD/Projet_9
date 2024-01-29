@@ -1,11 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+
 
 namespace Csharp_Tpt
 {
     public class Global
     {
         public static bool IsInBattle = false;
-		public List<Pokemon>? PlayerPokemons;
+		public List<Pokemon> PlayerPokemons;
 		// public Dictionary PlayerItems = { "Pokeball":{"Num":100} }
 		// public List<Pokemon_Class> PC
 

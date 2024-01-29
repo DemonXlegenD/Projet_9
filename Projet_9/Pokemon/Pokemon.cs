@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace Csharp_Tpt
 {
 	public enum NonVolatileStatus{
