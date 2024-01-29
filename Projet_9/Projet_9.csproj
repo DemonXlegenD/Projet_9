@@ -35,6 +35,9 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,11 +61,29 @@
     <Compile Include="PokemonTeam\WindowPokemonTeam.cs" />
     <Compile Include="Pokemon\Attack.cs" />
     <Compile Include="Pokemon\Pokemon.cs" />
+    <Compile Include="GameObject\Component.cs" />
+    <Compile Include="GameObject\Components\Map.cs" />
+    <Compile Include="Engine\Engine.cs" />
+    <Compile Include="Engine\Module.cs" />
+    <Compile Include="Engine\ModuleManager.cs" />
+    <Compile Include="Engine\Modules\SceneModule.cs" />
+    <Compile Include="Engine\Modules\WindowModule.cs" />
+    <Compile Include="GameObject\GameObject.cs" />
+    <Compile Include="Maths\Vector2f.cs" />
+    <Compile Include="Maths\Vector2i.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Save\Save.cs" />
+    <Compile Include="Scene\Scene.cs" />
+    <Compile Include="Scene\SceneAbstract.cs" />
+    <Compile Include="Types\CharacterObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="JSON\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

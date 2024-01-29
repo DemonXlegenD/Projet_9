@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using NEngine;
 namespace Projet_9
 {
     internal class Program
@@ -12,6 +12,9 @@ namespace Projet_9
         static void Main(string[] args)
         {
             WindowPokemonTeam.WindowRun();
+            Engine engine = Engine.GetInstance();
+
+            engine.Run();
         }
     }
 }
