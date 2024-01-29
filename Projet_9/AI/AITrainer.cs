@@ -10,6 +10,6 @@ namespace Csharp_Tpt
 	}
 
     public class AITrainer{
-        AITrainerParameter STATE = AITrainerParameter.Other;
+
     }
 }
