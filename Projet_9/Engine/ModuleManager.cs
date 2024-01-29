@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NModules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,13 +12,18 @@ namespace NEngine
     {
         private List<Module> modules = new List<Module>();
 
-        public ModuleManager()
+        ~ModuleManager()
         {
+            Release();
+            modules.Clear();
         }
 
         public void CreateDefaultModules()
         {
-            // Implement CreateDefaultModules logic if needed
+            CreateModule<TimeModule>();
+            CreateModule<InputModule>();
+            CreateModule<WindowModule>();
+            CreateModule<SceneModule>();
         }
 
         public void Init()

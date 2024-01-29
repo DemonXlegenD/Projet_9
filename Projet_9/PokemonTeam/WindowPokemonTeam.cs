@@ -9,14 +9,13 @@ using System.Threading;
 using System.Windows.Media;
 using System.Windows.Controls;
 using Csharp_Tpt;
-using System.Windows.Input;
 
 namespace Projet_9.PokemonTeam
 {
-    internal class WindowPokemonTeam
+    public class WindowPokemonTeam
     {
-
-        private static TextBlock textblock
+        Window w = null;
+        private TextBlock textblock
             (
             string text, 
             Brush color = null, 
@@ -138,7 +137,10 @@ namespace Projet_9.PokemonTeam
 
             thread.SetApartmentState(ApartmentState.STA); // Définir l'état de l'appartement sur STA
             thread.Start(); // Démarrer le thread
-
+        }
+        public void WindowClose()
+        { 
+            w.Dispatcher.Invoke(() => w.Close());
         }
     }
 }

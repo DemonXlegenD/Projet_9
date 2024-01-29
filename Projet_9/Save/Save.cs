@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Map;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace NSave
 
         public void ApplySave(Save save)
         {
-
+            
         }
     }
 }
