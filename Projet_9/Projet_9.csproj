@@ -57,8 +57,6 @@
     <Compile Include="AI\All\4Hacker.cs" />
     <Compile Include="Datas\Attacks.cs" />
     <Compile Include="Datas\Pokemons.cs" />
-    <Compile Include="Engine\Modules\InputModule.cs" />
-    <Compile Include="Engine\Modules\TimeModule.cs" />
     <Compile Include="Global\Global.cs" />
     <Compile Include="PokemonTeam\WindowPokemonTeam.cs" />
     <Compile Include="Pokemon\Attack.cs" />

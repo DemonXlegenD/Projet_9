@@ -15,38 +15,38 @@ namespace NModules
 
         public override void Init()
         {
-            base.Init();    
+            Console.SetWindowSize(1000, 700);
+            Console.BackgroundColor = ConsoleColor.Blue;
         }
 
         public override void Start()
         {
-            base.Start();   
+            // Implement Start logic for WindowModule
         }
 
         public override void Update()
         {
-            base.Update();
+            // Implement Update logic for WindowModule
         }
 
         public override void PreRender()
         {
-            base.PreRender();   
             Console.Clear();
         }
 
         public override void Render()
         {
-            base.Render();
+            // Implement Render logic for WindowModule
         }
 
         public override void PostRender()
         {
-            base.PostRender();
+            // Implement PostRender logic for WindowModule
         }
 
         public override void Release()
         {
-            base.Release();
+            Console.Write(Console.ForegroundColor);
         }
     }
 }

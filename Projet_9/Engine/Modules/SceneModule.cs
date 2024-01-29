@@ -24,17 +24,17 @@ namespace NModules
 
         public override void Start()
         {
-            base.Start();
+            // Logique de démarrage du module de scène
         }
 
         public override void Render()
         {
-            base.Render();
+            // Logique de rendu du module de scène
         }
 
         public override void Update()
         {
-            base.Update();
+            // Logique de mise à jour du module de scène
         }
 
         public Scene SetScene<T>(bool replaceScenes = true) where T : Scene, new()
