@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using NEngine;
 namespace Projet_9
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            Engine engine = Engine.GetInstance();
+
+            engine.Run();
         }
     }
 }
