@@ -101,6 +101,8 @@ namespace Projet_9.PokemonTeam
             //border.Child = stackPanel; // Add the StackPanel as a child of the Border
             //Console.WriteLine("IDS:"+stackPanel.Uid);
             stackPanel.MouseDown += StackPanel_MouseDown;
+            stackPanel.MouseEnter += StackPanel_MouseEnter;
+            stackPanel.MouseLeave += StackPanel_MouseLeave;
             stackPanel.Uid = ids.Count.ToString();
             ids.Add(stackPanel.Uid); // Ajouter l'Uid à la liste ids
             return stackPanel;
@@ -179,18 +181,20 @@ namespace Projet_9.PokemonTeam
         { 
             w.Dispatcher.Invoke(() => w.Close());
         }
+        private StackPanel clickedPanel = null;
         private void StackPanel_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            StackPanel clickedStackPanel = (StackPanel)sender;
+            clickedPanel = (StackPanel)sender;
+            clickedPanel.Background = new SolidColorBrush(Color.FromArgb(255, 120, 80, 90));
             if (x == -1)
             {
-                x = int.Parse(clickedStackPanel.Uid);
+                x = int.Parse(clickedPanel.Uid);
             }
             else
             {
-                y = int.Parse(clickedStackPanel.Uid);
-                Console.WriteLine("Size"+Pokemons.Count()+"X:"+x+"Y:"+y);
-                Global.ChangePokemonOrder(Pokemons,x,y);
+                y = int.Parse(clickedPanel.Uid);
+                Console.WriteLine("Size" + Pokemons.Count() + "X:" + x + "Y:" + y);
+                Global.ChangePokemonOrder(Pokemons, x, y);
                 AllPokemons.Children.Clear();
                 ids.Clear();
                 foreach (Pokemon pokemon in Pokemons)
@@ -199,11 +203,31 @@ namespace Projet_9.PokemonTeam
                 }
                 x = -1;
                 y = -1;
+                clickedPanel = null;
             }
             //StackPanel clickedStackPanel = (StackPanel)sender;
             //string id = clickedStackPanel.Uid;
             //MessageBox.Show(clickedStackPanel.Uid+"List:"+ids.Count());
-
         }
+        // Hover
+        private void StackPanel_MouseEnter(object sender, MouseEventArgs e)
+        {
+            StackPanel stackPanel = (StackPanel)sender;
+            if (stackPanel != clickedPanel)
+            {
+                stackPanel.Background = new SolidColorBrush(Color.FromArgb(190, 50, 50, 50));
+            }
+        }
+
+        private void StackPanel_MouseLeave(object sender, MouseEventArgs e)
+        {
+
+            StackPanel stackPanel = (StackPanel)sender;
+            if (stackPanel != clickedPanel)
+            {
+                stackPanel.Background = new SolidColorBrush(Color.FromArgb(175, 30, 30, 30));
+            }
+        }
+
     }
 }
