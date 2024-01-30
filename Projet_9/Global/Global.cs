@@ -181,7 +181,7 @@ namespace Csharp_Tpt
 			else{return true;}
 		}
 
-		public void ChangePokemonOrder(List<Pokemon> PokemonList,int x, int y)
+		public static void ChangePokemonOrder(List<Pokemon> PokemonList,int x, int y)
 		{
 			Pokemon X = PokemonList[x];
 			Pokemon Y = PokemonList[y];
