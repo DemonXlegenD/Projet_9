@@ -1,261 +1,313 @@
+using NEntity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace Csharp_Tpt
+namespace NPokemon
 {
-	public enum NonVolatileStatus{
-	   Burn,
-	   Freeze,
-	   Paralysis,
-	   Sleep,
-	   Poison,
-	   None
-	}
+    public enum NonVolatileStatus
+    {
+        Burn,
+        Freeze,
+        Paralysis,
+        Sleep,
+        Poison,
+        None
+    }
 
-	public enum VolatileStatus{
-	   Confusion,
-	   Curse,
-	   Flinch,
-	   Infatuation,
-	   Seeding,
-	   Taunt
-	}
+    public enum VolatileStatus
+    {
+        Confusion,
+        Curse,
+        Flinch,
+        Infatuation,
+        Seeding,
+        Taunt
+    }
     public class Pokemon
     {
-    // VALUES DEFAULT
-    	private string Name;
-    	private string[] Types; // Whether to use a List<string> or a string[] array depends on the specific requirements and operations you'll be performing on the collection.
-    	private int Hp;
-    	private int Attack;
-    	private int AttackSpe;
-    	private int Defense;
-    	private int DefenseSpe;
-    	private int Speed;
-    	public List<Attack> Moves;
-    	private string[] PreviousMovesLearned; // Moves that he didnt learned but has the level, or previous learn he had
+        // VALUES DEFAULT
+        public string Name { get; set; }
+        public List<string> Types { get; set; }
+        public int Hp { get; set; }
+        public int Attack { get; set; }
+        public int AttackSpe { get; set; }
+        public int Defense { get; set; }
+        public int DefenseSpe { get; set; }
+        public int Speed { get; set; }
+        public List<Attack> Moves { get; set; }
+        public string[] PreviousMovesLearned { get; set; }
 
-    	// Max Values
-    	private int MaxHp;
-    	private int MaxAttack;
-    	private int MaxAttackSpe;
-    	private int MaxDefense;
-    	private int MaxDefenseSpe;
-    	private int MaxSpeed;
+        // Max Values
+        public int MaxHp { get; set; }
+        public int MaxAttack { get; set; }
+        public int MaxAttackSpe { get; set; }
+        public int MaxDefense { get; set; }
+        public int MaxDefenseSpe { get; set; }
+        public int MaxSpeed { get; set; }
 
-    	// OTHER VALUES
-    	private string OriginalName;
-    	private int BaseHp;
-    	private int BaseAttack;
-    	private int BaseAttackSpe;
-    	private int BaseDefense;
-    	private int BaseDefenseSpe;
-    	private int BaseSpeed;
+        // OTHER VALUES
+        public string OriginalName { get; set; }
+        public int BaseHp { get; set; }
+        public int BaseAttack { get; set; }
+        public int BaseAttackSpe { get; set; }
+        public int BaseDefense { get; set; }
+        public int BaseDefenseSpe { get; set; }
+        public int BaseSpeed { get; set; }
 
-    	private int Level = 1;
-    	private int Xp;
-    	private int XpNext;
+        public int Level { get; set; } = 1;
+        public int Xp { get; set; }
+        public int XpNext { get; set; }
 
-    	// IV VALUE BETWEEN 0 AND 31
-    	private int IVHp;
-    	private int IVAttack;
-    	private int IVAttackSpe;
-    	private int IVDefense;
-    	private int IVDefenseSpe;
-    	private int IVSpeed;
+        // IV VALUE BETWEEN 0 AND 31
+        public int IVHp { get; set; }
+        public int IVAttack { get; set; }
+        public int IVAttackSpe { get; set; }
+        public int IVDefense { get; set; }
+        public int IVDefenseSpe { get; set; }
+        public int IVSpeed { get; set; }
 
-    	public List<VolatileStatus> STATUSVOLATILE = new List<VolatileStatus>();
-    	public NonVolatileStatus STATUSNONVOLATILE = NonVolatileStatus.None;
+        public List<VolatileStatus> STATUSVOLATILE = new List<VolatileStatus>();
+        public NonVolatileStatus STATUSNONVOLATILE = NonVolatileStatus.None;
 
-    	// Formula of Gen1 of pokemon
-    	public int StatCalculationOtherGen1(int BaseStat, int IVStat, int StateXp = 0)
-    	{
-    	    return (int)((((BaseStat + IVStat) * 2 + Math.Sqrt(StateXp) / 4 * Level) / 100) + 5);
-    	}
+        // Formula of Gen1 of pokemon
+        public int StatCalculationOtherGen1(int BaseStat, int IVStat, int StateXp = 0)
+        {
+            return (int)(((((BaseStat + IVStat) * 2) + (Math.Sqrt(StateXp) / 4 * Level)) / 100) + 5);
+        }
 
-    	public int StatCalculationHpGen1(int StateXp = 0)
-    	{
-    	    return (int)((((BaseHp + IVHp) * 2 + Math.Sqrt(StateXp) / 4 * Level) / 100) + Level + 10);
-    	}
+        public int StatCalculationHpGen1(int StateXp = 0)
+        {
+            return (int)(((((BaseHp + IVHp) * 2) + (Math.Sqrt(StateXp) / 4 * Level)) / 100) + Level + 10);
+        }
 
-    	// Formula of Gen3 of pokemon
-    	public int StatCalculationOtherGen3(int BaseStat, int IVStat, int EV = 0, int Nature = 1)
-    	{
-    	    return (((2 * BaseStat + IVStat + EV / 4) * Level / 100) + 5) * Nature;
-    	}
+        // Formula of Gen3 of pokemon
+        public int StatCalculationOtherGen3(int BaseStat, int IVStat, int EV = 0, int Nature = 1)
+        {
+            return ((((2 * BaseStat) + IVStat + (EV / 4)) * Level / 100) + 5) * Nature;
+        }
 
-    	public int StatCalculationHpGen3(int EV = 0)
-    	{
-    	    return ((2 * BaseHp + IVHp + EV / 4) * Level / 100) + Level + 10;
-    	}
+        public int StatCalculationHpGen3(int EV = 0)
+        {
+            return (((2 * BaseHp) + IVHp + (EV / 4)) * Level / 100) + Level + 10;
+        }
 
-    	public void RedoStats()
-    	{
-    	    MaxHp = StatCalculationHpGen3();
-    	    MaxAttack = StatCalculationOtherGen3(BaseAttack, IVAttack);
-    	    MaxAttackSpe = StatCalculationOtherGen3(BaseAttackSpe, IVAttackSpe);
-    	    MaxDefense = StatCalculationOtherGen3(BaseDefense, IVDefense);
-    	    MaxDefenseSpe = StatCalculationOtherGen3(BaseDefenseSpe, IVDefenseSpe);
-    	    MaxSpeed = StatCalculationOtherGen3(BaseSpeed, IVSpeed);
-    	}
+        public void RedoStats()
+        {
+            MaxHp = StatCalculationHpGen3();
+            MaxAttack = StatCalculationOtherGen3(BaseAttack, IVAttack);
+            MaxAttackSpe = StatCalculationOtherGen3(BaseAttackSpe, IVAttackSpe);
+            MaxDefense = StatCalculationOtherGen3(BaseDefense, IVDefense);
+            MaxDefenseSpe = StatCalculationOtherGen3(BaseDefenseSpe, IVDefenseSpe);
+            MaxSpeed = StatCalculationOtherGen3(BaseSpeed, IVSpeed);
+        }
 
         // Constructor
-		#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public Pokemon(string name_, string[] types, int hp, int attack, int attackspe, int defense, int defensespe, int speed, int level = 1)
-		#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public Pokemon(string name_, List<string> types, int hp, int attack, int attackspe, int defense, int defensespe, int speed, int level = 1)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
-    	    OriginalName = name_;
-    	    BaseHp = hp;
-    	    BaseAttack = attack;
-    	    BaseAttackSpe = attackspe;
-    	    BaseDefense = defense;
-    	    BaseDefenseSpe = defensespe;
-    	    BaseSpeed = speed;
+            OriginalName = name_;
+            BaseHp = hp;
+            BaseAttack = attack;
+            BaseAttackSpe = attackspe;
+            BaseDefense = defense;
+            BaseDefenseSpe = defensespe;
+            BaseSpeed = speed;
 
-    	    Level = level;
-    	    XpNext = Level * 20 / 4;
-
-    	    IVHp = new Random().Next(0, 32);
-    	    IVAttack = new Random().Next(0, 32);
-    	    IVAttackSpe = new Random().Next(0, 32);
-    	    IVDefense = new Random().Next(0, 32);
-    	    IVDefenseSpe = new Random().Next(0, 32);
-    	    IVSpeed = new Random().Next(0, 32);
-
-    	    RedoStats();
-
-    	    // Set other values
-    	    Name = name_;
-    	    Types = types;
-    	    Hp = MaxHp;
-    	    Attack = MaxAttack;
-    	    AttackSpe = MaxAttackSpe;
-    	    Defense = MaxDefense;
-    	    DefenseSpe = MaxDefenseSpe;
-    	    Speed = MaxSpeed;
-    	    //GiveMoves();
-    	}
-
-
-// func Restore() -> void: ## To restore the pokemon Hp and restore all the Pp of all his moves
-// 	Hp = MaxHp
-// 	for i in Moves:
-// 		i.ResetPp()
-
-	public void Restore()
-	{
-		Hp = MaxHp;
-		foreach (Attack i in Moves){ i.ResetPp();}
-	}
-
-    public bool IsAlive()
-    {
-        return Hp > 0;
-    }
-
-    public void ChangeXp(int x)
-    {
-        Xp += x;
-        if (Xp > XpNext)
-        {
-            int LeftOverXp = Xp - XpNext;
-            Xp = LeftOverXp;
-            Level += 1;
-            LevelUp();
+            Level = level;
             XpNext = Level * 20 / 4;
+
+            IVHp = new Random().Next(0, 32);
+            IVAttack = new Random().Next(0, 32);
+            IVAttackSpe = new Random().Next(0, 32);
+            IVDefense = new Random().Next(0, 32);
+            IVDefenseSpe = new Random().Next(0, 32);
+            IVSpeed = new Random().Next(0, 32);
+
+            RedoStats();
+
+            // Set other values
+            Name = name_;
+            Types = types;
+            Hp = MaxHp;
+            Attack = MaxAttack;
+            AttackSpe = MaxAttackSpe;
+            Defense = MaxDefense;
+            DefenseSpe = MaxDefenseSpe;
+            Speed = MaxSpeed;
+            //GiveMoves();
         }
-    }
 
-    public void LevelUp()
-    {
-        RedoStats();
-        //SetMoveToLearn();
-    }
 
-    public void TakeDamage(int x){Hp -= x;}
+        // func Restore() -> void: ## To restore the pokemon Hp and restore all the Pp of all his moves
+        // 	Hp = MaxHp
+        // 	for i in Moves:
+        // 		i.ResetPp()
 
-    // SETTERS
-    public void SetName(string NewName){Name = NewName;}
-    public void SetHp(int x){Hp += x;}
-
-    public void DeathHp(){Hp = 0;}
-
-    public void SetAttack(int x){Attack -= x;}
-    public void SetAttackSpe(int x){AttackSpe -= x;}
-    public void SetDefense(int x){Defense -= x;}
-    public void SetDefenseSpe(int x){DefenseSpe -= x;}
-    public void SetSpeed(int x){Speed -= x;}
-
-    public void SetLevel(int x)
-    {
-        Level = x;
-        RedoStats();
-    }
-
-    // public void SetMoveToLearn()
-    // {
-    //     Dictionary<int, string> P;
-    //     string string_ = OriginalName.ToLower() + "_learnset";
-    //     if (Pokemons.PokemonLearnSet_Dic.TryGetValue(string_, out P))
-    //     {
-    //         MoveToLearn = P[Level];
-    //     }
-    // }
-
-    public int HealPercentage(int x)
-    {
-        Hp += (int)Math.Floor((double)(MaxHp * x) / 100);
-        if (Hp > MaxHp)
+        public void Restore()
         {
             Hp = MaxHp;
+            foreach (Attack i in Moves) { i.ResetPp(); }
         }
-        return Hp;
+
+        public bool IsAlive()
+        {
+            return Hp > 0;
+        }
+
+        public void ChangeXp(int x)
+        {
+            Xp += x;
+            if (Xp > XpNext)
+            {
+                int LeftOverXp = Xp - XpNext;
+                Xp = LeftOverXp;
+                Level += 1;
+                LevelUp();
+                XpNext = Level * 20 / 4;
+            }
+        }
+
+        public void LevelUp()
+        {
+            RedoStats();
+            //SetMoveToLearn();
+        }
+
+        public void TakeDamage(int x) { Hp -= x; }
+
+        // SETTERS
+        public void SetName(string NewName) { Name = NewName; }
+        public void SetHp(int x) { Hp += x; }
+
+        public void DeathHp() { Hp = 0; }
+
+        public void SetAttack(int x) { Attack -= x; }
+        public void SetAttackSpe(int x) { AttackSpe -= x; }
+        public void SetDefense(int x) { Defense -= x; }
+        public void SetDefenseSpe(int x) { DefenseSpe -= x; }
+        public void SetSpeed(int x) { Speed -= x; }
+
+        public void SetLevel(int x)
+        {
+            Level = x;
+            RedoStats();
+        }
+
+        // public void SetMoveToLearn()
+        // {
+        //     Dictionary<int, string> P;
+        //     string string_ = OriginalName.ToLower() + "_learnset";
+        //     if (Pokemons.PokemonLearnSet_Dic.TryGetValue(string_, out P))
+        //     {
+        //         MoveToLearn = P[Level];
+        //     }
+        // }
+
+        public int HealPercentage(int x)
+        {
+            Hp += (int)Math.Floor((double)(MaxHp * x) / 100);
+            if (Hp > MaxHp)
+            {
+                Hp = MaxHp;
+            }
+            return Hp;
+        }
+
+        // GETTERS DEFAULT VALUES
+        public string GetName() { return Name; }
+        public List<string> GetTypes() { return Types; }
+        public int GetHp() { return Hp; }
+        public int GetAttack() { return Attack; }
+        public int GetAttackSpe() { return AttackSpe; }
+        public int GetDefense() { return Defense; }
+        public int GetDefenseSpe() { return DefenseSpe; }
+        public int GetSpeed() { return Speed; }
+        public int GetLevel() { return Level; }
+
+        // GETTERS MAX VALUES
+        public int GetMaxHp() { return MaxHp; }
+        public int GetMaxAttack() { return MaxAttack; }
+        public int GetMaxAttackSpe() { return MaxAttackSpe; }
+        public int GetMaxDefense() { return MaxDefense; }
+        public int GetMaxDefenseSpe() { return MaxDefenseSpe; }
+        public int GetMaxSpeed() { return MaxSpeed; }
+
+        // GETTERS OTHER VALUES
+        public int GetXp() { return Xp; }
+        public int GetXpNext() { return XpNext; }
+
+        public int GetBaseHp() { return BaseHp; }
+        public int GetBaseAttack() { return BaseAttack; }
+        public int GetBaseAttackSpe() { return BaseAttackSpe; }
+        public int GetBaseDefense() { return BaseDefense; }
+        public int GetBaseDefenseSpe() { return BaseDefenseSpe; }
+        public int GetBaseSpeed() { return BaseSpeed; }
+        public string GetOriginalName() { return OriginalName; }
+
+        public int GetIVHp() { return IVHp; }
+        public int GetIVAttack() { return IVAttack; }
+        public int GetIVAttackSpe() { return IVAttackSpe; }
+        public int GetIVDefense() { return IVDefense; }
+        public int GetIVDefenseSpe() { return IVDefenseSpe; }
+        public int GetIVSpeed() { return IVSpeed; }
+
+        // public Array GetMoveToLearn()
+        // {
+        //     return MoveToLearn;
+        // }
+
+       
     }
+    public class PokemonJsonConverter : JsonConverter<Pokemon>
+    {
+        public override void WriteJson(JsonWriter writer, Pokemon value, JsonSerializer serializer)
+        {
 
-    // GETTERS DEFAULT VALUES
-    public string GetName(){return Name;}
-    public string[] GetTypes(){return Types;}
-    public int GetHp(){return Hp;}
-    public int GetAttack(){return Attack;}
-    public int GetAttackSpe(){return AttackSpe;}
-    public int GetDefense(){return Defense;}
-    public int GetDefenseSpe(){return DefenseSpe;}
-    public int GetSpeed(){return Speed;}
-    public int GetLevel(){return Level;}
+            writer.WritePropertyName(value.Name);
+            writer.WriteStartObject();
 
-    // GETTERS MAX VALUES
-    public int GetMaxHp(){return MaxHp;}
-    public int GetMaxAttack(){return MaxAttack;}
-    public int GetMaxAttackSpe(){return MaxAttackSpe;}
-    public int GetMaxDefense(){return MaxDefense;}
-    public int GetMaxDefenseSpe(){return MaxDefenseSpe;}
-    public int GetMaxSpeed(){return MaxSpeed;}
+            writer.WritePropertyName(nameof(Pokemon.Hp));
+            serializer.Serialize(writer, value.Hp);
 
-    // GETTERS OTHER VALUES
-    public int GetXp(){return Xp;}
-    public int GetXpNext(){return XpNext;}
+            writer.WritePropertyName(nameof(Pokemon.OriginalName));
+            serializer.Serialize(writer, value.OriginalName);
 
-    public int GetBaseHp(){return BaseHp;}
-    public int GetBaseAttack(){return BaseAttack;}
-    public int GetBaseAttackSpe(){return BaseAttackSpe;}
-    public int GetBaseDefense(){return BaseDefense;}
-    public int GetBaseDefenseSpe(){return BaseDefenseSpe;}
-    public int GetBaseSpeed(){return BaseSpeed;}
-    public string GetOriginalName(){return OriginalName;}
+            writer.WritePropertyName(nameof(Pokemon.Name));
+            serializer.Serialize(writer, value.Name);
 
-    public int GetIVHp(){return IVHp;}
-    public int GetIVAttack(){return IVAttack;}
-    public int GetIVAttackSpe(){return IVAttackSpe;}
-    public int GetIVDefense(){return IVDefense;}
-    public int GetIVDefenseSpe(){return IVDefenseSpe;}
-    public int GetIVSpeed(){return IVSpeed;}
+            writer.WritePropertyName(nameof(Pokemon.Xp));
+            serializer.Serialize(writer, value.Xp);
 
-    // public Array GetMoveToLearn()
-    // {
-    //     return MoveToLearn;
-    // }
+            writer.WritePropertyName(nameof(Pokemon.Level));
+            serializer.Serialize(writer, value.Level);
 
+            writer.WritePropertyName(nameof(Pokemon.IVHp));
+            serializer.Serialize(writer, value.IVHp);
 
-    	}
+            writer.WritePropertyName(nameof(Pokemon.IVAttack));
+            serializer.Serialize(writer, value.IVAttack);
+
+            writer.WritePropertyName(nameof(Pokemon.IVAttackSpe));
+            serializer.Serialize(writer, value.IVAttackSpe);
+
+            writer.WritePropertyName(nameof(Pokemon.IVDefense));
+            serializer.Serialize(writer, value.IVDefense);
+
+            writer.WritePropertyName(nameof(Pokemon.IVDefenseSpe));
+            serializer.Serialize(writer, value.IVDefenseSpe);
+
+            writer.WritePropertyName(nameof(Pokemon.IVSpeed));
+            serializer.Serialize(writer, value.IVSpeed);
+
+            writer.WriteEndObject();
+        }
+        public override Pokemon ReadJson(JsonReader reader, Type objectType, Pokemon existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
 
 /*

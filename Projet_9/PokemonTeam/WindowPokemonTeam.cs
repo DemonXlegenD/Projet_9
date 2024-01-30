@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using Csharp_Tpt;
 using System.Windows.Input;
+using NPokemon;
 
 namespace Projet_9.PokemonTeam
 {
@@ -63,7 +64,7 @@ namespace Projet_9.PokemonTeam
             StackPanel PokemonStats = new StackPanel() { Orientation = Orientation.Horizontal };
             //PokemonStats.Children.Add(textblock("Hp:" + pokemon.GetHp().ToString()+"/"+pokemon.GetMaxHp().ToString(), color: Brushes.Red, thickness: new Thickness(10,0,0,0)));
             PokemonStats.Children.Add(Panel2Text("Hp:", pokemon.GetHp().ToString()+ "/" + pokemon.GetMaxHp().ToString(), ColorText2: Brushes.Red ));
-            if (pokemon.GetTypes().Length > 1) { PokemonStats.Children.Add(new StackPanel() { Margin = new Thickness(10, 0, 0, 0), Orientation = Orientation.Horizontal, Children = { Panel2Text("Types:", pokemon.GetTypes()[0], Global.TypeToColor(pokemon.GetTypes()[0])), Panel2Text(",", pokemon.GetTypes()[1], Global.TypeToColor(pokemon.GetTypes()[1])) } } ); }
+            if (pokemon.GetTypes().Count() > 1) { PokemonStats.Children.Add(new StackPanel() { Margin = new Thickness(10, 0, 0, 0), Orientation = Orientation.Horizontal, Children = { Panel2Text("Types:", pokemon.GetTypes()[0], Global.TypeToColor(pokemon.GetTypes()[0])), Panel2Text(",", pokemon.GetTypes()[1], Global.TypeToColor(pokemon.GetTypes()[1])) } } ); }
             else { PokemonStats.Children.Add( Panel2Text("Type:", pokemon.GetTypes()[0], Csharp_Tpt.Global.TypeToColor(pokemon.GetTypes()[0]), thickness: new Thickness(10, 0, 0, 0)) ); }
             PokemonStats.Children.Add(Panel2Text("Level:", pokemon.GetLevel().ToString(), ColorText2: Brushes.CornflowerBlue, thickness: new Thickness(10, 0, 0, 0) ));
 
@@ -102,12 +103,12 @@ namespace Projet_9.PokemonTeam
                 TextBlock PokemonteamText = textblock("Pokemon Team", thickness: new Thickness(0, 10, 0, 20), horizontal: HorizontalAlignment.Center);
                 canvas.Children.Add(PokemonteamText);
 
-                stackPanel.Children.Add(PokemonInfos(new Pokemon("Jarod", new string[] { "Water" },100,100,100,100,100,100,10)));
-                stackPanel.Children.Add(PokemonInfos(new Pokemon("Francois", new string[] { "Fire" }, 80, 10, 10, 10, 10, 10,2)));
-                stackPanel.Children.Add(PokemonInfos(new Pokemon("Maurad", new string[] { "Grass" }, 80, 10, 10, 10, 10, 10,50)));
-                stackPanel.Children.Add(PokemonInfos(new Pokemon("Adrien", new string[] { "Ground" }, 80, 10, 10, 10, 10, 10,99)));
-                stackPanel.Children.Add(PokemonInfos(new Pokemon("Kyle", new string[] { "Dragon" }, 80, 10, 10, 10, 10, 10,40)));
-                stackPanel.Children.Add(PokemonInfos(new Pokemon("Ethan", new string[] { "Bug","Grass" }, 80, 10, 10, 10, 10, 10,5)));
+                stackPanel.Children.Add(PokemonInfos(new Pokemon("Jarod", new List<string> { "Water" },100,100,100,100,100,100,10)));
+                stackPanel.Children.Add(PokemonInfos(new Pokemon("Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 10,2)));
+                stackPanel.Children.Add(PokemonInfos(new Pokemon("Maurad", new List<string> { "Grass" }, 80, 10, 10, 10, 10, 10,50)));
+                stackPanel.Children.Add(PokemonInfos(new Pokemon("Adrien", new List<string> { "Ground" }, 80, 10, 10, 10, 10, 10,99)));
+                stackPanel.Children.Add(PokemonInfos(new Pokemon("Kyle", new List<string> { "Dragon" }, 80, 10, 10, 10, 10, 10,40)));
+                stackPanel.Children.Add(PokemonInfos(new Pokemon("Ethan", new List<string> { "Bug","Grass" }, 80, 10, 10, 10, 10, 10,5)));
                 canvas.Children.Add(stackPanel);
                 w.Content = canvas;
 

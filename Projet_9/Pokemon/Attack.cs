@@ -1,4 +1,4 @@
-namespace Csharp_Tpt
+namespace NPokemon
 {
     public class Attack
     {
