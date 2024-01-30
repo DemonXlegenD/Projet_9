@@ -6,23 +6,21 @@ namespace Csharp_Tpt
     // Fait juste une attaque aléatoire parmis celles que le pokemon a
     public class Child
     {
-        private Pokemon pokemon;
         private int ChoiceAttack;
 
         public Child(Pokemon PokemonInBattle) 
         {
-            pokemon = PokemonInBattle;
-            ChoiceAttack = MakeChoice();
+            ChoiceAttack = MakeChoice(PokemonInBattle);
         }
 
 
-        int  MakeChoice()
+        private int  MakeChoice(Pokemon PokemonInBattle)
         {
             Random random = new Random();
-            return random.Next(0,pokemon.Moves.Count-1);
+            return random.Next(0,PokemonInBattle.Moves.Count-1);
         }
 
-        int GetChoice()
+        public int GetChoice()
         {
             return ChoiceAttack;
         }

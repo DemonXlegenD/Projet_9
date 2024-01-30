@@ -20,7 +20,7 @@ namespace Csharp_Tpt
 			Normal, Fire, Water, Grass, Electric, Ice, Fighting, Poison, Ground, Flying, Psychic, Bug, Rock, Ghost, Steel, Dark, Fairy, Dragon, Unknown
 		}
 
-    	public  float[,] Chart { get; } = new float[18, 19]
+    	public static float[,] Chart { get; } = new float[18, 19]
     	{
     	    //               Normal  Fire  Water  Grass  Electric Ice   Fighting  Poison  Ground  Flying  Psychic  Bug   Rock   Ghost  Steel  Dark  Fairy  Dragon Unknown
     	    /* Normal */    {1.0f,  1.0f, 1.0f,  1.0f,  1.0f,    1.0f,  1.0f,    1.0f,   1.0f,   1.0f,   1.0f,    1.0f, 1.0f,  0.0f,  0.5f,  1.0f, 1.0f,  1.0f,  0.0f },
@@ -114,7 +114,7 @@ namespace Csharp_Tpt
 			else { return 1.0f; }
         }
 
-		public int DamageCalculator(Pokemon P1,Pokemon P2,Attack MoveP1,int Critical ) {
+		public static int DamageCalculator(Pokemon P1,Pokemon P2,Attack MoveP1,int Critical ) {
 
 			
 			// MOVE VARIABLES
