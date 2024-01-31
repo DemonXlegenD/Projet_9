@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using Csharp_Tpt;
 using System.Windows.Input;
+using NPokemon;
 using Map;
 using System.Reflection.Emit;
 using System.Xml.Linq;
@@ -86,7 +87,7 @@ namespace Projet_9.PokemonTeam
             StackPanel PokemonStats = new StackPanel() { Orientation = Orientation.Horizontal };
             //PokemonStats.Children.Add(textblock("Hp:" + pokemon.GetHp().ToString()+"/"+pokemon.GetMaxHp().ToString(), color: Brushes.Red, thickness: new Thickness(10,0,0,0)));
             PokemonStats.Children.Add(Panel2Text("Hp:", pokemon.GetHp().ToString()+ "/" + pokemon.GetMaxHp().ToString(), ColorText2: Brushes.Red ));
-            if (pokemon.GetTypes().Length > 1) { PokemonStats.Children.Add(new StackPanel() { Margin = new Thickness(10, 0, 0, 0), Orientation = Orientation.Horizontal, Children = { Panel2Text("Types:", pokemon.GetTypes()[0], Global.TypeToColor(pokemon.GetTypes()[0])), Panel2Text(",", pokemon.GetTypes()[1], Global.TypeToColor(pokemon.GetTypes()[1])) } } ); }
+            if (pokemon.GetTypes().Count() > 1) { PokemonStats.Children.Add(new StackPanel() { Margin = new Thickness(10, 0, 0, 0), Orientation = Orientation.Horizontal, Children = { Panel2Text("Types:", pokemon.GetTypes()[0], Global.TypeToColor(pokemon.GetTypes()[0])), Panel2Text(",", pokemon.GetTypes()[1], Global.TypeToColor(pokemon.GetTypes()[1])) } } ); }
             else { PokemonStats.Children.Add( Panel2Text("Type:", pokemon.GetTypes()[0], Csharp_Tpt.Global.TypeToColor(pokemon.GetTypes()[0]), thickness: new Thickness(10, 0, 0, 0)) ); }
             PokemonStats.Children.Add(Panel2Text("Level:", pokemon.GetLevel().ToString(), ColorText2: Brushes.CornflowerBlue, thickness: new Thickness(10, 0, 0, 0) ));
 
