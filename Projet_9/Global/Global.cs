@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using NDatas;
 using System.Windows.Media;
+using NPokemon;
 
-
-namespace Csharp_Tpt
+namespace NGlobal
 {
     public class Global
     {
@@ -126,11 +126,11 @@ namespace Csharp_Tpt
 			int P1Attack = P1.GetAttack();
 			int P1AttackSpe = P1.GetAttackSpe();
 			int P1Level = P1.GetLevel();
-			string[] P1Types = P1.GetTypes();
+            List<string> P1Types = P1.GetTypes();
 			// P2 VARIABLES
 			int P2Defense = P2.GetDefense();
 			int P2DefenseSpe = P2.GetDefenseSpe();
-			string[] P2Types = P2.GetTypes();
+            List<string> P2Types = P2.GetTypes();
 			
 
 			// COMBAT VARIABLES
@@ -145,10 +145,10 @@ namespace Csharp_Tpt
 
 			type1 = Chart[(int)TypeToIndex(AttackType1), (int)TypeToIndex(PokemonTypes1)];
 
-			if (P2Types.Length > 2){type2 = Chart[(int)TypeToIndex(MoveType), (int)TypeToIndex(P2Types[1])];}
+			if (P2Types.Count() > 2){type2 = Chart[(int)TypeToIndex(MoveType), (int)TypeToIndex(P2Types[1])];}
 			else{ type2=1.0f; }
 			random = 1;
-			stab = StabCalculator(P2Types,MoveType);
+			stab = StabCalculator(P2Types.ToArray(),MoveType);
 			int Damage = 1;
 
 			if (MoveCat == "Physical"){Damage = (int)Math.Floor(((2*P1Level/5 +2) * MovePower * (P1Attack / P2Defense)/50 * Critical + 2) * stab * type1 * type2 * random);}
@@ -207,7 +207,7 @@ namespace Csharp_Tpt
     	        PTypes.Add(type);
     	    }
 	
-    	    return new Pokemon((string)P["Name"], PTypes.ToArray(), (int)P["Hp"], (int)P["Att"], (int)P["AttSpe"], (int)P["Def"], (int)P["DefSpe"], (int)P["Speed"], level);
+    	    return new Pokemon((string)P["Name"], PTypes, (int)P["Hp"], (int)P["Att"], (int)P["AttSpe"], (int)P["Def"], (int)P["DefSpe"], (int)P["Speed"], level);
     	}
     	public Attack ReadAttacksDatas(string nameA)
     	{

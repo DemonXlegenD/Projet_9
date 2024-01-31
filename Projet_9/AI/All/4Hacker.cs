@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Csharp_Tpt
+namespace NPokemon
 {
 
     // Changer de pokemon, utiliser des moves, utiliser un item

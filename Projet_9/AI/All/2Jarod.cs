@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NGlobal;
 
-namespace Csharp_Tpt
+namespace NPokemon
 {
     // Fait la meilleure attaque contre, calcul les dégats de chaque attaque et prends la pire
     public class Jarod
