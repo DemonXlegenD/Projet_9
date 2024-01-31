@@ -35,7 +35,9 @@ namespace NPokemon
         private Pokemon pokemonInBattleSelf;
         private Pokemon pokemonInBattleEnemy;
         private bool[] boolArray = new bool[] { true, false };
-        private List<Tuple<Pokemon, Attack>> choices = new List<Tuple<Pokemon, Attack>>(); // Liste des choix fait durant l'exploration
+        private string[] States = new string[] { "ATTACK", "CHANGE" };
+        private List<Tuple<Pokemon, Attack>> choices = new List<Tuple<Pokemon, Attack>>(); // Liste des choix fait durant l'exploration (prends que en compte l'attaque et le pokemon pour l'instant)
+        private int branchId = 0; // L'id pour chaque branche
 
 
         int SearchLenght = 5;
@@ -224,6 +226,48 @@ namespace NPokemon
             if (depth == 0 || CheckWin(pokemonsSelfTest, pokemonsEnemyTest) != 0)
             {
                 return Evaluation(pokemonsEnemyTest, pokemonsSelfTest, pokemonsSelf, pokemonsEnemy, InBattleSelf, InBattleEnemy);
+            }
+            // Ici c'est pour avoir la meilleur valeur, dans le else c'est le contraire
+            if (maximizingAI)
+            {
+                int maxEval = int.MinValue;
+                foreach(string i in States)
+                {
+                    if (i == "ATTACK") {
+                        foreach (Attack move in InBattleSelf.Moves) {
+                            // foreach boolarray pour prendre les scénarios avec des critiques, avec fail
+                            // Simuler l'attaque
+
+                            // Si battle self meurt, change de pokemon
+                            // Si battle enemie meurt, change de pokemon et foreach dessus
+
+                            // appel récursif
+
+                            // Refaire les listes etc sans avoir touché 
+                            // Remettre la liste et les pokemons dans l'état avant l'action
+                        }
+                    }
+                    else if (i == "CHANGE")
+                    {
+                        foreach (Pokemon x in pokemonsSelfTest)
+                        {
+                            if (x != InBattleSelf && x.IsAlive())
+                            {
+
+                                // Faire le changement ici avec les dégats
+
+                                // foreach de boolarray pour les dégats pour les scénarios avec critiques, avec fail
+
+                                // Si meurt, change de pokemon, avec un vivant 
+
+                                // appel récursif
+
+                                // Remettre la liste et les pokemons dans l'état avant l'action
+                            }
+                            // Choisir un pokemon et prendre les dégats -> si le pokemon meurt, change de pokemon, donc foreach pokemon alive
+                        }
+                    }
+                }
             }
 
             return 0;

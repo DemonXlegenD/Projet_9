@@ -135,7 +135,7 @@ namespace Projet_9.PokemonTeam
                 stackPanel.Margin = new Thickness(25, 10, 0, 0);
 
 
-                TextBlock PokemonteamText = textblock("Pokemon Team", thickness: new Thickness(0, 10, 0, 20), horizontal: HorizontalAlignment.Center);
+                TextBlock PokemonteamText = textblock("Send Fessier", thickness: new Thickness(0, 10, 0, 20), horizontal: HorizontalAlignment.Center);
                 canvas.Children.Add(PokemonteamText);
 
                 
