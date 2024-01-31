@@ -35,7 +35,7 @@ namespace NPokemon
         public int Defense { get; set; }
         public int DefenseSpe { get; set; }
         public int Speed { get; set; }
-        public List<Attack> Moves { get; set; }
+        public List<Attack> Moves { get; set; } = new List<Attack>();
         public string[] PreviousMovesLearned { get; set; }
 
         // Max Values

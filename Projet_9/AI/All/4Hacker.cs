@@ -3,9 +3,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows;
+using NGlobal;
 
 namespace NPokemon
 {
+
+    // Equilibrage des points
 
     // Changer de pokemon, utiliser des moves, utiliser un item
     // à voir si garder le fait d'utiliser un item
@@ -22,10 +26,17 @@ namespace NPokemon
         }
 
 
+        // Choisit entre attaquer ou select,
+        // Si attack mais meurt doit choisir sinon fait juste l'attaque de la sienne
+        // Si choisit et meurt, doit choisir un pokemon à anvoyer
+
         private List<Pokemon> pokemonsSelf;
         private List<Pokemon> pokemonsEnemy;
         private Pokemon pokemonInBattleSelf;
         private Pokemon pokemonInBattleEnemy;
+        private bool[] boolArray = new bool[] { true, false };
+        private List<Tuple<Pokemon, Attack>> choices = new List<Tuple<Pokemon, Attack>>(); // Liste des choix fait durant l'exploration
+
 
         int SearchLenght = 5;
 
@@ -53,43 +64,28 @@ namespace NPokemon
             return List[x];
         }
 
-        private int Evaluation(
-            List<Pokemon> pokemonsEnemyTest, 
-            List<Pokemon> pokemonsSelfTest, 
-            List<Pokemon> ListPokemonSelf, 
-            List<Pokemon> ListPokemonEnemy, 
-            Pokemon PokemonSelf, 
-            Pokemon PokemonEnemy
-            )
+        private int Evaluation(List<Pokemon> pokemonsEnemyTest, List<Pokemon> pokemonsSelfTest, List<Pokemon> ListPokemonSelf, List<Pokemon> ListPokemonEnemy, Pokemon PokemonSelf, Pokemon PokemonEnemy)
         {
             int Points = 0;
-
-            // Les +1 etc doit etre chiffres random pour que ça fasse une IA qui doit etre forte, après faut faire des generations etc...
-
-            // Si un pokemon est en vie +5 points, si un pokemon ennemie est mort +5 points,
-            // Si un pokemon a perdu des hp -1 point, si un pokemon ennemie a perdu des hp +1 point
-            // Si pokemon ennemie pas perdu hp -1 point
-            // Si un pokemon meurt -5 points
-            // Si il peut prendre une attaque booste -1 point, si il peut prendre max des attaques pas boostées +2 points
 
             int i = 0;
             foreach (Pokemon pokemon in pokemonsSelfTest)
             {
-                if (pokemon.IsAlive()) { Points += 5; }
-                else { Points -= 5; }
+                if (pokemon.IsAlive()) { Points += 20; }
+                else { Points -= 20; }
 
-                if (pokemon.GetHp() == ListPokemonSelf[i].GetHp()) { Points++; } 
-                else { Points --; }
+                if (pokemon.GetHp() == ListPokemonSelf[i].GetHp()) { Points++; }
+                else { Points--; }
 
                 i++;
             }
             i = 0;
-            foreach (Pokemon pokemon in pokemonsEnemy)
+            foreach (Pokemon pokemon in pokemonsEnemyTest)
             {
-                if (pokemon.IsAlive()) { Points -= 5; }
-                else { Points += 5; }
+                if (pokemon.IsAlive()) { Points -= 20; }
+                else { Points += 20; }
 
-                if (pokemon.GetHp() == ListPokemonSelf[i].GetHp()) { Points--; }
+                if (pokemon.GetHp() == ListPokemonEnemy[i].GetHp()) { Points--; }
                 else { Points++; }
 
                 i++;
@@ -97,11 +93,12 @@ namespace NPokemon
 
             foreach (Attack x in PokemonEnemy.Moves)
             {
-                if ( x.GetCat() == "Physical" || x.GetCat() == "Special" )
+                if (x.GetCat() == "Physical" || x.GetCat() == "Special")
                 {
                     if (Global.Chart[(int)Global.TypeToIndex(x.GetType()), (int)Global.TypeToIndex(PokemonEnemy.GetTypes()[0])] > 1)
                     {
-                        Points -= 2;
+                        Points += 5;
+                        //MessageBox.Show("Attaque efficace, P:" + Points);
                     }
                 }
             }
@@ -116,28 +113,54 @@ namespace NPokemon
                     }
                     else
                     {
+                        //MessageBox.Show("Attaque inefficace, P:"+Points);
                         i++;
                     }
                 }
             }
-            if (i == PokemonEnemy.Moves.Count - 1) { Points+= 4; }
+            if (i == PokemonEnemy.Moves.Count - 1) { Points += 4; }
             i = 0;
 
             return Points;
         }
 
-        private void DoMove(Pokemon PAtt, Pokemon PDef, Attack Aatt)
+        private bool DoChoice(string CHOICE, Pokemon P1 = null, Pokemon P2 = null, Attack A1 = null, Attack A2 = null)
         {
+            // Return true si il le pokemon n'était pas mort, return false si il a dût changer de pokemon
+            if (CHOICE == "ATTACK")
+            {
+                // fait l'attaque, si meurt doit changer de pokemon
+                return true;
+            }
+            else if (CHOICE == "CHANGE")
+            {
+                // Change, tank l'attaque, si meurt après attaque doit changer pokemon
+                return true;
+            }
+            return false;
+            // Si false, il fait un foreach sur chaque pokemon restant (créant beaucoup de nouvelles branches)
+        }
 
+        private void DoAttack(Pokemon PAtt, Pokemon PDef, Attack Aatt,bool success,bool critical)
+        {
+            AttackMove(PAtt, PDef, Aatt, success, critical);
             Aatt.UseAttack();
         }
 
-        private void AttackMove(Pokemon Att, Pokemon Def, Attack att) 
+        private void AttackMove(Pokemon Att, Pokemon Def, Attack att,bool success,bool critical) 
         {
-            if (Global.SuccessAcc(att.GetAcc()))
+            if (success)
             {
-                int Damage = Global.DamageCalculator(Att, Def, att, 1);
-                Def.TakeDamage(Damage);
+                if (critical)
+                {
+                    int Damage = Global.DamageCalculator(Att, Def, att, 2);
+                    Def.TakeDamage(Damage);
+                }
+                else
+                {
+                    int Damage = Global.DamageCalculator(Att, Def, att, 1);
+                    Def.TakeDamage(Damage);
+                }
             }
         }
 
@@ -191,9 +214,84 @@ namespace NPokemon
             List<Pokemon> pokemonsSelfTest = new List<Pokemon>(PokemonListSelf);
             List<Pokemon> pokemonsEnemyTest = new List<Pokemon>(PokemonListEnemy);
 
-
-
+            //Console.WriteLine(MiniMax(pokemonsSelfTest, pokemonsEnemyTest,5,true));
+            MessageBox.Show(Evaluation(pokemonsEnemyTest, pokemonsSelfTest, pokemonsSelf, pokemonsEnemy, pokemonInBattleSelf, pokemonInBattleEnemy).ToString());
         }
+
+
+        private int MiniMax(List<Pokemon> pokemonsEnemyTest, List<Pokemon> pokemonsSelfTest,Pokemon InBattleSelf,Pokemon InBattleEnemy, int depth, bool maximizingAI) 
+        {
+            if (depth == 0 || CheckWin(pokemonsSelfTest, pokemonsEnemyTest) != 0)
+            {
+                return Evaluation(pokemonsEnemyTest, pokemonsSelfTest, pokemonsSelf, pokemonsEnemy, InBattleSelf, InBattleEnemy);
+            }
+
+            return 0;
+        }
+
 
     }
 }
+
+
+
+
+/*        private int MiniMax(List<Pokemon> pokemonsEnemyTest, List<Pokemon> pokemonsSelfTest, int depth, bool maximizingPlayer)
+        {
+            if (depth == 0 || CheckWin(pokemonsSelfTest, pokemonsEnemyTest) != 0)
+            {
+                // Si la profondeur maximale est atteinte ou si le jeu est terminé, retournez l'évaluation de la position actuelle.
+                return Evaluation(pokemonsEnemyTest, pokemonsSelfTest, pokemonsSelf, pokemonsEnemy, pokemonInBattleSelf, pokemonInBattleEnemy);
+            }
+
+            if (maximizingPlayer)
+            {
+                int maxEval = int.MinValue;
+                foreach (Pokemon selfPokemon in pokemonsSelfTest)
+                {
+                    foreach (Attack move in selfPokemon.Moves)
+                    {
+                        // Pour chaque mouvement possible de notre équipe
+                        // Simulation de l'action
+                        Pokemon enemy = pokemonsEnemyTest[new Random().Next(pokemonsEnemyTest.Count)]; // Choix d'un Pokémon ennemi au hasard pour simplifier
+                        int damageDealt = Global.DamageCalculator(selfPokemon, enemy, move, 1);
+                        enemy.TakeDamage(damageDealt);
+
+                        // Appel récursif à MiniMax avec le prochain état du jeu et la profondeur réduite
+                        int eval = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, depth - 1, false);
+
+                        // Annuler l'action effectuée pour revenir à l'état précédent
+                        enemy.SetHp(enemy.GetMaxHp()); // Restaure les HP du Pokémon ennemi
+
+                        // Mise à jour de maxEval si nécessaire
+                        maxEval = Math.Max(maxEval, eval);
+                    }
+                }
+                return maxEval;
+            }
+            else
+            {
+                int minEval = int.MaxValue;
+                foreach (Pokemon enemyPokemon in pokemonsEnemyTest)
+                {
+                    foreach (Attack move in enemyPokemon.Moves)
+                    {
+                        // Pour chaque mouvement possible de l'équipe adverse
+                        // Simulation de l'action
+                        Pokemon self = pokemonsSelfTest[new Random().Next(pokemonsSelfTest.Count)]; // Choix d'un Pokémon allié au hasard pour simplifier
+                        int damageDealt = Global.DamageCalculator(enemyPokemon, self, move, 1);
+                        self.TakeDamage(damageDealt);
+
+                        // Appel récursif à MiniMax avec le prochain état du jeu et la profondeur réduite
+                        int eval = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, depth - 1, true);
+
+                        // Annuler l'action effectuée pour revenir à l'état précédent
+                        self.SetHp(self.GetMaxHp()); // Restaure les HP du Pokémon allié
+
+                        // Mise à jour de minEval si nécessaire
+                        minEval = Math.Min(minEval, eval);
+                    }
+                }
+                return minEval;
+            }
+        }*/
