@@ -4,6 +4,11 @@ using NEntity;
 using NPotionType;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using NEngine;
+using Projet_9.PokemonTeam;
+using NModules;
+using NScene;
+
 namespace Projet_9
 {
     internal class Program
@@ -38,12 +43,17 @@ namespace Projet_9
 
             Hacker hackertest = new Hacker(Pokemons,Pokemons2,"Jarod","Francois");*/
 
-            /* WindowPokemonTeam window = new WindowPokemonTeam();
-             window.WindowRun();
-             Engine engine = Engine.GetInstance();
+            WindowPokemonTeam window = new WindowPokemonTeam();
+            window.WindowRun();
+            Engine engine = Engine.GetInstance();
 
-             engine.Run();
-             window.WindowClose();*/
+            SceneModule sceneModule = Engine.GetInstance().ModuleManager.GetModule<SceneModule>();
+            sceneModule.SetScene<FightScene>(true);
+            sceneModule.Start();
+
+            engine.Run();
+            window.WindowClose();
+
             Player player = new Player();
             List<string> list = new List<string>();
             list.Add("Water");
