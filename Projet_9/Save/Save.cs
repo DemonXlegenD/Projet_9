@@ -4,6 +4,8 @@ using NEntity;
 using Newtonsoft.Json;
 using NJSON;
 using System.IO;
+using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace NSave
 {
@@ -97,13 +99,13 @@ namespace NSave
             }
         }
 
-        public void WriteSave(object data, int indexSave)
+        public void WriteSave(object data, int indexSave, List<JsonConverter> converters)
         {
             if (_actualIndex != indexSave)
             {
                 _actualIndex = ((indexSave - 1) % 3) + 1;
             }
-            jsonSaver.SerializeObjectToJsonFile(data, _pathName + _fileNname + _actualIndex + _fileType);
+            jsonSaver.SerializeObjectToJsonFile(data, _pathName + _fileNname + _actualIndex + _fileType, converters);
         }
     }
 }

@@ -11,31 +11,22 @@ namespace NEntity
 {
     public class Player : Component
     {
-        private int _id;
-        private string _firstName;
-        private string _lastName;
-        private int _age;
-        private string _description;
-        private List<Pokemon> _teamPokemons;
-        private List<Pokemon> _PCPokemons;
-        private Vector2i _position;
-        private Dictionary<string, ItemAbstract> _inventory;
 
-        public int Id { get { return _id; } set { _id = value; } }
+        public int Id { get; set; }
 
-        public string FirstName { get { return _firstName; } set { _firstName = value; } }
+        public string FirstName { get; set; }
 
-        public string LastName { get { return _lastName; } set { _lastName = value; } }
+        public string LastName { get; set; }
 
-        public int Age { get { return _age; } set { _age = value; } }
+        public int Age { get; set; }
 
-        public string Description { get { return _description; } set { _description = value; } }
+        public string Description { get; set; }
 
-        public List<Pokemon> TeamPokemons { get { return _teamPokemons; } set { _teamPokemons = value; } }
-        public List<Pokemon> PCPokemons { get { return _PCPokemons; } set { _PCPokemons = value; } }
+        public List<Pokemon> TeamPokemons { get; set; }
+        public List<Pokemon> PCPokemons { get; set; }
 
-        public Vector2i Position { get { return _position; } set { _position = value; } }
-        public Dictionary<string, ItemAbstract> Inventory { get { return _inventory; } set { _inventory = value; } }
+        public Vector2i Position { get; set; }
+        public Dictionary<string, ItemAbstract> Inventory { get; set; }
 
         public Player()
         {
@@ -44,7 +35,7 @@ namespace NEntity
             LastName = "Ketchup";
             Age = 15;
             Description = "Moi ze veut devenir un maitre pokémon";
-            TeamPokemons = new List<Pokemon>(); 
+            TeamPokemons = new List<Pokemon>();
             PCPokemons = new List<Pokemon>();
             Position = Vector2i.Zero;
             Inventory = new Dictionary<string, ItemAbstract>();
@@ -70,19 +61,19 @@ namespace NEntity
 
         public void AddPokemon(Pokemon pokemon)
         {
-            if (_teamPokemons.Count < 6)
+            if (TeamPokemons.Count < 6)
             {
-                _teamPokemons.Add(pokemon);
+                TeamPokemons.Add(pokemon);
             }
             else
             {
-                _PCPokemons.Add(pokemon);
+                PCPokemons.Add(pokemon);
             }
         }
 
         public void RemovePokemon(Pokemon pokemon)
         {
-            _teamPokemons.Remove(pokemon);
+            TeamPokemons.Remove(pokemon);
         }
 
         public void AddItem(ItemAbstract item)

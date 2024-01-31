@@ -1,8 +1,8 @@
-using System;
+using NGlobal;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Csharp_Tpt
+namespace NPokemon
 {
     // Fait littéralement la pire attaque contre, calcul les dégats de chaque attaque et prends la pire
     public class NoteUltime

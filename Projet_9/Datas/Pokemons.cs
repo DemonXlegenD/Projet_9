@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Csharp_Tpt
+namespace NDatas
 {
     public class PokemonsDic
     {

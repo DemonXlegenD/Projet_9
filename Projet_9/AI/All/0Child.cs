@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using NPokemon;
 
-namespace Csharp_Tpt
+namespace NPokemon
 {
     // Fait juste une attaque aléatoire parmis celles que le pokemon a
     public class Child
