@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using NDatas;
 using System.Windows.Media;
 using NPokemon;
 
-namespace Csharp_Tpt
+namespace NGlobal
 {
     public class Global
     {

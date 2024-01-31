@@ -13,7 +13,7 @@ using System.Windows.Input;
 using NPokemon;
 using Map;
 using System.Reflection.Emit;
-using System.Xml.Linq;
+using NGlobal;
 
 namespace Projet_9.PokemonTeam
 {
@@ -88,7 +88,7 @@ namespace Projet_9.PokemonTeam
             //PokemonStats.Children.Add(textblock("Hp:" + pokemon.GetHp().ToString()+"/"+pokemon.GetMaxHp().ToString(), color: Brushes.Red, thickness: new Thickness(10,0,0,0)));
             PokemonStats.Children.Add(Panel2Text("Hp:", pokemon.GetHp().ToString()+ "/" + pokemon.GetMaxHp().ToString(), ColorText2: Brushes.Red ));
             if (pokemon.GetTypes().Count() > 1) { PokemonStats.Children.Add(new StackPanel() { Margin = new Thickness(10, 0, 0, 0), Orientation = Orientation.Horizontal, Children = { Panel2Text("Types:", pokemon.GetTypes()[0], Global.TypeToColor(pokemon.GetTypes()[0])), Panel2Text(",", pokemon.GetTypes()[1], Global.TypeToColor(pokemon.GetTypes()[1])) } } ); }
-            else { PokemonStats.Children.Add( Panel2Text("Type:", pokemon.GetTypes()[0], Csharp_Tpt.Global.TypeToColor(pokemon.GetTypes()[0]), thickness: new Thickness(10, 0, 0, 0)) ); }
+            else { PokemonStats.Children.Add( Panel2Text("Type:", pokemon.GetTypes()[0], Global.TypeToColor(pokemon.GetTypes()[0]), thickness: new Thickness(10, 0, 0, 0)) ); }
             PokemonStats.Children.Add(Panel2Text("Level:", pokemon.GetLevel().ToString(), ColorText2: Brushes.CornflowerBlue, thickness: new Thickness(10, 0, 0, 0) ));
 
             stackPanel.Children.Add(namePokemon);
@@ -113,12 +113,12 @@ namespace Projet_9.PokemonTeam
         [STAThread] // Définir le thread en mode STA
         public void WindowRun()
         {
-            Pokemons.Add(new Pokemon("Jarod", new string[] { "Water" }, 100, 100, 100, 100, 100, 100, 10));
-            Pokemons.Add(new Pokemon("Francois", new string[] { "Fire" }, 80, 10, 10, 10, 10, 10, 2));
-            Pokemons.Add(new Pokemon("Maurad", new string[] { "Grass" }, 80, 10, 10, 10, 10, 10, 50));
-            Pokemons.Add(new Pokemon("Adrien", new string[] { "Ground" }, 80, 10, 10, 10, 10, 10, 99));
-            Pokemons.Add(new Pokemon("Kyle", new string[] { "Dragon" }, 80, 10, 10, 10, 10, 10, 40));
-            Pokemons.Add(new Pokemon("Ethan", new string[] { "Bug", "Grass" }, 80, 10, 10, 10, 10, 10, 5));
+            Pokemons.Add(new Pokemon("Jarod", new List<string> { "Water" }, 100, 100, 100, 100, 100, 100, 10));
+            Pokemons.Add(new Pokemon("Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 10, 2));
+            Pokemons.Add(new Pokemon("Maurad", new List<string> { "Grass" }, 80, 10, 10, 10, 10, 10, 50));
+            Pokemons.Add(new Pokemon("Adrien", new List<string> { "Ground" }, 80, 10, 10, 10, 10, 10, 99));
+            Pokemons.Add(new Pokemon("Kyle", new List<string> { "Dragon" }, 80, 10, 10, 10, 10, 10, 40));
+            Pokemons.Add(new Pokemon("Ethan", new List<string> { "Bug", "Grass" }, 80, 10, 10, 10, 10, 10, 5));
 
             Thread thread = new Thread(() =>
             {

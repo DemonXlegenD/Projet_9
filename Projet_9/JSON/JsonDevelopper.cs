@@ -2,6 +2,7 @@
 using NEntity;
 using Newtonsoft.Json;
 using System.IO;
+using System.Collections.Generic;
 
 namespace NJSON
 {
@@ -24,11 +25,14 @@ namespace NJSON
             return jsonString;
         }
 
-        public void SerializeObjectToJsonFile(object obj, string filePath)
+        public void SerializeObjectToJsonFile(object obj, string filePath, List<Newtonsoft.Json.JsonConverter> converters)
         {
             JsonSerializer serializer = new JsonSerializer();
-            serializer.Converters.Add(new PlayerJsonConverter());
-            serializer.Converters.Add(new PokemonJsonConverter());
+            foreach(Newtonsoft.Json.JsonConverter converter in converters)
+            {
+                serializer.Converters.Add(converter);
+            }
+         
 
             using (StreamWriter sw = new StreamWriter(filePath))
             using (JsonWriter writer = new JsonTextWriter(sw))
