@@ -11,11 +11,34 @@ using System.Windows.Controls;
 using Csharp_Tpt;
 using System.Windows.Input;
 using NPokemon;
+using Map;
+using System.Reflection.Emit;
+using System.Xml.Linq;
 
 namespace Projet_9.PokemonTeam
 {
+    public class panel
+    {
+        public panel(StackPanel stack,int id)
+        {
+            stackpanel = stack;
+            ID = id;
+        }
+        public StackPanel stackpanel;
+        public int ID;
+    }
+
     public class WindowPokemonTeam
     {
+        private int x = -1;
+        private int y = -1;
+        List<string> ids = new List<string>();
+        StackPanel Canvas;
+        StackPanel AllPokemons;
+        List<Pokemon> Pokemons = new List<Pokemon>();
+
+
+
         Window w = null;
         private TextBlock textblock
             (
@@ -77,8 +100,12 @@ namespace Projet_9.PokemonTeam
             //border.BorderBrush = Brushes.Black;
             //border.BorderThickness = new System.Windows.Thickness(1);
             //border.Child = stackPanel; // Add the StackPanel as a child of the Border
-
-
+            //Console.WriteLine("IDS:"+stackPanel.Uid);
+            stackPanel.MouseDown += StackPanel_MouseDown;
+            stackPanel.MouseEnter += StackPanel_MouseEnter;
+            stackPanel.MouseLeave += StackPanel_MouseLeave;
+            stackPanel.Uid = ids.Count.ToString();
+            ids.Add(stackPanel.Uid); // Ajouter l'Uid à la liste ids
             return stackPanel;
         }
         
@@ -86,11 +113,19 @@ namespace Projet_9.PokemonTeam
         [STAThread] // Définir le thread en mode STA
         public void WindowRun()
         {
+            Pokemons.Add(new Pokemon("Jarod", new string[] { "Water" }, 100, 100, 100, 100, 100, 100, 10));
+            Pokemons.Add(new Pokemon("Francois", new string[] { "Fire" }, 80, 10, 10, 10, 10, 10, 2));
+            Pokemons.Add(new Pokemon("Maurad", new string[] { "Grass" }, 80, 10, 10, 10, 10, 10, 50));
+            Pokemons.Add(new Pokemon("Adrien", new string[] { "Ground" }, 80, 10, 10, 10, 10, 10, 99));
+            Pokemons.Add(new Pokemon("Kyle", new string[] { "Dragon" }, 80, 10, 10, 10, 10, 10, 40));
+            Pokemons.Add(new Pokemon("Ethan", new string[] { "Bug", "Grass" }, 80, 10, 10, 10, 10, 10, 5));
+
             Thread thread = new Thread(() =>
             {
                 w = new Window();
                 w.Width = 600;
                 w.Height = 600;
+                w.ResizeMode = ResizeMode.NoResize;
 
                 StackPanel canvas = new StackPanel(); // Top Node, ne pas toucher
 
@@ -103,14 +138,15 @@ namespace Projet_9.PokemonTeam
                 TextBlock PokemonteamText = textblock("Pokemon Team", thickness: new Thickness(0, 10, 0, 20), horizontal: HorizontalAlignment.Center);
                 canvas.Children.Add(PokemonteamText);
 
-                stackPanel.Children.Add(PokemonInfos(new Pokemon("Jarod", new List<string> { "Water" },100,100,100,100,100,100,10)));
-                stackPanel.Children.Add(PokemonInfos(new Pokemon("Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 10,2)));
-                stackPanel.Children.Add(PokemonInfos(new Pokemon("Maurad", new List<string> { "Grass" }, 80, 10, 10, 10, 10, 10,50)));
-                stackPanel.Children.Add(PokemonInfos(new Pokemon("Adrien", new List<string> { "Ground" }, 80, 10, 10, 10, 10, 10,99)));
-                stackPanel.Children.Add(PokemonInfos(new Pokemon("Kyle", new List<string> { "Dragon" }, 80, 10, 10, 10, 10, 10,40)));
-                stackPanel.Children.Add(PokemonInfos(new Pokemon("Ethan", new List<string> { "Bug","Grass" }, 80, 10, 10, 10, 10, 10,5)));
-                canvas.Children.Add(stackPanel);
-                w.Content = canvas;
+                
+                foreach (Pokemon pokemon in Pokemons)
+                {
+                    stackPanel.Children.Add(PokemonInfos(pokemon));
+                }
+                AllPokemons = stackPanel;
+                canvas.Children.Add(AllPokemons);
+                Canvas = canvas;
+                w.Content = Canvas;
 
                 w.HorizontalAlignment = HorizontalAlignment.Center;
                 w.VerticalAlignment = VerticalAlignment.Center;
@@ -146,5 +182,53 @@ namespace Projet_9.PokemonTeam
         { 
             w.Dispatcher.Invoke(() => w.Close());
         }
+        private StackPanel clickedPanel = null;
+        private void StackPanel_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            clickedPanel = (StackPanel)sender;
+            clickedPanel.Background = new SolidColorBrush(Color.FromArgb(255, 120, 80, 90));
+            if (x == -1)
+            {
+                x = int.Parse(clickedPanel.Uid);
+            }
+            else
+            {
+                y = int.Parse(clickedPanel.Uid);
+                Console.WriteLine("Size" + Pokemons.Count() + "X:" + x + "Y:" + y);
+                Global.ChangePokemonOrder(Pokemons, x, y);
+                AllPokemons.Children.Clear();
+                ids.Clear();
+                foreach (Pokemon pokemon in Pokemons)
+                {
+                    AllPokemons.Children.Add(PokemonInfos(pokemon));
+                }
+                x = -1;
+                y = -1;
+                clickedPanel = null;
+            }
+            //StackPanel clickedStackPanel = (StackPanel)sender;
+            //string id = clickedStackPanel.Uid;
+            //MessageBox.Show(clickedStackPanel.Uid+"List:"+ids.Count());
+        }
+        // Hover
+        private void StackPanel_MouseEnter(object sender, MouseEventArgs e)
+        {
+            StackPanel stackPanel = (StackPanel)sender;
+            if (stackPanel != clickedPanel)
+            {
+                stackPanel.Background = new SolidColorBrush(Color.FromArgb(190, 50, 50, 50));
+            }
+        }
+
+        private void StackPanel_MouseLeave(object sender, MouseEventArgs e)
+        {
+
+            StackPanel stackPanel = (StackPanel)sender;
+            if (stackPanel != clickedPanel)
+            {
+                stackPanel.Background = new SolidColorBrush(Color.FromArgb(175, 30, 30, 30));
+            }
+        }
+
     }
 }

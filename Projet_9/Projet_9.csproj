@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AITrainer.cs" />
+    <Compile Include="AI\All\1.0NoteUltime.cs" />
     <Compile Include="AI\All\0Child.cs" />
     <Compile Include="AI\All\1Newbie.cs" />
     <Compile Include="AI\All\2Jarod.cs" />

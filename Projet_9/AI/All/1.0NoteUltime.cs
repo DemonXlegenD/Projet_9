@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Csharp_Tpt
 {
-    // Fait la meilleure attaque contre, calcul les dégats de chaque attaque et prends la pire
-    public class Jarod
+    // Fait littéralement la pire attaque contre, calcul les dégats de chaque attaque et prends la pire
+    public class NoteUltime
     {
         private int ChoiceAttack;
 
-        public Jarod(Pokemon PokemonInBattle, Pokemon PokemonEnemy)
+        public NoteUltime(Pokemon PokemonInBattle,Pokemon PokemonEnemy) 
         {
             ChoiceAttack = MakeChoice(PokemonInBattle, PokemonEnemy);
         }
@@ -19,7 +19,7 @@ namespace Csharp_Tpt
             List<int> damages = new List<int>();
             foreach (Attack i in pokemon.Moves)
             {
-                if (i.GetCat() == "Physical" || i.GetCat() == "Special")
+                if(i.GetCat() == "Physical" || i.GetCat() == "Special")
                 {
                     if (i.GetPp() > 0)
                     {
@@ -27,15 +27,15 @@ namespace Csharp_Tpt
                     }
                     else
                     {
-                        damages.Add(-1);
+                        damages.Add(1000);
                     }
                 }
                 else
                 {
-                    damages.Add(-1);
+                    damages.Add(1000);
                 }
             }
-            return damages.IndexOf(damages.Max());
+            return damages.IndexOf(damages.Min());
         }
 
         public int GetChoice() { return ChoiceAttack; }

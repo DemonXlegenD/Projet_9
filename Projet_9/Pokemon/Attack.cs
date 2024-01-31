@@ -3,13 +3,13 @@ namespace NPokemon
     public class Attack
     {
     // VALUES
-    public string Name;
-    public string Type;
-    public string Cat;
-    public int Power;
-    public int Acc;
-    public int Pp;
-    public int BasePp;
+    private string Name;
+    private string Type;
+    private string Cat;
+    private int Power;
+    private int Acc;
+    private int Pp;
+    private int BasePp;
 
     // CONSTRUCTOR
     public Attack(string name, string type, string cat, int power, int acc, int pp)
