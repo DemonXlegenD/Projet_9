@@ -88,6 +88,29 @@ namespace NGlobal
             else { return Brushes.Gray; }
 		}
 
+		public static ConsoleColor TypeToConsoleColor(string typeName)
+		{
+            if (typeName == "Water") { return ConsoleColor.Blue; }
+            else if (typeName == "Fire") { return ConsoleColor.Red; }
+            else if (typeName == "Grass") { return ConsoleColor.Green; }
+            else if (typeName == "Electric") { return ConsoleColor.Yellow; }
+            else if (typeName == "Normal") { return ConsoleColor.Gray; }
+            else if (typeName == "Ice") { return ConsoleColor.Cyan; }
+            else if (typeName == "Fighting") { return ConsoleColor.DarkRed; }
+            else if (typeName == "Poison") { return ConsoleColor.Magenta; }
+            else if (typeName == "Ground") { return ConsoleColor.DarkGreen; }
+            else if (typeName == "Flying") { return ConsoleColor.Gray; }
+            else if (typeName == "Psychic") { return ConsoleColor.DarkMagenta; }
+            else if (typeName == "Bug") { return ConsoleColor.DarkGreen; }
+            else if (typeName == "Rock") { return ConsoleColor.DarkRed; }
+            else if (typeName == "Ghost") { return ConsoleColor.DarkMagenta; }
+            else if (typeName == "Steel") { return ConsoleColor.Gray; }
+            else if (typeName == "Dark") { return ConsoleColor.DarkGray; }
+            else if (typeName == "Fairy") { return ConsoleColor.Magenta; }
+            else if (typeName == "Dragon") { return ConsoleColor.Gray; }
+            return ConsoleColor.White;
+		}
+
 		public static bool SuccessAcc(int Acc) {
 			Random rnd = new Random();
 			int Num = rnd.Next(1,100);

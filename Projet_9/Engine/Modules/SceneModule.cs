@@ -42,7 +42,7 @@ namespace NModules
         public override void Update()
         {
             base.Update();
-            Console.WriteLine("Update");
+            //Console.WriteLine("Update");
             mainScene.Update(timeModule.GetDeltaTime());
         }
 
