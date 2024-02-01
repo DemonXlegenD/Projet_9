@@ -8,6 +8,9 @@ using NEngine;
 using Projet_9.PokemonTeam;
 using NModules;
 using NScene;
+using Projet_9.Save;
+using NSecurity;
+using System;
 
 namespace Projet_9
 {
@@ -58,12 +61,19 @@ namespace Projet_9
             listConverter.Add(new PlayerJsonConverter());
             listConverter.Add(new PokemonJsonConverter());
 
-            player.AddItem(new Potion());
-            player.AddPokemon(new Pokemon("Jarod", list, 40, 50, 70, 50, 50, 70));
 
-            Save.GetInstance().WriteSave(player, 2, listConverter);
-  /*          Player player = Save.GetInstance().ReadTestSave<Player>(2);
-            Console.WriteLine(player.ToString());*/
+              player.AddItem(new Potion());
+              player.AddPokemon(new Pokemon("Jarod", list, 40, 50, 70, 50, 50, 70));
+
+              SavePlayer.GetInstance(player.FirstName, player.LastName, player.Id).WriteSave(player, 2, listConverter);*/
+            /*          Player player = Save.GetInstance().ReadTestSave<Player>(2);
+                      Console.WriteLine(player.ToString());*/
+/*            SaveUser saveUser = SaveUser.GetInstance();*/
+            UserManager userManager = UserManager.GetInstance();
+     /*       userManager.AddUser("Zarod", "azerty");
+            saveUser.SaveUsers();*/
+            User.LoadUser("Zarod", "azerty");
+            Console.WriteLine("C'est bien : " + userManager.ActualUser.Username);
         }
     }
     public class Person
