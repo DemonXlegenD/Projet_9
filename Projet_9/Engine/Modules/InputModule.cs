@@ -1,5 +1,6 @@
 ﻿using NEngine;
 using System;
+using System.Threading;
 
 namespace NModules
 {
@@ -17,12 +18,21 @@ namespace NModules
         public override void Update()
         {
             base.Update();
-            Console.WriteLine("Update");
-            if (Console.ReadKey(true).Key == ConsoleKey.Escape)
+            if (Console.KeyAvailable)
             {
-                Console.WriteLine("Escape");
-                engine.Quit();
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Escape)
+                {
+                    Console.WriteLine("Escape");
+                    engine.Quit();
+                }
+                if (key.Key == ConsoleKey.Z)
+                {
+                    Console.WriteLine("Je suis Jarooooooooooooooooooooooooooooooooooooooooooooooooooooood");
+                }
+
             }
+
         }
     }
 }
