@@ -6,14 +6,13 @@ using NInventory;
 using System;
 using System.Collections.Generic;
 using NPokemon;
+using NSecurity;
 
 namespace NEntity
 {
     public class Player : Component
     {
-
-        public int Id { get; set; }
-
+        public string Id { get; set; }
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -30,7 +29,6 @@ namespace NEntity
 
         public Player()
         {
-            Id = 0;
             FirstName = "Sacha";
             LastName = "Ketchup";
             Age = 15;
@@ -41,7 +39,7 @@ namespace NEntity
             Inventory = new Dictionary<string, ItemAbstract>();
         }
 
-        public Player(int id, string firstName, string lastName, int age, string description, List<Pokemon> teamPokemons, List<Pokemon> pCPokemons, Vector2i position, Dictionary<string, ItemAbstract> inventory)
+        public Player(string id, string firstName, string lastName, int age, string description, List<Pokemon> teamPokemons, List<Pokemon> pCPokemons, Vector2i position, Dictionary<string, ItemAbstract> inventory)
         {
             Id = id;
             FirstName = firstName;
@@ -53,10 +51,22 @@ namespace NEntity
             Position = position;
             Inventory = inventory;
         }
+        public Player(Player player)
+        {
+            Id = player.Id;
+            FirstName = player.FirstName;
+            LastName = player.LastName;
+            Age = player.Age;
+            Description = player.Description;
+            TeamPokemons = player.TeamPokemons;
+            PCPokemons = player.PCPokemons;
+            Position = player.Position;
+            Inventory = player.Inventory;
+        }
 
         public override string ToString()
         {
-            return $"Player : {{Id: {Id}, FirstName: {FirstName}, LastName: {LastName}, Age: {Age}, Description: {Description} }}";
+            return $"Player : FirstName: {FirstName}, LastName: {LastName}, Age: {Age}, Description: {Description} }}";
         }
 
         public void AddPokemon(Pokemon pokemon)
@@ -169,7 +179,7 @@ namespace NEntity
                     case nameof(Player.Id):
                         // Lire la valeur de la propriété Age
                         reader.Read();
-                        player.Id = serializer.Deserialize<int>(reader);
+                        player.Id = serializer.Deserialize<string>(reader);
                         break;
 
                     case nameof(Player.FirstName):

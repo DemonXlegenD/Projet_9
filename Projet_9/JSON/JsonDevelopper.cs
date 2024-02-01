@@ -3,6 +3,7 @@ using NEntity;
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
+using System;
 
 namespace NJSON
 {
@@ -39,6 +40,23 @@ namespace NJSON
             {
                 serializer.Serialize(writer, obj);
             }
+        }
+
+        public bool CreateFolder(string pathFile)
+        {
+            if (!Directory.Exists(pathFile))
+            {
+                // Créez le dossier
+                Directory.CreateDirectory(pathFile);
+
+                Console.WriteLine("Dossier créé avec succès !");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Le dossier existe déjà.");
+            }
+            return false;
         }
 
         public bool CreateFile(object data, string pathFile)
