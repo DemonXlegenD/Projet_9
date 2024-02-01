@@ -28,7 +28,6 @@ namespace NScene
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
-            Console.ReadKey();
             Console.WriteLine("Update : Hello it's new here");
         }
 

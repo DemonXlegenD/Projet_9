@@ -65,7 +65,7 @@ namespace Projet_9
               player.AddItem(new Potion());
               player.AddPokemon(new Pokemon("Jarod", list, 40, 50, 70, 50, 50, 70));
 
-              SavePlayer.GetInstance(player.FirstName, player.LastName, player.Id).WriteSave(player, 2, listConverter);*/
+              SavePlayer.GetInstance(player.FirstName, player.LastName, player.Id).WriteSave(player, 2, listConverter);
             /*          Player player = Save.GetInstance().ReadTestSave<Player>(2);
                       Console.WriteLine(player.ToString());*/
 /*            SaveUser saveUser = SaveUser.GetInstance();*/
