@@ -11,17 +11,23 @@ namespace NModules
 
     public sealed class SceneModule : Module
     {
-        private List<Scene> scenes = new List<Scene>();
-        private Scene mainScene = null;
+        private List<SceneAbstract> scenes = new List<SceneAbstract>();
+        private SceneAbstract mainScene = null;
 
-        private WindowModule windowModule = null;
+        private TimeModule timeModule = null;
 /*        private TimeModule timeModule = null;*/
 
         public SceneModule()
         {
-            // Initialisation du module de scène
         }
 
+        public override void Init()
+        {
+            base.Init();
+            timeModule = base.ModuleManager.GetModule<TimeModule>();
+            this.SetScene<FightScene>();
+            Console.WriteLine("salut");
+        }
         public override void Start()
         {
             base.Start();
@@ -30,14 +36,17 @@ namespace NModules
         public override void Render()
         {
             base.Render();
+            mainScene.Render();
         }
 
         public override void Update()
         {
             base.Update();
+            Console.WriteLine("Update");
+            mainScene.Update(timeModule.GetDeltaTime());
         }
 
-        public Scene SetScene<T>(bool replaceScenes = true) where T : Scene, new()
+        public SceneAbstract SetScene<T>(bool replaceScenes = true) where T : SceneAbstract, new()
         {
             if (replaceScenes)
             {
@@ -48,23 +57,22 @@ namespace NModules
                 scenes.Clear();*/
             }
 
-            Scene scene = new T();
+            SceneAbstract scene = new T();
             scenes.Add(scene);
 
             if (replaceScenes)
             {
                 mainScene = scene;
             }
-
             return scene;
         }
 
-        public Scene GetMainScene()
+        public SceneAbstract GetMainScene()
         {
             return mainScene;
         }
 
-        public Scene GetScene(string sceneName)
+        public SceneAbstract GetScene(string sceneName)
         {
             return scenes.Find(scene => scene.Name == sceneName);
         }

@@ -40,19 +40,16 @@ namespace Projet_9
                 p.Moves.Add(new Attack("Cool", "Fire", "Physical", 50, 100, 25));
             }
 
-
+            
             Hacker hackertest = new Hacker(Pokemons,Pokemons2,"Jarod","Francois");*/
 
-            WindowPokemonTeam window = new WindowPokemonTeam();
-            window.WindowRun();
+            /*WindowPokemonTeam window = new WindowPokemonTeam();
+            window.WindowRun();*/
             Engine engine = Engine.GetInstance();
 
-            SceneModule sceneModule = Engine.GetInstance().ModuleManager.GetModule<SceneModule>();
-            sceneModule.SetScene<FightScene>(true);
-            sceneModule.Start();
 
             engine.Run();
-            window.WindowClose();
+        /*    window.WindowClose();*/
 
             Player player = new Player();
             List<string> list = new List<string>();

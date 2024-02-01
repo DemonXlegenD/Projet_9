@@ -1,4 +1,5 @@
 using NModules;
+using NScene;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace NEngine
             CreateModule<InputModule>();
             CreateModule<WindowModule>();
             CreateModule<SceneModule>();
+            Console.WriteLine("module créé");
         }
 
         public void Init()
@@ -32,6 +34,7 @@ namespace NEngine
             {
                 module.Init();
             }
+            Console.WriteLine("fini");
         }
 
         public void Start()
