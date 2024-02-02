@@ -5,14 +5,12 @@ using NPokemon;
 using NScene;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Media3D;
 using static NGlobal.Global;
+using System.Security.Cryptography;
+
 
 namespace NScene
 {
@@ -66,14 +64,19 @@ namespace NScene
             P1 = List1[0];
             P2 = List2[0];
             
+
         }
 
 
         public override void Launch()
         {
+            //System.Drawing.FontFamily fontFamily = new System.Drawing.FontFamily(@"");
             Console.Clear();
             ToWrite();
             TextQueue.Clear();
+            // Peut read le truc pour l'attaque
+            List<string> sprite = ReadFilesText("C:\\Users\\Kyle\\Documents\\GitHub\\Projet_9\\Projet_9\\Assets\\TXT_files_Attacks\\attack_hit_Dark_Ghost_1.txt");
+            WriteSprites(sprite,3,1,false);
             ConsoleKeyInfo key = Console.ReadKey();
             ActionToDo(key);
             Input(key);
@@ -111,6 +114,7 @@ namespace NScene
                         {
                             case 1:
                                 STATE = States.MOVES;
+                                PSelectIndex = 0;
                                 break;
                             
                             case 2:
@@ -119,10 +123,18 @@ namespace NScene
                             
                             case 3:
                                 STATE = States.CHANGE;
+                                PSelectIndex = 0;
                                 break;
                             
                             case 4:
-                                // Escape
+                                if (OddsEscape(P1.Speed, P2.Speed))
+                                {
+                                    // Escape
+                                }
+                                else
+                                {
+                                    // Doesnt escape and take damage
+                                }
                                 break;
                         }
 
@@ -569,6 +581,85 @@ namespace NScene
                 Console.Write(P.Xp+ "/"+P.XpNext);
             }
 
+        }
+
+        private void WriteSprites(List<string> sprite, int Position = 0,int color = 0,bool all = true)
+        {
+            int leftPosition = 0;
+            int topPosition = Console.CursorTop;
+            foreach (string line in sprite)
+            {
+                switch (Position)
+                {
+                    case 0:
+                        leftPosition = 0;
+                        topPosition = Console.CursorTop;
+                        break;
+
+                    case 1:
+                        leftPosition = 5;
+                        topPosition = Console.CursorTop;
+                        break;
+
+                    case 2:
+                        leftPosition = Console.WindowWidth - sprite.Max().Length - 5;
+                        topPosition = Console.CursorTop;
+                        break;
+
+                    case 3:
+                        if (Console.WindowWidth / 2 - sprite.Max().Length < 0)
+                        {
+                            leftPosition = 0;
+                            topPosition = Console.CursorTop;
+                        }
+                        else
+                        {
+                            leftPosition = Console.WindowWidth / 2 - sprite.Max().Length;
+                            topPosition = Console.CursorTop;
+                        }
+                        break;
+                }
+
+                Console.SetCursorPosition(leftPosition, topPosition);
+                foreach (char c in line)
+                {
+                    switch (color)
+                    {
+                        case 0:
+                            Console.ForegroundColor = ConsoleColor.White;
+                            break;
+
+                        case 1:
+                            if (all)
+                            {
+                                var rng = new RNGCryptoServiceProvider();
+                                Console.ForegroundColor = IntToConsoleColor(GenerateRandomNumber(rng, 1, 16));
+                            }
+                            else
+                            {
+                                if (c != line[0] && c != line.Last() && sprite[0] != line && sprite.Last() != line)
+                                {
+                                    var rng = new RNGCryptoServiceProvider();
+                                    Console.ForegroundColor = IntToConsoleColor(GenerateRandomNumber(rng, 1, 16));
+                                }
+                                else
+                                {
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                }
+                            }
+                            //var rng = new RNGCryptoServiceProvider();
+                            //Console.ForegroundColor = IntToConsoleColor(GenerateRandomNumber(rng, 1, 16));
+                            break;
+
+                        case 2:
+
+                            break;
+                    }
+                    Console.Write(c);
+                }
+                SauterLignes(1);
+                //Console.WriteLine(line);
+            }
         }
 
     }

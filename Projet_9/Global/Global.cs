@@ -4,6 +4,9 @@ using System.Linq;
 using NDatas;
 using System.Windows.Media;
 using NPokemon;
+using System.IO;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography;
 
 namespace NGlobal
 {
@@ -111,7 +114,28 @@ namespace NGlobal
             return ConsoleColor.White;
 		}
 
-		public static bool SuccessAcc(int Acc) {
+        public static ConsoleColor IntToConsoleColor(int x)
+        {
+            if (x == 1) { return ConsoleColor.Black; }
+            else if (x == 2) { return ConsoleColor.Blue; }
+            else if (x == 3) { return ConsoleColor.Cyan; }
+            else if (x == 4) { return ConsoleColor.DarkBlue; }
+            else if (x == 5) { return ConsoleColor.DarkCyan; }
+            else if (x == 6) { return ConsoleColor.DarkGray; }
+            else if (x == 7) { return ConsoleColor.DarkGreen; }
+            else if (x == 8) { return ConsoleColor.DarkMagenta; }
+            else if (x == 9) { return ConsoleColor.DarkRed; }
+            else if (x == 10) { return ConsoleColor.DarkYellow; }
+            else if (x == 11) { return ConsoleColor.Gray; }
+            else if (x == 12) { return ConsoleColor.Green; }
+            else if (x == 13) { return ConsoleColor.Magenta; }
+            else if (x == 14) { return ConsoleColor.Red; }
+            else if (x == 15) { return ConsoleColor.White; }
+            else if (x == 16) { return ConsoleColor.Yellow; }
+            return ConsoleColor.White;
+        }
+
+        public static bool SuccessAcc(int Acc) {
 			Random rnd = new Random();
 			int Num = rnd.Next(1,100);
 
@@ -237,6 +261,34 @@ namespace NGlobal
     	    Dictionary<string, object> A = AttacksDic.attacks[nameA] as Dictionary<string, object>;
     	    return new Attack((string)A["Name"], (string)A["Type"], (string)A["Cat"], (int)A["Power"], (int)A["Acc"], (int)A["Pp"]);
     	}
+
+		public static List<string> ReadFilesText(string filepath)
+		{
+			List<string> lines = new List<string>();
+			FileStream file = File.OpenRead(filepath);
+			StreamReader reader = new StreamReader(filepath);
+			while (!reader.EndOfStream)
+			{
+                string line = reader.ReadLine();
+                if(line == null)
+                {
+                    Console.WriteLine("Error reading the line");
+                }
+				lines.Add(line);
+            }
+            return lines;
+		}
+
+        // Function to generate a random number using RNGCryptoServiceProvider, parce que le random utilise la même seed
+        public static int GenerateRandomNumber(RNGCryptoServiceProvider rng, int minValue, int maxValue)
+        {
+            byte[] randomNumber = new byte[4];
+            rng.GetBytes(randomNumber);
+
+            int value = BitConverter.ToInt32(randomNumber, 0);
+
+            return Math.Abs(value % (maxValue - minValue + 1)) + minValue;
+        }
 
     }
 }
