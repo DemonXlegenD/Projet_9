@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using static NGlobal.Global;
 
 namespace NScene
@@ -87,7 +88,7 @@ namespace NScene
                                 break;
                             
                             case 2:
-
+                                // Items
                                 break;
                             
                             case 3:
@@ -95,7 +96,7 @@ namespace NScene
                                 break;
                             
                             case 4:
-
+                                // Escape
                                 break;
                         }
 
@@ -133,10 +134,19 @@ namespace NScene
                         {
                             if(List1[SelectedIndex].IsAlive() && List1[SelectedIndex] != P1 && !P1Used)
                             {
-                                P1 = List1[SelectedIndex];
-                                P1Used = true;
-                                STATE = States.TURN;
+                                if (P1.IsAlive())
+                                {
+                                    P1 = List1[SelectedIndex];
+                                    P1Used = true;
+                                    STATE = States.TURN;
+                                }
+                                else
+                                {
+                                    P1 = List1[SelectedIndex];
+                                    STATE = States.SELECT;
+                                }
                             }
+                            else { TextQueue.Add("Pokemon selected is either in battle or dead"); }
                         }
                     }
                     break;
@@ -153,8 +163,14 @@ namespace NScene
             }
         }
 
-        private void DisplayHealthBar(int currentHP, int maxHP)
+        private void DisplayHealthBar(int currentHP, int maxHP, bool right = false)
         {
+            if (right)
+            {
+                int leftPosition = Console.WindowWidth - 25;
+                int topPosition = Console.CursorTop;
+                Console.SetCursorPosition(leftPosition, topPosition);
+            }
             int barLength = 20;
 
             int filledLength = (int)Math.Ceiling((double)currentHP / maxHP * barLength);
@@ -173,9 +189,15 @@ namespace NScene
             Console.Write("  ");
         }
 
-        private void DisplayXpBar(int currentXp, int nextXp)
+        private void DisplayXpBar(int currentXp, int nextXp,bool right = false)
         {
             Console.WriteLine();
+            if (right)
+            {
+                int leftPosition = Console.WindowWidth - 25;
+                int topPosition = Console.CursorTop;
+                Console.SetCursorPosition(leftPosition, topPosition);
+            }
             Console.Write("XP : ");
             int barLength = 10;
 
@@ -199,8 +221,25 @@ namespace NScene
         private void ToWrite()
         {
             // Write le perso et le perso ennemie
-            PokemonInfo(P2);
+            int leftPosition = Console.WindowWidth - 25;
+            int topPosition = Console.CursorTop;
+            Console.SetCursorPosition(leftPosition, topPosition);
+
+            PokemonInfo(P2,right:true);
+            SauterLignes(1);
+            string[] pika = {"       _ _         ", " _ __ (_) | ____ _ ", "| '_ \\| | |/ / _` |", "| |_) | |   < (_| |", "| .__/|_|_|\\_\\__,_|", "|_|                " };
+
+            foreach (string i in pika)
+            {
+                leftPosition = Console.WindowWidth - 25;
+                topPosition = Console.CursorTop;
+                Console.SetCursorPosition(leftPosition, topPosition);
+                Console.WriteLine(i);
+            }
             SauterLignes(2);
+            Console.WriteLine("       _ _         \n _ __ (_) | ____ _ \n| '_ \\| | |/ / _` |\n| |_) | |   < (_| |\n| .__/|_|_|\\_\\__,_|\n|_|                ");
+            // Mettre des pokemons si on veut 
+
             PokemonInfo(P1,true);
             SauterLignes(2);
 
@@ -299,12 +338,19 @@ namespace NScene
             if (!P1.IsAlive())
             {
                 P1.DeathHp();
-                P1Used = true;
+                P1Used = false;
+                STATE = States.CHANGE;
             }
             if (!P2.IsAlive())
             {
                 P2.DeathHp();
-                P2Used = true;
+                int o = 0;
+                foreach (Pokemon p in List2)
+                {
+                    o++;
+                }
+                if (o == List2.Count-1) { STATE = States.NOTHING; }
+                P2Used = false;
             }
 
         }
@@ -346,7 +392,7 @@ namespace NScene
             for (int i = 0; i < x; i++) { Console.WriteLine(" "); }
         }
 
-        private void PokemonInfo(Pokemon P,bool player = false)
+        private void PokemonInfo(Pokemon P,bool player = false,bool right = false)
         {
             Console.Write(P.Name + " ");
             Console.Write("Lv."+P.Level+" ");
@@ -365,7 +411,7 @@ namespace NScene
                 Console.ForegroundColor = ConsoleColor.White;
             }
             SauterLignes(1);
-            DisplayHealthBar(P.Hp, P.MaxHp);
+            DisplayHealthBar(P.Hp, P.MaxHp,right);
             if (player)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -373,7 +419,7 @@ namespace NScene
                 Console.ForegroundColor = ConsoleColor.White;
             }
             if (player) { 
-                DisplayXpBar(P.Xp,P.XpNext);
+                DisplayXpBar(P.Xp,P.XpNext,right);
                 Console.Write(P.Xp+ "/"+P.XpNext);
             }
 
