@@ -75,7 +75,7 @@ namespace NScene
             ToWrite();
             TextQueue.Clear();
             // Peut read le truc pour l'attaque
-            List<string> sprite = ReadFilesText("C:\\Users\\Kyle\\Documents\\GitHub\\Projet_9\\Projet_9\\Assets\\TXT_files_Attacks\\attack_hit_Dark_Ghost_1.txt");
+            List<string> sprite = ReadFilesText("../../Assets/TXT_files_Attacks/attack_hit_Dark_Ghost_1.txt");
             WriteSprites(sprite,3,2,false);
             ConsoleKeyInfo key = Console.ReadKey();
             ActionToDo(key);
@@ -277,8 +277,18 @@ namespace NScene
             int barLength = 20;
 
             int filledLength = (int)Math.Ceiling((double)currentHP / maxHP * barLength);
-
-            Console.ForegroundColor = ConsoleColor.Red;
+            if ((float)currentHP/(float)maxHP*100 > 50)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+            else if ((float)maxHP / (float)currentHP * 100 < 50)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+            }
             for (int i = 0; i < filledLength; i++)
             {
                 Console.Write("█");
@@ -329,7 +339,7 @@ namespace NScene
             Console.SetCursorPosition(leftPosition, topPosition);
 
             PokemonInfo(P2,right:true);
-            SauterLignes(1);
+            //SauterLignes(1);
             string[] pika = {"       _ _         ", " _ __ (_) | ____ _ ", "| '_ \\| | |/ / _` |", "| |_) | |   < (_| |", "| .__/|_|_|\\_\\__,_|", "|_|                " };
 
             foreach (string i in pika)
@@ -339,7 +349,7 @@ namespace NScene
                 Console.SetCursorPosition(leftPosition, topPosition);
                 Console.WriteLine(i);
             }
-            SauterLignes(2);
+            //SauterLignes(2);
             Console.WriteLine("       _ _         \n _ __ (_) | ____ _ \n| '_ \\| | |/ / _` |\n| |_) | |   < (_| |\n| .__/|_|_|\\_\\__,_|\n|_|                ");
             // Mettre des pokemons si on veut 
 
