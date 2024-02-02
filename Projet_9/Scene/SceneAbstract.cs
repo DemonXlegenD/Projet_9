@@ -25,6 +25,12 @@ namespace NScene
 
         public virtual void Init()
         {
+
+        }
+
+
+        public virtual void Launch()
+        {
         }
 
         public virtual void Update(float deltaTime)

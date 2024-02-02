@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NModules;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -32,12 +33,10 @@ namespace NEngine
         public void Run()
         {
             moduleManager.Start();
+
             while (!shouldQuit)
             {
-                moduleManager.Update();
-                moduleManager.PreRender();
-                moduleManager.Render();
-                moduleManager.PostRender();
+                moduleManager.GetModule<SceneModule>().GetMainScene().Launch();
             }
 
             moduleManager.Release();

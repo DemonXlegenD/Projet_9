@@ -25,7 +25,6 @@ namespace NEngine
             CreateModule<InputModule>();
             CreateModule<WindowModule>();
             CreateModule<SceneModule>();
-            Console.WriteLine("module créé");
         }
 
         public void Init()
@@ -34,7 +33,6 @@ namespace NEngine
             {
                 module.Init();
             }
-            Console.WriteLine("fini");
         }
 
         public void Start()
