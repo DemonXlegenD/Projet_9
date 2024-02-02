@@ -190,7 +190,7 @@ namespace NScene
                     {
                         int selectedNumber = int.Parse(key.KeyChar.ToString());
                         SelectedIndex = selectedNumber-1;
-                        if (selectedNumber >= BackChoice)
+                        if (selectedNumber >= BackChoice && P1.IsAlive())
                         {
                             STATE = States.SELECT;
                         }
@@ -216,7 +216,7 @@ namespace NScene
                     if (key.Key == ConsoleKey.Enter)
                     {
                         SelectedIndex = PSelectIndex;
-                        if (PSelectIndex >= BackChoice-1)
+                        if (PSelectIndex >= BackChoice-1 && P1.IsAlive())
                         {
                             STATE = States.SELECT;
                         }
@@ -257,7 +257,7 @@ namespace NScene
         {
             if (right)
             {
-                int leftPosition = Console.WindowWidth - 25;
+                int leftPosition = Console.WindowWidth - 27;
                 int topPosition = Console.CursorTop;
                 Console.SetCursorPosition(leftPosition, topPosition);
             }
@@ -406,16 +406,19 @@ namespace NScene
                         }
                         y++;
                     }
-                    BackChoice = y;
-                    if (PSelectIndex == BackChoice - 1)
+                    BackChoice = y-1;
+                    if (P1.IsAlive())
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write(y + ": Back");
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                    else
-                    {
-                        Console.Write(y + ": Back");
+                        if (PSelectIndex == BackChoice - 1)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write(y + ": Back");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else
+                        {
+                            Console.Write(y + ": Back");
+                        }
                     }
                     SauterLignes(2);
                     break;
