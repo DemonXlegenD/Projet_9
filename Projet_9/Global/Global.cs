@@ -344,7 +344,7 @@ namespace NGlobal
                             }
                             else
                             {
-                                if (c != line[0] && c != line.Last() && sprite[0] != line && sprite.Last() != line)
+                                if (c != line[0] && c != line.Last() && sprite[0] != line && sprite.Last() != line && c != line[line.Count()-3])
                                 {
                                     var rng = new RNGCryptoServiceProvider();
                                     Console.ForegroundColor = IntToConsoleColor(GenerateRandomNumber(rng, 1, 16));
@@ -354,12 +354,11 @@ namespace NGlobal
                                     Console.ForegroundColor = ConsoleColor.White;
                                 }
                             }
-                            //var rng = new RNGCryptoServiceProvider();
-                            //Console.ForegroundColor = IntToConsoleColor(GenerateRandomNumber(rng, 1, 16));
                             break;
 
                         case 2:
-
+                            // rainbow colors, si critique rainbow ?
+                            // Si efficace case1 ?
                             break;
                     }
                     Console.Write(c);
