@@ -31,6 +31,7 @@ namespace NScene
         private States STATE = States.SELECT;
 
         private int SelectedIndex = 0;
+        private int PSelectIndex = 0;
 
         bool P1Used = false;
         bool P2Used = false;
@@ -44,11 +45,14 @@ namespace NScene
         List<String> TextQueue = new List<String>();
 
         int BackChoice = 0;
+        int MaxChoixe = 0;
 
-        //List<ConsoleKey> Inputs1 = new List<ConsoleKey>() { ConsoleKey.Q,ConsoleKey.A, ConsoleKey.LeftArrow };
-        //List<ConsoleKey> Inputs2 = new List<ConsoleKey>() { ConsoleKey.D, ConsoleKey.RightArrow };
-        //List<ConsoleKey> Inputs3 = new List<ConsoleKey>() { ConsoleKey.Z, ConsoleKey.W, ConsoleKey.UpArrow };
-        //List<ConsoleKey> Inputs4 = new List<ConsoleKey>() { ConsoleKey.S, ConsoleKey.DownArrow };
+        List<ConsoleKey> Inputs1 = new List<ConsoleKey>() { ConsoleKey.Q,ConsoleKey.A, ConsoleKey.LeftArrow };
+        List<ConsoleKey> Inputs2 = new List<ConsoleKey>() { ConsoleKey.D, ConsoleKey.RightArrow };
+        List<ConsoleKey> Inputs3 = new List<ConsoleKey>() { ConsoleKey.Z, ConsoleKey.W, ConsoleKey.UpArrow };
+        List<ConsoleKey> Inputs4 = new List<ConsoleKey>() { ConsoleKey.S, ConsoleKey.DownArrow };
+
+        string[] List_Actions_Select = { "1: Move ","2: Items ","3: Pokemons ","4: Escape " };
 
         public FightScene() : base("FightScene")
         {
@@ -61,8 +65,9 @@ namespace NScene
 
             P1 = List1[0];
             P2 = List2[0];
-
+            
         }
+
 
         public override void Launch()
         {
@@ -71,6 +76,27 @@ namespace NScene
             TextQueue.Clear();
             ConsoleKeyInfo key = Console.ReadKey();
             ActionToDo(key);
+            Input(key);
+        }
+
+        private void Input(ConsoleKeyInfo key)
+        {
+            if (Inputs1.Contains(key.Key) || Inputs3.Contains(key.Key))
+            {
+                PSelectIndex--;
+                if (PSelectIndex < 0)
+                {
+                    PSelectIndex = BackChoice-1;
+                }
+            }
+            else if (Inputs2.Contains(key.Key) || Inputs4.Contains(key.Key))
+            {
+                PSelectIndex++;
+                if (PSelectIndex > BackChoice-1)
+                {
+                    PSelectIndex = 0;
+                }
+            }
         }
 
         private void ActionToDo(ConsoleKeyInfo key)
@@ -101,6 +127,29 @@ namespace NScene
                         }
 
                     }
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        switch (PSelectIndex)
+                        {
+                            case 0:
+                                STATE = States.MOVES;
+                                PSelectIndex = 0;
+                                break;
+
+                            case 1:
+                                // Items
+                                break;
+
+                            case 2:
+                                STATE = States.CHANGE;
+                                PSelectIndex = 0;
+                                break;
+
+                            case 3:
+                                // Escape
+                                break;
+                        }
+                    }
                     break;
 
                 case States.MOVES:
@@ -119,6 +168,21 @@ namespace NScene
                         }
 
                     }
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        if (PSelectIndex >= BackChoice-1)
+                        {
+                            STATE = States.SELECT;
+                            PSelectIndex = 0;
+                        }
+                        else
+                        {
+                            SelectedIndex = PSelectIndex+1;
+                            DoMove();
+                            STATE = States.TURN;
+                            PSelectIndex = 0;
+                        }
+                    }
                     break;
 
                 case States.CHANGE:
@@ -133,6 +197,32 @@ namespace NScene
                         else
                         {
                             if(List1[SelectedIndex].IsAlive() && List1[SelectedIndex] != P1 && !P1Used)
+                            {
+                                if (P1.IsAlive())
+                                {
+                                    P1 = List1[SelectedIndex];
+                                    P1Used = true;
+                                    STATE = States.TURN;
+                                }
+                                else
+                                {
+                                    P1 = List1[SelectedIndex];
+                                    STATE = States.SELECT;
+                                }
+                            }
+                            else { TextQueue.Add("Pokemon selected is either in battle or dead"); }
+                        }
+                    }
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        SelectedIndex = PSelectIndex;
+                        if (PSelectIndex >= BackChoice-1)
+                        {
+                            STATE = States.SELECT;
+                        }
+                        else
+                        {
+                            if (List1[SelectedIndex].IsAlive() && List1[SelectedIndex] != P1 && !P1Used)
                             {
                                 if (P1.IsAlive())
                                 {
@@ -249,8 +339,23 @@ namespace NScene
             switch(STATE)
             {
                 case States.SELECT:
-                    Console.WriteLine("1: Moves  2: Items  3:Pokemons  4: Escape");
-                    Console.WriteLine("Write your choice bellow !");
+                    for(int i =0; i < List_Actions_Select.Count();i++)
+                    {
+                        if(i == PSelectIndex)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write(List_Actions_Select[i]);
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else
+                        {
+                            Console.Write(List_Actions_Select[i]);
+                        }
+                        BackChoice = i+1;
+                    }
+                    //Console.WriteLine("1: Moves  2: Items  3:Pokemons  4: Escape");
+                    SauterLignes(1);
+                    Console.WriteLine("Write your choice bellow ! Or use the arrows !");
                     SauterLignes(1);
                     break;
 
@@ -258,11 +363,30 @@ namespace NScene
                     int x = 1;
                     foreach (Attack i in P1.Moves)
                     {
-                        Console.Write(x+": "+i.GetName()+"  ");
+                        if (x == PSelectIndex+1)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write(x + ": " + i.GetName() + "  ");
+                            Console.ForegroundColor = ConsoleColor.White;
+
+                        }
+                        else
+                        {
+                            Console.Write(x + ": " + i.GetName() + "  ");
+                        }
                         x++;
                     }
                     BackChoice = x;
-                    Console.Write(x+": Back");
+                    if (PSelectIndex == BackChoice - 1)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(x + ": Back");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.Write(x + ": Back");
+                    }
                     SauterLignes(2);
                     break;
 
@@ -270,11 +394,29 @@ namespace NScene
                     int y = 1;
                     foreach (Pokemon i in List1)
                     {
-                        Console.Write(y + ": " + i.GetName() + "  ");
+                        if (y == PSelectIndex+1)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write(y + ": " + i.GetName() + "  ");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else
+                        {
+                            Console.Write(y + ": " + i.GetName() + "  ");
+                        }
                         y++;
                     }
                     BackChoice = y;
-                    Console.Write(y + ": Back");
+                    if (PSelectIndex == BackChoice - 1)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(y + ": Back");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.Write(y + ": Back");
+                    }
                     SauterLignes(2);
                     break;
 
