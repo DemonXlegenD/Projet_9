@@ -43,25 +43,29 @@ namespace NGlobal
     	    /* Dragon */    {1.0f,  1.0f, 1.0f,  1.0f,  0.5f,    2.0f,  1.0f,    1.0f,   1.0f,   1.0f,   1.0f,    1.0f, 1.0f,  1.0f,  1.0f,  1.0f, 2.0f,  2.0f,  0.0f }
     	};
 
-		public static PokemonType TypeToIndex(string typeName) { 
-			if (typeName == "Water"){         return PokemonType.Water;}
-			else if (typeName == "Fire"){        return PokemonType.Fire;}
-			else if (typeName == "Grass"){       return PokemonType.Grass;}
-			else if (typeName == "Electric"){    return PokemonType.Electric;}
-			else if (typeName == "Normal"){      return PokemonType.Normal;}
-			else if (typeName == "Ice"){         return PokemonType.Ice;}
-			else if (typeName == "Fighting"){    return PokemonType.Fighting;}
-			else if (typeName == "Poison"){      return PokemonType.Poison;}
-			else if (typeName == "Ground"){      return PokemonType.Ground;}
-			else if (typeName == "Flying"){      return PokemonType.Flying;}
-			else if (typeName == "Psychic"){     return PokemonType.Psychic;}
-			else if (typeName == "Bug"){         return PokemonType.Bug;}
-			else if (typeName == "Rock"){        return PokemonType.Rock;}
-			else if (typeName == "Ghost"){       return PokemonType.Ghost;}
-			else if (typeName == "Steel"){       return PokemonType.Steel;}
-			else if (typeName == "Dark"){        return PokemonType.Dark;}
-			else if (typeName == "Fairy"){       return PokemonType.Fairy;}
-			else if (typeName == "Dragon"){      return PokemonType.Dragon;}
+		public static PokemonType TypeToIndex(string typeName) {
+            if (Enum.TryParse(typeName, out PokemonType pokemonType))
+            {
+                return pokemonType;
+            }
+            /*			if (typeName == "Water"){         return PokemonType.Water;}
+                        else if (typeName == "Fire"){        return PokemonType.Fire;}
+                        else if (typeName == "Grass"){       return PokemonType.Grass;}
+                        else if (typeName == "Electric"){    return PokemonType.Electric;}
+                        else if (typeName == "Normal"){      return PokemonType.Normal;}
+                        else if (typeName == "Ice"){         return PokemonType.Ice;}
+                        else if (typeName == "Fighting"){    return PokemonType.Fighting;}
+                        else if (typeName == "Poison"){      return PokemonType.Poison;}
+                        else if (typeName == "Ground"){      return PokemonType.Ground;}
+                        else if (typeName == "Flying"){      return PokemonType.Flying;}
+                        else if (typeName == "Psychic"){     return PokemonType.Psychic;}
+                        else if (typeName == "Bug"){         return PokemonType.Bug;}
+                        else if (typeName == "Rock"){        return PokemonType.Rock;}
+                        else if (typeName == "Ghost"){       return PokemonType.Ghost;}
+                        else if (typeName == "Steel"){       return PokemonType.Steel;}
+                        else if (typeName == "Dark"){        return PokemonType.Dark;}
+                        else if (typeName == "Fairy"){       return PokemonType.Fairy;}
+                        else if (typeName == "Dragon"){      return PokemonType.Dragon;}*/
             else {return PokemonType.Unknown;}
 		}
 

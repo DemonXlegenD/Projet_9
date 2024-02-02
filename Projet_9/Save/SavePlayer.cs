@@ -10,7 +10,7 @@ namespace NSave
 {
     public class SavePlayer
     {
-        static SavePlayer instance;
+        private static SavePlayer instance;
 
         private JsonDevelopper jsonSaver;
         private int _actualIndex = 1;

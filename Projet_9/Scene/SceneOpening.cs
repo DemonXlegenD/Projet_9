@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NEngine;
+using NModules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +20,7 @@ namespace NScene
         public override void Launch()
         {
             base.Launch();
-            Console.SetWindowSize(300, 30);
+            //Console.SetWindowSize(300, 300);
             Console.WriteLine("███████╗██╗   ██╗ ██████╗  █████╗ ███████╗ ██████╗██╗██╗\r\n██╔════╝██║   ██║██╔═══██╗██╔══██╗██╔════╝██╔════╝██║██║\r\n█████╗  ██║   ██║██║   ██║███████║███████╗██║     ██║██║\r\n██╔══╝  ╚██╗ ██╔╝██║   ██║██╔══██║╚════██║██║     ██║██║\r\n███████╗ ╚████╔╝ ╚██████╔╝██║  ██║███████║╚██████╗██║██║\r\n╚══════╝  ╚═══╝   ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝\r\n                                                        ");
             System.Threading.Thread.Sleep(3000);
             Console.Clear();
@@ -32,6 +34,8 @@ namespace NScene
             Console.WriteLine("███████ ██████   █████  ███    ██  ██████  ██████  ██ ███████     ██       █████  ██   ██  █████  ██      ██      ███████ \r\n██      ██   ██ ██   ██ ████   ██ ██      ██    ██ ██ ██          ██      ██   ██ ██   ██ ██   ██ ██      ██      ██      \r\n█████   ██████  ███████ ██ ██  ██ ██      ██    ██ ██ ███████     ██      ███████ ███████ ███████ ██      ██      █████   \r\n██      ██   ██ ██   ██ ██  ██ ██ ██      ██    ██ ██      ██     ██      ██   ██ ██   ██ ██   ██ ██      ██      ██      \r\n██      ██   ██ ██   ██ ██   ████  ██████  ██████  ██ ███████     ███████ ██   ██ ██   ██ ██   ██ ███████ ███████ ███████ \r\n                                                                                                                          \r\n                                                                                                                          ");
             System.Threading.Thread.Sleep(3000);
             Console.Clear();
+
+            Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MenuScene>(true);
         }
     }
 }

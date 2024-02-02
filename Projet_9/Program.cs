@@ -12,6 +12,9 @@ using Projet_9.Save;
 using NSecurity;
 using System;
 using System.Runtime.InteropServices;
+using NGlobal;
+using static NGlobal.Global;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Projet_9
 {

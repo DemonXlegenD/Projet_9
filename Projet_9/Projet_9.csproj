@@ -111,6 +111,8 @@
     <Compile Include="Scene\FightScene.cs" />
     <Compile Include="Save\SavePlayer.cs" />
     <Compile Include="Save\SaveUser.cs" />
+    <Compile Include="Scene\MapScene.cs" />
+    <Compile Include="Scene\MenuScene.cs" />
     <Compile Include="Scene\Scene.cs" />
     <Compile Include="Scene\SceneAbstract.cs" />
     <Compile Include="Scene\SceneOpening.cs" />
