@@ -22,7 +22,7 @@ namespace NModules
         {
             base.Init();
             timeModule = base.ModuleManager.GetModule<TimeModule>();
-            this.SetScene<SceneCredit>();
+            this.SetScene<FightScene>();
             
         }
         public override void Start()

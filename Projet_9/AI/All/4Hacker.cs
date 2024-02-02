@@ -235,6 +235,7 @@ namespace NPokemon
                 {
                     if (i == "ATTACK") {
                         foreach (Attack move in InBattleSelf.Moves) {
+                            // Foreach de states si le mec en face change de pokemon
                             // foreach boolarray pour prendre les scénarios avec des critiques, avec fail
                             // Simuler l'attaque
 
@@ -253,6 +254,7 @@ namespace NPokemon
                         {
                             if (x != InBattleSelf && x.IsAlive())
                             {
+                                // Foreach de states si le mec en face change de pokemon
 
                                 // Faire le changement ici avec les dégats
 

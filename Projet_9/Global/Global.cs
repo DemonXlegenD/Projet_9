@@ -4,6 +4,9 @@ using System.Linq;
 using NDatas;
 using System.Windows.Media;
 using NPokemon;
+using System.IO;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography;
 
 namespace NGlobal
 {
@@ -111,7 +114,39 @@ namespace NGlobal
             return ConsoleColor.White;
 		}
 
-		public static bool SuccessAcc(int Acc) {
+        public static ConsoleColor IntToConsoleColor(int x)
+        {
+            if (x == 1) { return ConsoleColor.Black; }
+            else if (x == 2) { return ConsoleColor.Blue; }
+            else if (x == 3) { return ConsoleColor.Cyan; }
+            else if (x == 4) { return ConsoleColor.DarkBlue; }
+            else if (x == 5) { return ConsoleColor.DarkCyan; }
+            else if (x == 6) { return ConsoleColor.DarkGray; }
+            else if (x == 7) { return ConsoleColor.DarkGreen; }
+            else if (x == 8) { return ConsoleColor.DarkMagenta; }
+            else if (x == 9) { return ConsoleColor.DarkRed; }
+            else if (x == 10) { return ConsoleColor.DarkYellow; }
+            else if (x == 11) { return ConsoleColor.Gray; }
+            else if (x == 12) { return ConsoleColor.Green; }
+            else if (x == 13) { return ConsoleColor.Magenta; }
+            else if (x == 14) { return ConsoleColor.Red; }
+            else if (x == 15) { return ConsoleColor.White; }
+            else if (x == 16) { return ConsoleColor.Yellow; }
+            return ConsoleColor.White;
+        }
+
+        public static List<ConsoleColor> rainbowColors = new List<ConsoleColor>
+        {
+            ConsoleColor.Red,
+            ConsoleColor.DarkYellow, // Utilisez DarkYellow pour approximer l'orange
+            ConsoleColor.Yellow,
+            ConsoleColor.Green,
+            ConsoleColor.Blue,
+            ConsoleColor.DarkBlue, // Utilisez DarkBlue pour approximer l'indigo
+            ConsoleColor.DarkMagenta // Utilisez DarkMagenta pour approximer le violet
+        };
+
+        public static bool SuccessAcc(int Acc) {
 			Random rnd = new Random();
 			int Num = rnd.Next(1,100);
 
@@ -237,6 +272,122 @@ namespace NGlobal
     	    Dictionary<string, object> A = AttacksDic.attacks[nameA] as Dictionary<string, object>;
     	    return new Attack((string)A["Name"], (string)A["Type"], (string)A["Cat"], (int)A["Power"], (int)A["Acc"], (int)A["Pp"]);
     	}
+
+		public static List<string> ReadFilesText(string filepath)
+		{
+			List<string> lines = new List<string>();
+			FileStream file = File.OpenRead(filepath);
+			StreamReader reader = new StreamReader(filepath);
+			while (!reader.EndOfStream)
+			{
+                string line = reader.ReadLine();
+                if(line == null)
+                {
+                    Console.WriteLine("Error reading the line");
+                }
+				lines.Add(line);
+            }
+            return lines;
+		}
+
+        // Function to generate a random number using RNGCryptoServiceProvider, parce que le random utilise la même seed
+        public static int GenerateRandomNumber(RNGCryptoServiceProvider rng, int minValue, int maxValue)
+        {
+            byte[] randomNumber = new byte[4];
+            rng.GetBytes(randomNumber);
+
+            int value = BitConverter.ToInt32(randomNumber, 0);
+
+            return Math.Abs(value % (maxValue - minValue + 1)) + minValue;
+        }
+
+        public static void WriteSprites(List<string> sprite, int Position = 0, int color = 0, bool all = true)
+        {
+            int leftPosition = 0;
+            int topPosition = Console.CursorTop;
+            foreach (string line in sprite)
+            {
+                switch (Position)
+                {
+                    case 0:
+                        leftPosition = 0;
+                        topPosition = Console.CursorTop;
+                        break;
+
+                    case 1:
+                        leftPosition = 5;
+                        topPosition = Console.CursorTop;
+                        break;
+
+                    case 2:
+                        leftPosition = Console.WindowWidth - sprite.Max().Length - 5;
+                        topPosition = Console.CursorTop;
+                        break;
+
+                    case 3:
+                        if (Console.WindowWidth / 2 - sprite.Max().Length < 0)
+                        {
+                            leftPosition = 0;
+                            topPosition = Console.CursorTop;
+                        }
+                        else
+                        {
+                            leftPosition = Console.WindowWidth/2 - sprite.Max().Length/2;
+                            topPosition = Console.CursorTop;
+                        }
+                        break;
+                }
+
+                Console.SetCursorPosition(leftPosition, topPosition);
+                int x = 0;
+                int linesize = line.Length;
+                int segmentSize = linesize / rainbowColors.Count;
+                foreach (char c in line)
+                {
+                    switch (color)
+                    {
+                        case 0:
+                            Console.ForegroundColor = ConsoleColor.White;
+                            break;
+
+                        case 1:
+                            if (all)
+                            {
+                                var rng = new RNGCryptoServiceProvider();
+                                Console.ForegroundColor = IntToConsoleColor(GenerateRandomNumber(rng, 1, 16));
+                            }
+                            else
+                            {
+                                if (c != line[0] && c != line.Last() && sprite[0] != line && sprite.Last() != line && c != line[line.Count()-3])
+                                {
+                                    var rng = new RNGCryptoServiceProvider();
+                                    Console.ForegroundColor = IntToConsoleColor(GenerateRandomNumber(rng, 1, 16));
+                                }
+                                else
+                                {
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                }
+                            }
+                            break;
+
+                        case 2:
+                            int colorIndex = x / segmentSize;
+                            Console.ForegroundColor = rainbowColors[colorIndex];
+
+                            // aléatoire couleurs si efficace
+                            // Si critique rainbow not all
+                            // Si critique et efficace, rainbow all
+
+                            // Pareils pour les textes critique etc ? 
+
+                            break;
+                    }
+                    Console.Write(c);
+                    x++;
+                }
+                Console.WriteLine();
+            }
+        }
 
     }
 }

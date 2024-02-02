@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +32,7 @@ namespace NScene
         public override void Launch()
         {
             base.Launch();
-            Console.SetWindowSize(300, 30);
+            //Console.SetWindowSize(300, 30);
             Console.WriteLine("███████╗██╗   ██╗ ██████╗  █████╗ ███████╗ ██████╗██╗██╗\r\n██╔════╝██║   ██║██╔═══██╗██╔══██╗██╔════╝██╔════╝██║██║\r\n█████╗  ██║   ██║██║   ██║███████║███████╗██║     ██║██║\r\n██╔══╝  ╚██╗ ██╔╝██║   ██║██╔══██║╚════██║██║     ██║██║\r\n███████╗ ╚████╔╝ ╚██████╔╝██║  ██║███████║╚██████╗██║██║\r\n╚══════╝  ╚═══╝   ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝\r\n                                                        ");
             System.Threading.Thread.Sleep(3000);
             Console.Clear();
