@@ -321,7 +321,7 @@ namespace NGlobal
                         }
                         else
                         {
-                            leftPosition = Console.WindowWidth / 2 - sprite.Max().Length;
+                            leftPosition = Console.WindowWidth/2 - sprite.Max().Length/2;
                             topPosition = Console.CursorTop;
                         }
                         break;
