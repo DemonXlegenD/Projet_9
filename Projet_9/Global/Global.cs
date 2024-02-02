@@ -7,19 +7,26 @@ using NPokemon;
 using System.IO;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
+using System.Net;
 
 namespace NGlobal
 {
     public class Global
     {
         public static bool IsInBattle = false;
-		public List<Pokemon> PlayerPokemons;
-		// public Dictionary PlayerItems = { "Pokeball":{"Num":100} }
-		// public List<Pokemon_Class> PC
+		public static List<Pokemon> PlayerPokemons = new List<Pokemon>();
 
-		// public List<Pokemon_Class> EnemyPokemons
+        public static string TXTArtCollectionPath = "./Assets/__ASCII Text-Art Collection/";
+        public static string TXTAttacksPath = "./Assets/TXT_files_Attacks/";
+        public static string TXTCharactersPath = "./Assets/TXT_files_Characters/";
+        public static string TXTGeneralPath = "./Assets/TXT_fikes_General/";
 
-		public enum PokemonType {	
+        // public Dictionary PlayerItems = { "Pokeball":{"Num":100} }
+        // public List<Pokemon_Class> PC
+
+        // public List<Pokemon_Class> EnemyPokemons
+
+        public enum PokemonType {	
 			Normal, Fire, Water, Grass, Electric, Ice, Fighting, Poison, Ground, Flying, Psychic, Bug, Rock, Ghost, Steel, Dark, Fairy, Dragon, Unknown
 		}
 
