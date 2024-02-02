@@ -171,6 +171,7 @@ namespace NScene
                 int topPosition = Console.CursorTop;
                 Console.SetCursorPosition(leftPosition, topPosition);
             }
+            Console.Write("HP : ");
             int barLength = 20;
 
             int filledLength = (int)Math.Ceiling((double)currentHP / maxHP * barLength);
