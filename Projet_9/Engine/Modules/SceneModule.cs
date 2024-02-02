@@ -59,6 +59,7 @@ namespace NModules
             if (replaceScenes)
             {
                 mainScene = scene;
+                mainScene.Init();
             }
             return scene;
         }

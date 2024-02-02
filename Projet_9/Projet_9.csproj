@@ -114,6 +114,7 @@
     <Compile Include="Save\SaveUser.cs" />
     <Compile Include="Scene\Scene.cs" />
     <Compile Include="Scene\SceneAbstract.cs" />
+    <Compile Include="Scene\SceneCredit.cs" />
     <Compile Include="Scene\SceneOpening.cs" />
     <Compile Include="Security\Security.cs" />
     <Compile Include="Security\User.cs" />
