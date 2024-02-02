@@ -378,6 +378,8 @@ namespace NGlobal
                             // Si critique rainbow not all
                             // Si critique et efficace, rainbow all
 
+                            // Pareils pour les textes critique etc ? 
+
                             break;
                     }
                     Console.Write(c);

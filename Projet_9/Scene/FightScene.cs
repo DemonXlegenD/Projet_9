@@ -365,7 +365,6 @@ namespace NScene
                         }
                         BackChoice = i+1;
                     }
-                    //Console.WriteLine("1: Moves  2: Items  3:Pokemons  4: Escape");
                     SauterLignes(1);
                     Console.WriteLine("Write your choice bellow ! Or use the arrows !");
                     SauterLignes(1);
@@ -537,7 +536,7 @@ namespace NScene
             }
             else
             {
-                TextQueue.Add("The Attack mised !");
+                TextQueue.Add("The Attack missed !");
             }
             a.UseAttack();
         }
