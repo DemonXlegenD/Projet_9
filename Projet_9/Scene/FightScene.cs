@@ -76,7 +76,7 @@ namespace NScene
             TextQueue.Clear();
             // Peut read le truc pour l'attaque
             List<string> sprite = ReadFilesText("C:\\Users\\Kyle\\Documents\\GitHub\\Projet_9\\Projet_9\\Assets\\TXT_files_Attacks\\attack_hit_Dark_Ghost_1.txt");
-            WriteSprites(sprite,3,1,false);
+            WriteSprites(sprite,3,2,false);
             ConsoleKeyInfo key = Console.ReadKey();
             ActionToDo(key);
             Input(key);

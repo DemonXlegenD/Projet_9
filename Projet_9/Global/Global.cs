@@ -135,6 +135,17 @@ namespace NGlobal
             return ConsoleColor.White;
         }
 
+        public static List<ConsoleColor> rainbowColors = new List<ConsoleColor>
+        {
+            ConsoleColor.Red,
+            ConsoleColor.DarkYellow, // Utilisez DarkYellow pour approximer l'orange
+            ConsoleColor.Yellow,
+            ConsoleColor.Green,
+            ConsoleColor.Blue,
+            ConsoleColor.DarkBlue, // Utilisez DarkBlue pour approximer l'indigo
+            ConsoleColor.DarkMagenta // Utilisez DarkMagenta pour approximer le violet
+        };
+
         public static bool SuccessAcc(int Acc) {
 			Random rnd = new Random();
 			int Num = rnd.Next(1,100);
@@ -328,6 +339,9 @@ namespace NGlobal
                 }
 
                 Console.SetCursorPosition(leftPosition, topPosition);
+                int x = 0;
+                int linesize = line.Length;
+                int segmentSize = linesize / rainbowColors.Count;
                 foreach (char c in line)
                 {
                     switch (color)
@@ -357,11 +371,17 @@ namespace NGlobal
                             break;
 
                         case 2:
-                            // rainbow colors, si critique rainbow ?
-                            // Si efficace case1 ?
+                            int colorIndex = x / segmentSize;
+                            Console.ForegroundColor = rainbowColors[colorIndex];
+
+                            // aléatoire couleurs si efficace
+                            // Si critique rainbow not all
+                            // Si critique et efficace, rainbow all
+
                             break;
                     }
                     Console.Write(c);
+                    x++;
                 }
                 Console.WriteLine();
             }
