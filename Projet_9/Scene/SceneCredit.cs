@@ -60,7 +60,7 @@ namespace NScene
                         break;
                 }
                 ChangeIndex();
-                System.Threading.Thread.Sleep(200);
+                System.Threading.Thread.Sleep(20);
            
 
         }
@@ -90,7 +90,10 @@ namespace NScene
                 indexChar--;
             }
 
-
+            if (MaxIndexChar < 0)
+            {
+                MaxIndexChar = 0;
+            }
             if (indexChar < 0)
             {
                 indexChar = 0;
@@ -102,17 +105,17 @@ namespace NScene
                 switch (indexPerson)
                 {
                     case 0:
-                        MaxIndexChar = ResultJarod[0].Length;
+                        MaxIndexChar = ResultJarod[0].Length - 1;
 
                         break;
                     case 1:
-                        MaxIndexChar = ResultMaurad[0].Length;
+                        MaxIndexChar = ResultMaurad[0].Length - 1;
                         break;
                     case 2:
-                        MaxIndexChar = ResultFrancois[0].Length;
+                        MaxIndexChar = ResultFrancois[0].Length - 1;
                         break;
                     default:
-                        Console.WriteLine("Ok");
+                        indexPerson = 0;
                         break;
                 }
                 indexChar = MaxIndexChar;
