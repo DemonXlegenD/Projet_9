@@ -290,6 +290,84 @@ namespace NGlobal
             return Math.Abs(value % (maxValue - minValue + 1)) + minValue;
         }
 
+        public static void WriteSprites(List<string> sprite, int Position = 0, int color = 0, bool all = true)
+        {
+            int leftPosition = 0;
+            int topPosition = Console.CursorTop;
+            foreach (string line in sprite)
+            {
+                switch (Position)
+                {
+                    case 0:
+                        leftPosition = 0;
+                        topPosition = Console.CursorTop;
+                        break;
+
+                    case 1:
+                        leftPosition = 5;
+                        topPosition = Console.CursorTop;
+                        break;
+
+                    case 2:
+                        leftPosition = Console.WindowWidth - sprite.Max().Length - 5;
+                        topPosition = Console.CursorTop;
+                        break;
+
+                    case 3:
+                        if (Console.WindowWidth / 2 - sprite.Max().Length < 0)
+                        {
+                            leftPosition = 0;
+                            topPosition = Console.CursorTop;
+                        }
+                        else
+                        {
+                            leftPosition = Console.WindowWidth / 2 - sprite.Max().Length;
+                            topPosition = Console.CursorTop;
+                        }
+                        break;
+                }
+
+                Console.SetCursorPosition(leftPosition, topPosition);
+                foreach (char c in line)
+                {
+                    switch (color)
+                    {
+                        case 0:
+                            Console.ForegroundColor = ConsoleColor.White;
+                            break;
+
+                        case 1:
+                            if (all)
+                            {
+                                var rng = new RNGCryptoServiceProvider();
+                                Console.ForegroundColor = IntToConsoleColor(GenerateRandomNumber(rng, 1, 16));
+                            }
+                            else
+                            {
+                                if (c != line[0] && c != line.Last() && sprite[0] != line && sprite.Last() != line)
+                                {
+                                    var rng = new RNGCryptoServiceProvider();
+                                    Console.ForegroundColor = IntToConsoleColor(GenerateRandomNumber(rng, 1, 16));
+                                }
+                                else
+                                {
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                }
+                            }
+                            //var rng = new RNGCryptoServiceProvider();
+                            //Console.ForegroundColor = IntToConsoleColor(GenerateRandomNumber(rng, 1, 16));
+                            break;
+
+                        case 2:
+
+                            break;
+                    }
+                    Console.Write(c);
+                }
+                Console.WriteLine();
+            }
+        }
+
     }
 }
 
