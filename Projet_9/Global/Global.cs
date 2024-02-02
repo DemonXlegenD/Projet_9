@@ -396,6 +396,25 @@ namespace NGlobal
             }
         }
 
+        public static string GetFileAtIndex(string folderPath, int index)
+        {
+            try
+            {
+                // Obtenir la liste des fichiers dans le dossier
+                string[] files = Directory.GetFiles(folderPath);
+
+                // Récupérer le fichier correspondant à l'index
+                string fileToAccess = files.ElementAtOrDefault(index);
+
+                return fileToAccess;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la recherche des fichiers : {ex.Message}");
+                return null;
+            }
+        }
+
     }
 }
 

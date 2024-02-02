@@ -75,7 +75,10 @@ namespace NScene
             ToWrite();
             TextQueue.Clear();
             // Peut read le truc pour l'attaque
-            List<string> sprite = ReadFilesText(TXTAttacksPath+"attack_hit_Dark_Ghost_1.txt");
+            //List<string> sprite = ReadFilesText(TXTAttacksPath+"attack_hit_Dark_Ghost_1.txt");
+            var rng = new RNGCryptoServiceProvider();
+            List<string> sprite = ReadFilesText( GetFileAtIndex(TXTAttacksPath, GenerateRandomNumber(rng, 1, 90)));
+
             WriteSprites(sprite,3,2,false);
             ConsoleKeyInfo key = Console.ReadKey();
             ActionToDo(key);
