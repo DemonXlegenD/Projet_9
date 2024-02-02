@@ -23,6 +23,16 @@ namespace NScene
             set { _name = value; }
         }
 
+        public virtual void Init()
+        {
+
+        }
+
+
+        public virtual void Launch()
+        {
+        }
+
         public virtual void Update(float deltaTime)
         {
             foreach (var gameObject in _gameObjects)
@@ -33,7 +43,6 @@ namespace NScene
 
         public virtual void Render()
         {
-            Console.Clear();
             foreach (var gameObject in _gameObjects)
             {
                 gameObject.Render();

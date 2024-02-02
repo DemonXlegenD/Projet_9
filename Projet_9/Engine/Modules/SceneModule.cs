@@ -2,9 +2,6 @@
 using NScene;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NModules
 {
@@ -25,8 +22,8 @@ namespace NModules
         {
             base.Init();
             timeModule = base.ModuleManager.GetModule<TimeModule>();
-            this.SetScene<FightScene>();
-            Console.WriteLine("salut");
+            this.SetScene<SceneOpening>();
+            
         }
         public override void Start()
         {
@@ -42,7 +39,6 @@ namespace NModules
         public override void Update()
         {
             base.Update();
-            //Console.WriteLine("Update");
             mainScene.Update(timeModule.GetDeltaTime());
         }
 
