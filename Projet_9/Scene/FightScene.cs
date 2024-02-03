@@ -31,26 +31,27 @@ namespace NScene
         private int SelectedIndex = 0;
         private int PSelectIndex = 0;
 
-        bool P1Used = false;
-        bool P2Used = false;
+        private bool P1Used = false;
+        private bool P2Used = false;
 
         List<Pokemon> List1;
-        List<Pokemon> List2;
+        private List<Pokemon> List2;
 
-        Pokemon P1;
-        Pokemon P2;
+        private Pokemon P1;
+        private Pokemon P2;
 
-        List<String> TextQueue = new List<String>();
+        private List<String> TextQueue = new List<String>();
+        private string AnimationQueue = "";
 
-        int BackChoice = 0;
-        int MaxChoixe = 0;
+        private int BackChoice = 0;
+        private int MaxChoixe = 0;
 
-        List<ConsoleKey> Inputs1 = new List<ConsoleKey>() { ConsoleKey.Q,ConsoleKey.A, ConsoleKey.LeftArrow };
-        List<ConsoleKey> Inputs2 = new List<ConsoleKey>() { ConsoleKey.D, ConsoleKey.RightArrow };
-        List<ConsoleKey> Inputs3 = new List<ConsoleKey>() { ConsoleKey.Z, ConsoleKey.W, ConsoleKey.UpArrow };
-        List<ConsoleKey> Inputs4 = new List<ConsoleKey>() { ConsoleKey.S, ConsoleKey.DownArrow };
+        private List<ConsoleKey> Inputs1 = new List<ConsoleKey>() { ConsoleKey.Q,ConsoleKey.A, ConsoleKey.LeftArrow };
+        private List<ConsoleKey> Inputs2 = new List<ConsoleKey>() { ConsoleKey.D, ConsoleKey.RightArrow };
+        private List<ConsoleKey> Inputs3 = new List<ConsoleKey>() { ConsoleKey.Z, ConsoleKey.W, ConsoleKey.UpArrow };
+        private List<ConsoleKey> Inputs4 = new List<ConsoleKey>() { ConsoleKey.S, ConsoleKey.DownArrow };
 
-        string[] List_Actions_Select = { "1: Move ","2: Items ","3: Pokemons ","4: Escape " };
+        private string[] List_Actions_Select = { "1: Move ","2: Items ","3: Pokemons ","4: Escape " };
 
         public FightScene() : base("FightScene")
         {
@@ -449,17 +450,10 @@ namespace NScene
                     break;
 
                 case States.TURN:
-                    if( P1Used && !P2Used)
+                    if (AnimationQueue != "")
                     {
                         RandomArtAttack();
-                    }
-                    if( !P1Used && P2Used)
-                    {
-                        RandomArtAttack();
-                    }
-                    if (P1Used && P2Used)
-                    {
-                        RandomArtAttack();
+                        AnimationQueue = "";
                     }
                     
                     Console.WriteLine(" Appuyez sur une touche pour continuer");
@@ -500,6 +494,7 @@ namespace NScene
                     P2Used = true;
                     AttackMove(P2, P1, P2.Moves[0]);
                 }
+                AnimationQueue = "1";
             }
             else if (P1.GetSpeed() < P2.GetSpeed() && STATE == States.TURN)
             {
@@ -513,6 +508,7 @@ namespace NScene
                     P1Used = true;
                     AttackMove(P1, P2, P1.Moves[SelectedIndex-1]);
                 }
+                AnimationQueue = "1";
             }
 
             if (!P1.IsAlive())
