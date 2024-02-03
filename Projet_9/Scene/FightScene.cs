@@ -339,18 +339,6 @@ namespace NScene
             PokemonInfo(P2,right:true);
             List<string> sprite = ReadFilesText(GetFileAtIndex(TXTCharactersPath, 1)); // Nombre impaire pour les faces
             WriteSprites(sprite,2);
-            //SauterLignes(1);
-            //string[] pika = {"       _ _         ", " _ __ (_) | ____ _ ", "| '_ \\| | |/ / _` |", "| |_) | |   < (_| |", "| .__/|_|_|\\_\\__,_|", "|_|                " };
-
-            /*            foreach (string i in pika)
-                        {
-                            leftPosition = Console.WindowWidth - 25;
-                            topPosition = Console.CursorTop;
-                            Console.SetCursorPosition(leftPosition, topPosition);
-                            Console.WriteLine(i);
-                        }*/
-            //SauterLignes(2);
-            //Console.WriteLine("       _ _         \n _ __ (_) | ____ _ \n| '_ \\| | |/ / _` |\n| |_) | |   < (_| |\n| .__/|_|_|\\_\\__,_|\n|_|                ");
             // Mettre des pokemons si on veut 
             List<string> sprite1 = ReadFilesText(GetFileAtIndex(TXTCharactersPath, 5)); // Nombre impaire pour les faces
             WriteSprites(sprite1);
