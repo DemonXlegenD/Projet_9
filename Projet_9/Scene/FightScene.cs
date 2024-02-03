@@ -76,10 +76,7 @@ namespace NScene
             TextQueue.Clear();
             // Peut read le truc pour l'attaque
             //List<string> sprite = ReadFilesText(TXTAttacksPath+"attack_hit_Dark_Ghost_1.txt");
-            var rng = new RNGCryptoServiceProvider();
-            List<string> sprite = ReadFilesText( GetFileAtIndex(TXTAttacksPath, GenerateRandomNumber(rng, 1, 90)));
 
-            WriteSprites(sprite,3,2,false);
             ConsoleKeyInfo key = Console.ReadKey();
             ActionToDo(key);
             Input(key);
@@ -343,17 +340,17 @@ namespace NScene
 
             PokemonInfo(P2,right:true);
             //SauterLignes(1);
-            string[] pika = {"       _ _         ", " _ __ (_) | ____ _ ", "| '_ \\| | |/ / _` |", "| |_) | |   < (_| |", "| .__/|_|_|\\_\\__,_|", "|_|                " };
+            //string[] pika = {"       _ _         ", " _ __ (_) | ____ _ ", "| '_ \\| | |/ / _` |", "| |_) | |   < (_| |", "| .__/|_|_|\\_\\__,_|", "|_|                " };
 
-            foreach (string i in pika)
+/*            foreach (string i in pika)
             {
                 leftPosition = Console.WindowWidth - 25;
                 topPosition = Console.CursorTop;
                 Console.SetCursorPosition(leftPosition, topPosition);
                 Console.WriteLine(i);
-            }
+            }*/
             //SauterLignes(2);
-            Console.WriteLine("       _ _         \n _ __ (_) | ____ _ \n| '_ \\| | |/ / _` |\n| |_) | |   < (_| |\n| .__/|_|_|\\_\\__,_|\n|_|                ");
+            //Console.WriteLine("       _ _         \n _ __ (_) | ____ _ \n| '_ \\| | |/ / _` |\n| |_) | |   < (_| |\n| .__/|_|_|\\_\\__,_|\n|_|                ");
             // Mettre des pokemons si on veut 
 
             PokemonInfo(P1,true);
@@ -430,10 +427,10 @@ namespace NScene
                         }
                         y++;
                     }
-                    BackChoice = y-1;
+                    BackChoice = y;
                     if (P1.IsAlive())
                     {
-                        if (PSelectIndex == BackChoice - 1)
+                        if (BackChoice-1 == PSelectIndex)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.Write(y + ": Back");
@@ -452,7 +449,19 @@ namespace NScene
                     break;
 
                 case States.TURN:
-
+                    if( P1Used && !P2Used)
+                    {
+                        RandomArtAttack();
+                    }
+                    if( !P1Used && P2Used)
+                    {
+                        RandomArtAttack();
+                    }
+                    if (P1Used && P2Used)
+                    {
+                        RandomArtAttack();
+                    }
+                    
                     Console.WriteLine(" Appuyez sur une touche pour continuer");
                     SauterLignes(2);
 
@@ -471,6 +480,7 @@ namespace NScene
 
         private void DoMove()
         {
+
             if (P2Used && P1Used)
             {
                 P1Used = false;
@@ -593,6 +603,14 @@ namespace NScene
                 Console.Write(P.Xp+ "/"+P.XpNext);
             }
 
+        }
+
+        private void RandomArtAttack()
+        {
+            var rng = new RNGCryptoServiceProvider();
+            List<string> sprite = ReadFilesText(GetFileAtIndex(TXTAttacksPath, GenerateRandomNumber(rng, 1, 90)));
+            WriteSprites(sprite, 3, 2, false);
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
 
