@@ -7,19 +7,26 @@ using NPokemon;
 using System.IO;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
+using System.Net;
 
 namespace NGlobal
 {
     public class Global
     {
         public static bool IsInBattle = false;
-		public List<Pokemon> PlayerPokemons;
-		// public Dictionary PlayerItems = { "Pokeball":{"Num":100} }
-		// public List<Pokemon_Class> PC
+		public static List<Pokemon> PlayerPokemons = new List<Pokemon>();
 
-		// public List<Pokemon_Class> EnemyPokemons
+        public static string TXTArtCollectionPath = "./Assets/__ASCII Text-Art Collection/";
+        public static string TXTAttacksPath = "./Assets/TXT_files_Attacks/";
+        public static string TXTCharactersPath = "./Assets/TXT_files_Characters/";
+        public static string TXTGeneralPath = "./Assets/TXT_fikes_General/";
 
-		public enum PokemonType {	
+        // public Dictionary PlayerItems = { "Pokeball":{"Num":100} }
+        // public List<Pokemon_Class> PC
+
+        // public List<Pokemon_Class> EnemyPokemons
+
+        public enum PokemonType {	
 			Normal, Fire, Water, Grass, Electric, Ice, Fighting, Poison, Ground, Flying, Psychic, Bug, Rock, Ghost, Steel, Dark, Fairy, Dragon, Unknown
 		}
 
@@ -138,12 +145,12 @@ namespace NGlobal
         public static List<ConsoleColor> rainbowColors = new List<ConsoleColor>
         {
             ConsoleColor.Red,
-            ConsoleColor.DarkYellow, // Utilisez DarkYellow pour approximer l'orange
+            ConsoleColor.DarkYellow,
             ConsoleColor.Yellow,
             ConsoleColor.Green,
             ConsoleColor.Blue,
-            ConsoleColor.DarkBlue, // Utilisez DarkBlue pour approximer l'indigo
-            ConsoleColor.DarkMagenta // Utilisez DarkMagenta pour approximer le violet
+            ConsoleColor.DarkBlue,
+            ConsoleColor.DarkMagenta
         };
 
         public static bool SuccessAcc(int Acc) {
@@ -341,7 +348,7 @@ namespace NGlobal
                 Console.SetCursorPosition(leftPosition, topPosition);
                 int x = 0;
                 int linesize = line.Length;
-                int segmentSize = linesize / rainbowColors.Count;
+                int segmentSize = linesize / rainbowColors.Count-1;
                 foreach (char c in line)
                 {
                     switch (color)
@@ -371,9 +378,10 @@ namespace NGlobal
                             break;
 
                         case 2:
+                            segmentSize = linesize / rainbowColors.Count;
                             int colorIndex = x / segmentSize;
-                            Console.ForegroundColor = rainbowColors[colorIndex];
-
+                            Console.ForegroundColor = rainbowColors[Math.Min(colorIndex, rainbowColors.Count - 1)];
+                                
                             // aléatoire couleurs si efficace
                             // Si critique rainbow not all
                             // Si critique et efficace, rainbow all
@@ -386,6 +394,25 @@ namespace NGlobal
                     x++;
                 }
                 Console.WriteLine();
+            }
+        }
+
+        public static string GetFileAtIndex(string folderPath, int index)
+        {
+            try
+            {
+                // Obtenir la liste des fichiers dans le dossier
+                string[] files = Directory.GetFiles(folderPath);
+
+                // Récupérer le fichier correspondant à l'index
+                string fileToAccess = files.ElementAtOrDefault(index);
+
+                return fileToAccess;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la recherche des fichiers : {ex.Message}");
+                return null;
             }
         }
 
