@@ -10,6 +10,7 @@ using System.Linq;
 using System.Windows.Media;
 using static NGlobal.Global;
 using System.Security.Cryptography;
+using System.Security.Policy;
 
 
 namespace NScene
@@ -340,20 +341,23 @@ namespace NScene
             Console.SetCursorPosition(leftPosition, topPosition);
 
             PokemonInfo(P2,right:true);
+            List<string> sprite = ReadFilesText(GetFileAtIndex(TXTCharactersPath, 1)); // Nombre impaire pour les faces
+            WriteSprites(sprite,2);
             //SauterLignes(1);
             //string[] pika = {"       _ _         ", " _ __ (_) | ____ _ ", "| '_ \\| | |/ / _` |", "| |_) | |   < (_| |", "| .__/|_|_|\\_\\__,_|", "|_|                " };
 
-/*            foreach (string i in pika)
-            {
-                leftPosition = Console.WindowWidth - 25;
-                topPosition = Console.CursorTop;
-                Console.SetCursorPosition(leftPosition, topPosition);
-                Console.WriteLine(i);
-            }*/
+            /*            foreach (string i in pika)
+                        {
+                            leftPosition = Console.WindowWidth - 25;
+                            topPosition = Console.CursorTop;
+                            Console.SetCursorPosition(leftPosition, topPosition);
+                            Console.WriteLine(i);
+                        }*/
             //SauterLignes(2);
             //Console.WriteLine("       _ _         \n _ __ (_) | ____ _ \n| '_ \\| | |/ / _` |\n| |_) | |   < (_| |\n| .__/|_|_|\\_\\__,_|\n|_|                ");
             // Mettre des pokemons si on veut 
-
+            List<string> sprite1 = ReadFilesText(GetFileAtIndex(TXTCharactersPath, 5)); // Nombre impaire pour les faces
+            WriteSprites(sprite1);
             PokemonInfo(P1,true);
             SauterLignes(2);
 
@@ -468,7 +472,7 @@ namespace NScene
             {
                 Console.WriteLine(i);
             }
-            SauterLignes(2);
+            //SauterLignes(2);
         }
 
 
@@ -598,6 +602,7 @@ namespace NScene
                 DisplayXpBar(P.Xp,P.XpNext,right);
                 Console.Write(P.Xp+ "/"+P.XpNext);
             }
+
 
         }
 
