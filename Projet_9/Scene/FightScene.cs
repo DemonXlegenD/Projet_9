@@ -456,7 +456,33 @@ namespace NScene
                 case States.TURN:
                     if (AnimationQueue != "")
                     {
-                        RandomArtAttack();
+                        // aléatoire couleurs si efficace
+                        // Si critique rainbow not all
+                        // Si critique et efficace, rainbow all
+
+                        // Pareils pour les textes critique etc
+                        var rng = new RNGCryptoServiceProvider();
+                        List<string> sprite2 = ReadFilesText(GetFileAtIndex(TXTAttacksPath, GenerateRandomNumber(rng, 1, 90)));
+                        if (TextQueue.Contains("Critical hit!"))
+                        {
+                            if (TextQueue.Contains("Super Efficace !"))
+                            {
+                                WriteSprites(sprite2, 3, 2);
+                            }
+                            else
+                            {
+                                WriteSprites(sprite2, 3, 2, false);
+                            }
+                        }
+                        else if (TextQueue.Contains("Super Efficace !"))
+                        {
+                            WriteSprites(sprite2, 3, 1, false);
+                        }
+                        else
+                        {
+                            WriteSprites(sprite2,3);
+                        }
+                        Console.ForegroundColor = ConsoleColor.White;
                         AnimationQueue = "";
                     }
                     
