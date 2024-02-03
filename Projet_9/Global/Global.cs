@@ -145,12 +145,12 @@ namespace NGlobal
         public static List<ConsoleColor> rainbowColors = new List<ConsoleColor>
         {
             ConsoleColor.Red,
-            ConsoleColor.DarkYellow, // Utilisez DarkYellow pour approximer l'orange
+            ConsoleColor.DarkYellow,
             ConsoleColor.Yellow,
             ConsoleColor.Green,
             ConsoleColor.Blue,
-            ConsoleColor.DarkBlue, // Utilisez DarkBlue pour approximer l'indigo
-            ConsoleColor.DarkMagenta // Utilisez DarkMagenta pour approximer le violet
+            ConsoleColor.DarkBlue,
+            ConsoleColor.DarkMagenta
         };
 
         public static bool SuccessAcc(int Acc) {
@@ -348,7 +348,7 @@ namespace NGlobal
                 Console.SetCursorPosition(leftPosition, topPosition);
                 int x = 0;
                 int linesize = line.Length;
-                int segmentSize = linesize / rainbowColors.Count;
+                int segmentSize = linesize / rainbowColors.Count-1;
                 foreach (char c in line)
                 {
                     switch (color)
@@ -378,9 +378,10 @@ namespace NGlobal
                             break;
 
                         case 2:
+                            segmentSize = linesize / rainbowColors.Count;
                             int colorIndex = x / segmentSize;
-                            Console.ForegroundColor = rainbowColors[colorIndex];
-
+                            Console.ForegroundColor = rainbowColors[Math.Min(colorIndex, rainbowColors.Count - 1)];
+                                
                             // aléatoire couleurs si efficace
                             // Si critique rainbow not all
                             // Si critique et efficace, rainbow all
