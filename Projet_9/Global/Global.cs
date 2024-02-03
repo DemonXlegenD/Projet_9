@@ -327,8 +327,16 @@ namespace NGlobal
                         break;
 
                     case 2:
-                        leftPosition = Console.WindowWidth - sprite.Max().Length - 5;
-                        topPosition = Console.CursorTop;
+                        if (Console.WindowWidth / 2 - sprite.Max().Length < 0)
+                        {
+                            leftPosition = 0;
+                            topPosition = Console.CursorTop;
+                        }
+                        else
+                        {
+                            leftPosition = Console.WindowWidth - sprite.Max().Length - 5;
+                            topPosition = Console.CursorTop;
+                        }
                         break;
 
                     case 3:

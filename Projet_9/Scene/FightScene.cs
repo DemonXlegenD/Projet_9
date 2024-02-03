@@ -72,8 +72,10 @@ namespace NScene
 
         public override void Launch()
         {
+            //Console.BackgroundColor = ConsoleColor.DarkBlue; Pas de transparence donc jsp
             //System.Drawing.FontFamily fontFamily = new System.Drawing.FontFamily(@"");
             Console.Clear();
+            //Console.BackgroundColor = ConsoleColor.DarkBlue;
             ToWrite();
             TextQueue.Clear();
             // Peut read le truc pour l'attaque
@@ -260,7 +262,7 @@ namespace NScene
                     break;
 
                 case States.TURN:
-
+                    // Continue de faire des turns pour le pokemon ennemie
                     DoMove();
 
                     break;
@@ -279,18 +281,12 @@ namespace NScene
             int barLength = 20;
 
             int filledLength = (int)Math.Ceiling((double)currentHP / maxHP * barLength);
-            if ((float)currentHP/(float)maxHP*100 > 50)
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-            }
-            else if ((float)maxHP / (float)currentHP * 100 < 50)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-            }
+            float healthPercentage = (float)currentHP / maxHP * 100;
+
+            if (healthPercentage > 50){Console.ForegroundColor = ConsoleColor.Green;}
+            else if (healthPercentage > 25){Console.ForegroundColor = ConsoleColor.DarkYellow;}
+            else{Console.ForegroundColor = ConsoleColor.DarkRed;}
+
             for (int i = 0; i < filledLength; i++)
             {
                 Console.Write("█");
@@ -504,6 +500,23 @@ namespace NScene
 
         private void DoMove()
         {
+            if (!P1.IsAlive())
+            {
+                P1.DeathHp();
+                P1Used = true;
+                STATE = States.CHANGE;
+            }
+            if (!P2.IsAlive())
+            {
+                P2.DeathHp();
+                int o = 0;
+                foreach (Pokemon p in List2)
+                {
+                    o++;
+                }
+                if (o == List2.Count - 1) { STATE = States.NOTHING; }
+                P2Used = true;
+            }
 
             if (P2Used && P1Used)
             {
@@ -544,7 +557,7 @@ namespace NScene
             if (!P1.IsAlive())
             {
                 P1.DeathHp();
-                P1Used = false;
+                P1Used = true;
                 STATE = States.CHANGE;
             }
             if (!P2.IsAlive())
@@ -556,13 +569,14 @@ namespace NScene
                     o++;
                 }
                 if (o == List2.Count-1) { STATE = States.NOTHING; }
-                P2Used = false;
+                P2Used = true;
             }
 
         }
 
         public void AttackMove(Pokemon Attacker,Pokemon Defenser ,Attack a)
         {
+            TextQueue.Add(Attacker.Name+" attacks !");
             if (Global.SuccessAcc(a.GetAcc()))
             {
                 if (a.GetCat() == "Heal")

@@ -106,7 +106,7 @@ namespace Projet_9
             window.WindowRun();*/
             Engine engine = Engine.GetInstance();
 
-            SetConsoleWindowSize(50, 50);
+            SetConsoleWindowSize(400, 100);
 
 
 
