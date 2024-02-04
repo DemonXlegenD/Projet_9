@@ -220,7 +220,23 @@ namespace NPokemon
             MessageBox.Show(Evaluation(pokemonsEnemyTest, pokemonsSelfTest, pokemonsSelf, pokemonsEnemy, pokemonInBattleSelf, pokemonInBattleEnemy).ToString());
         }
 
+        private void ResetList(List<Pokemon> L1, List<Pokemon> L1Reset, List<Pokemon> L2, List<Pokemon> L2Reset)
+        {
+            L1 = L1Reset;
+            L2 = L2Reset;
+        }
 
+        private void ResetUniqueList(List<Pokemon> L1, List<Pokemon> L1Reset)
+        {
+            L1 = L1Reset;
+        }
+
+        // Mise à jour de maxEval si nécessaire
+        //maxEval = Math.Max(maxEval, eval);
+
+
+
+        // Enfaite le meilleur chemin sera le cas, où le player change en boucle, comment éviter ça ?
         private int MiniMax(List<Pokemon> pokemonsEnemyTest, List<Pokemon> pokemonsSelfTest,Pokemon InBattleSelf,Pokemon InBattleEnemy, int depth, bool maximizingAI) 
         {
             if (depth == 0 || CheckWin(pokemonsSelfTest, pokemonsEnemyTest) != 0)
@@ -247,69 +263,102 @@ namespace NPokemon
                                     {
                                         if (InBattleEnemy.Speed > InBattleSelf.Speed)
                                         {
-
-                                            // Take damage
-
-                                            if (!InBattleSelf.IsAlive())
+                                            foreach (bool k in boolArray) // Fail acc ou pas
                                             {
-                                                foreach (Pokemon poke in pokemonsSelfTest) // Pour chaque pokemon encore en vie de l'ennemie
+                                                foreach (bool l in boolArray) // Fail crit ou pas
                                                 {
-                                                    if (poke.IsAlive() && InBattleSelf != poke)
+                                                    List<Pokemon> LS1 = new List<Pokemon>(pokemonsSelfTest);
+                                                    List<Pokemon> LE1 = new List<Pokemon>(pokemonsSelfTest);
+                                                    AttackMove(InBattleEnemy, InBattleSelf, attack, k, l);
+                                                    if (!InBattleSelf.IsAlive())
                                                     {
-                                                        InBattleSelf = poke;
+                                                        List<Pokemon> LS2 = new List<Pokemon>(pokemonsSelfTest);
+                                                        foreach (Pokemon poke in pokemonsSelfTest) // Pour chaque pokemon encore en vie
+                                                        {
+                                                            if (poke.IsAlive() && InBattleSelf != poke)
+                                                            {
+                                                                InBattleSelf = poke;
 
-                                                        // appel récursif
+                                                                // appel récursif
+
+                                                                // Reset Lists at previous states
+                                                                ResetList(pokemonsSelfTest, LS2, pokemonsEnemyTest, LE1);
+                                                            }
+                                                        }
+                                                    }
+
+                                                    foreach (bool m in boolArray) // Fail acc ou pas
+                                                    {
+                                                        foreach (bool n in boolArray) // Fail crit ou pas
+                                                        {
+                                                            AttackMove(InBattleSelf, InBattleEnemy, move, m, n);
+                                                            if (!InBattleEnemy.IsAlive())
+                                                            {
+                                                                foreach (Pokemon poke in pokemonsEnemyTest) // Pour chaque pokemon encore en vie de l'ennemie
+                                                                {
+                                                                    if (poke.IsAlive() && InBattleEnemy != poke)
+                                                                    {
+                                                                        InBattleEnemy = poke;
+
+                                                                        // appel récursif
+                                                                    }
+                                                                }
+                                                            }
+                                                            // appel récursif
+                                                        }
                                                     }
                                                 }
                                             }
-
-                                            // Enemy take damage
-
-                                            // Then check if dead
-                                            if (!InBattleEnemy.IsAlive())
-                                            {
-                                                foreach (Pokemon poke in pokemonsEnemyTest) // Pour chaque pokemon encore en vie de l'ennemie
-                                                {
-                                                    if (poke.IsAlive() && InBattleEnemy != poke)
-                                                    {
-                                                        InBattleEnemy = poke;
-
-                                                        // appel récursif
-                                                    }
-                                                }
-                                            }
-
                                         }
                                         else
                                         {
-                                            // Enemy take damage
-
-                                            // Then check if dead
-                                            if (!InBattleEnemy.IsAlive())
+                                            foreach (bool k in boolArray) // Fail acc ou pas
                                             {
-                                                foreach (Pokemon poke in pokemonsEnemyTest) // Pour chaque pokemon encore en vie de l'ennemie
+                                                foreach (bool l in boolArray) // Fail crit ou pas
                                                 {
-                                                    if (poke.IsAlive() && InBattleEnemy != poke)
+                                                    List<Pokemon> LS3 = new List<Pokemon>(pokemonsSelfTest);
+                                                    List<Pokemon> LE3 = new List<Pokemon>(pokemonsSelfTest);
+
+                                                    AttackMove(InBattleSelf, InBattleEnemy, move, k, l);
+                                                    if (!InBattleEnemy.IsAlive())
                                                     {
-                                                        InBattleEnemy = poke;
+                                                        foreach (Pokemon poke in pokemonsEnemyTest) // Pour chaque pokemon encore en vie de l'ennemie
+                                                        {
+                                                            if (poke.IsAlive() && InBattleEnemy != poke)
+                                                            {
+                                                                InBattleEnemy = poke;
 
-                                                        // appel récursif
+                                                                // appel récursif
+                                                            }
+                                                        }
                                                     }
-                                                }
-                                            }
+                                                    List<Pokemon> LE4 = new List<Pokemon>(pokemonsSelfTest);
 
-                                            // Take damage
-
-                                            if (!InBattleSelf.IsAlive())
-                                            {
-                                                foreach (Pokemon poke in pokemonsSelfTest) // Pour chaque pokemon encore en vie de l'ennemie
-                                                {
-                                                    if (poke.IsAlive() && InBattleSelf != poke)
+                                                    foreach (bool m in boolArray) // Fail acc ou pas
                                                     {
-                                                        InBattleSelf = poke;
+                                                        foreach (bool n in boolArray) // Fail crit ou pas
+                                                        {
+                                                            AttackMove(InBattleEnemy, InBattleSelf, attack, m, n);
+                                                            if (!InBattleSelf.IsAlive())
+                                                            {
+                                                                List<Pokemon> LS2 = new List<Pokemon>(pokemonsSelfTest);
+                                                                foreach (Pokemon poke in pokemonsSelfTest) // Pour chaque pokemon encore en vie
+                                                                {
+                                                                    if (poke.IsAlive() && InBattleSelf != poke)
+                                                                    {
+                                                                        InBattleSelf = poke;
 
-                                                        // appel récursif
+                                                                        // appel récursif
+
+                                                                        // Reset Lists at previous states
+                                                                        ResetList(pokemonsSelfTest, LS2, pokemonsEnemyTest, LE4);
+                                                                    }
+                                                                }
+                                                            }
+                                                            // appel récursif
+                                                        }
                                                     }
+
                                                 }
                                             }
 
@@ -329,7 +378,7 @@ namespace NPokemon
                                                     AttackMove(InBattleSelf, InBattleEnemy, move, k, l);
                                                 }
                                             }
-                                            // Take damage enemy 
+                                            // Take damage enemy (foreach)
                                             if (!InBattleEnemy.IsAlive())
                                             {
                                                 foreach (Pokemon en in pokemonsEnemyTest) // Pour chaque pokemon encore en vie de l'ennemie
@@ -371,6 +420,8 @@ namespace NPokemon
                             // Remettre la liste et les pokemons dans l'état avant l'action
                         }
                     }
+
+
                     else if (i == "CHANGE")
                     {
                         foreach (Pokemon x in pokemonsSelfTest)
@@ -385,7 +436,9 @@ namespace NPokemon
                                         foreach (Attack attack in InBattleEnemy.Moves)
                                         {
 
-                                            // Take damage
+
+
+                                            // Take damage 
 
                                             if (!InBattleSelf.IsAlive())
                                             {
@@ -399,7 +452,6 @@ namespace NPokemon
                                                     }
                                                 }
                                             }
-                                            // appel récursif
                                         }
                                     }
                                     else if (i == "CHANGE")
@@ -413,6 +465,8 @@ namespace NPokemon
                                             }
                                         }
                                     }
+
+                                    // appel récursif
                                 }
 
                                 // Foreach de states si le mec en face change de pokemon
@@ -431,6 +485,7 @@ namespace NPokemon
                         }
                     }
                 }
+                return maxEval;
             }
 
             return 0;
