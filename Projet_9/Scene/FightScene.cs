@@ -407,7 +407,7 @@ namespace NScene
                         if (y == PSelectIndex+1)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write(y + ": " + i.GetName() + "  ");
+                            Console.Write(y + ": " + i.Name + " " + i.Hp+"/"+i.MaxHp+" ");
                             Console.ForegroundColor = ConsoleColor.White;
                         }
                         else
