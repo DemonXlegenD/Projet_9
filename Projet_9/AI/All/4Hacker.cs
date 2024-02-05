@@ -44,7 +44,7 @@ namespace NPokemon
         private int branchId = 0; // L'id pour chaque branche
 
 
-        int SearchLenght = 3; // En 3 tours tue tout le monde
+        int SearchLenght = 1; // En 3 tours tue tout le monde
 
         // Si un pokemon est en vie +5 points, si un pokemon ennemie est mort +5 points,
         // Si un pokemon a perdu des hp -1 point, si un pokemon ennemie a perdu des hp +1 point
@@ -521,6 +521,10 @@ namespace NPokemon
                                                                 InBattleEnemy = en;
                                                                 int eval2 = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, branchID, branches);
                                                                 maxEval = Math.Max(maxEval, eval2);
+                                                                Branch newBranch = new Branch(branchID); // Create a new branch for each action
+                                                                newBranch.Actions.Add($"AIATTACK{move.GetName()}");
+                                                                newBranch.EvalValue = eval2;
+                                                                branches.Add(newBranch);
                                                                 //chosenActions.RemoveAt(chosenActions.Count - 1);
                                                                 ResetList(pokemonsSelfTest, LS3, pokemonsEnemyTest, LE3);
                                                                 
@@ -533,6 +537,10 @@ namespace NPokemon
                                                     {
                                                         int eval = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, branchID, branches);
                                                         maxEval = Math.Max(maxEval, eval);
+                                                        Branch newBranch = new Branch(branchID); // Create a new branch for each action
+                                                        newBranch.Actions.Add($"AIATTACK{move.GetName()}");
+                                                        newBranch.EvalValue = eval;
+                                                        branches.Add(newBranch);
                                                         //chosenActions.RemoveAt(chosenActions.Count - 1);
                                                         ResetList(pokemonsSelfTest, LS3, pokemonsEnemyTest, LE3);
                                                     }
@@ -624,6 +632,10 @@ namespace NPokemon
 
                                                 int eval = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, branchID, branches);
                                                 //chosenActions.RemoveAt(chosenActions.Count - 1);
+                                                Branch newBranch = new Branch(branchID); // Create a new branch for each action
+                                                newBranch.Actions.Add($"AICHANGE{x.GetName()}");
+                                                newBranch.EvalValue = eval;
+                                                branches.Add(newBranch);
                                                 ResetList(pokemonsSelfTest, LS2, pokemonsEnemyTest, LE2);
                                                 maxEval = Math.Max(maxEval, eval);
                                             }
