@@ -10,6 +10,7 @@ using System.Linq;
 using System.Windows.Media;
 using static NGlobal.Global;
 using System.Security.Cryptography;
+using System.Security.Policy;
 
 
 namespace NScene
@@ -31,26 +32,27 @@ namespace NScene
         private int SelectedIndex = 0;
         private int PSelectIndex = 0;
 
-        bool P1Used = false;
-        bool P2Used = false;
+        private bool P1Used = false;
+        private bool P2Used = false;
 
         List<Pokemon> List1;
-        List<Pokemon> List2;
+        private List<Pokemon> List2;
 
-        Pokemon P1;
-        Pokemon P2;
+        private Pokemon P1;
+        private Pokemon P2;
 
-        List<String> TextQueue = new List<String>();
+        private List<String> TextQueue = new List<String>();
+        private string AnimationQueue = "";
 
-        int BackChoice = 0;
-        int MaxChoixe = 0;
+        private int BackChoice = 0;
+        private int MaxChoixe = 0;
 
-        List<ConsoleKey> Inputs1 = new List<ConsoleKey>() { ConsoleKey.Q,ConsoleKey.A, ConsoleKey.LeftArrow };
-        List<ConsoleKey> Inputs2 = new List<ConsoleKey>() { ConsoleKey.D, ConsoleKey.RightArrow };
-        List<ConsoleKey> Inputs3 = new List<ConsoleKey>() { ConsoleKey.Z, ConsoleKey.W, ConsoleKey.UpArrow };
-        List<ConsoleKey> Inputs4 = new List<ConsoleKey>() { ConsoleKey.S, ConsoleKey.DownArrow };
+        private List<ConsoleKey> Inputs1 = new List<ConsoleKey>() { ConsoleKey.Q,ConsoleKey.A, ConsoleKey.LeftArrow };
+        private List<ConsoleKey> Inputs2 = new List<ConsoleKey>() { ConsoleKey.D, ConsoleKey.RightArrow };
+        private List<ConsoleKey> Inputs3 = new List<ConsoleKey>() { ConsoleKey.Z, ConsoleKey.W, ConsoleKey.UpArrow };
+        private List<ConsoleKey> Inputs4 = new List<ConsoleKey>() { ConsoleKey.S, ConsoleKey.DownArrow };
 
-        string[] List_Actions_Select = { "1: Move ","2: Items ","3: Pokemons ","4: Escape " };
+        private string[] List_Actions_Select = { "1: Move ","2: Items ","3: Pokemons ","4: Escape " };
 
         public FightScene() : base("FightScene")
         {
@@ -70,13 +72,15 @@ namespace NScene
 
         public override void Launch()
         {
+            //Console.BackgroundColor = ConsoleColor.DarkBlue; Pas de transparence donc jsp
             //System.Drawing.FontFamily fontFamily = new System.Drawing.FontFamily(@"");
             Console.Clear();
+            //Console.BackgroundColor = ConsoleColor.DarkBlue;
             ToWrite();
             TextQueue.Clear();
             // Peut read le truc pour l'attaque
-            List<string> sprite = ReadFilesText("../../Assets/TXT_files_Attacks/attack_hit_Dark_Ghost_1.txt");
-            WriteSprites(sprite,3,2,false);
+            //List<string> sprite = ReadFilesText(TXTAttacksPath+"attack_hit_Dark_Ghost_1.txt");
+
             ConsoleKeyInfo key = Console.ReadKey();
             ActionToDo(key);
             Input(key);
@@ -258,7 +262,7 @@ namespace NScene
                     break;
 
                 case States.TURN:
-
+                    // Continue de faire des turns pour le pokemon ennemie
                     DoMove();
 
                     break;
@@ -277,18 +281,12 @@ namespace NScene
             int barLength = 20;
 
             int filledLength = (int)Math.Ceiling((double)currentHP / maxHP * barLength);
-            if ((float)currentHP/(float)maxHP*100 > 50)
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-            }
-            else if ((float)maxHP / (float)currentHP * 100 < 50)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-            }
+            float healthPercentage = (float)currentHP / maxHP * 100;
+
+            if (healthPercentage > 50){Console.ForegroundColor = ConsoleColor.Green;}
+            else if (healthPercentage > 25){Console.ForegroundColor = ConsoleColor.DarkYellow;}
+            else{Console.ForegroundColor = ConsoleColor.DarkRed;}
+
             for (int i = 0; i < filledLength; i++)
             {
                 Console.Write("█");
@@ -339,20 +337,11 @@ namespace NScene
             Console.SetCursorPosition(leftPosition, topPosition);
 
             PokemonInfo(P2,right:true);
-            //SauterLignes(1);
-            string[] pika = {"       _ _         ", " _ __ (_) | ____ _ ", "| '_ \\| | |/ / _` |", "| |_) | |   < (_| |", "| .__/|_|_|\\_\\__,_|", "|_|                " };
-
-            foreach (string i in pika)
-            {
-                leftPosition = Console.WindowWidth - 25;
-                topPosition = Console.CursorTop;
-                Console.SetCursorPosition(leftPosition, topPosition);
-                Console.WriteLine(i);
-            }
-            //SauterLignes(2);
-            Console.WriteLine("       _ _         \n _ __ (_) | ____ _ \n| '_ \\| | |/ / _` |\n| |_) | |   < (_| |\n| .__/|_|_|\\_\\__,_|\n|_|                ");
+            List<string> sprite = ReadFilesText(GetFileAtIndex(TXTCharactersPath, 1)); // Nombre impaire pour les faces
+            WriteSprites(sprite,2);
             // Mettre des pokemons si on veut 
-
+            List<string> sprite1 = ReadFilesText(GetFileAtIndex(TXTCharactersPath, 5)); // Nombre impaire pour les faces
+            WriteSprites(sprite1);
             PokemonInfo(P1,true);
             SauterLignes(2);
 
@@ -418,7 +407,7 @@ namespace NScene
                         if (y == PSelectIndex+1)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write(y + ": " + i.GetName() + "  ");
+                            Console.Write(y + ": " + i.Name + " " + i.Hp+"/"+i.MaxHp+" ");
                             Console.ForegroundColor = ConsoleColor.White;
                         }
                         else
@@ -427,10 +416,10 @@ namespace NScene
                         }
                         y++;
                     }
-                    BackChoice = y-1;
+                    BackChoice = y;
                     if (P1.IsAlive())
                     {
-                        if (PSelectIndex == BackChoice - 1)
+                        if (BackChoice-1 == PSelectIndex)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.Write(y + ": Back");
@@ -449,7 +438,38 @@ namespace NScene
                     break;
 
                 case States.TURN:
+                    if (AnimationQueue != "")
+                    {
+                        // aléatoire couleurs si efficace
+                        // Si critique rainbow not all
+                        // Si critique et efficace, rainbow all
 
+                        // Pareils pour les textes critique etc
+                        var rng = new RNGCryptoServiceProvider();
+                        List<string> sprite2 = ReadFilesText(GetFileAtIndex(TXTAttacksPath, GenerateRandomNumber(rng, 1, 90)));
+                        if (TextQueue.Contains("Critical hit!"))
+                        {
+                            if (TextQueue.Contains("Super Efficace !"))
+                            {
+                                WriteSprites(sprite2, 3, 2);
+                            }
+                            else
+                            {
+                                WriteSprites(sprite2, 3, 2, false);
+                            }
+                        }
+                        else if (TextQueue.Contains("Super Efficace !"))
+                        {
+                            WriteSprites(sprite2, 3, 1, false);
+                        }
+                        else
+                        {
+                            WriteSprites(sprite2,3);
+                        }
+                        Console.ForegroundColor = ConsoleColor.White;
+                        AnimationQueue = "";
+                    }
+                    
                     Console.WriteLine(" Appuyez sur une touche pour continuer");
                     SauterLignes(2);
 
@@ -462,12 +482,30 @@ namespace NScene
             {
                 Console.WriteLine(i);
             }
-            SauterLignes(2);
+            //SauterLignes(2);
         }
 
 
         private void DoMove()
         {
+            if (!P1.IsAlive())
+            {
+                P1.DeathHp();
+                P1Used = true;
+                STATE = States.CHANGE;
+            }
+            if (!P2.IsAlive())
+            {
+                P2.DeathHp();
+                int o = 0;
+                foreach (Pokemon p in List2)
+                {
+                    o++;
+                }
+                if (o == List2.Count - 1) { STATE = States.NOTHING; }
+                P2Used = true;
+            }
+
             if (P2Used && P1Used)
             {
                 P1Used = false;
@@ -487,6 +525,7 @@ namespace NScene
                     P2Used = true;
                     AttackMove(P2, P1, P2.Moves[0]);
                 }
+                AnimationQueue = "1";
             }
             else if (P1.GetSpeed() < P2.GetSpeed() && STATE == States.TURN)
             {
@@ -500,12 +539,13 @@ namespace NScene
                     P1Used = true;
                     AttackMove(P1, P2, P1.Moves[SelectedIndex-1]);
                 }
+                AnimationQueue = "1";
             }
 
             if (!P1.IsAlive())
             {
                 P1.DeathHp();
-                P1Used = false;
+                P1Used = true;
                 STATE = States.CHANGE;
             }
             if (!P2.IsAlive())
@@ -517,13 +557,14 @@ namespace NScene
                     o++;
                 }
                 if (o == List2.Count-1) { STATE = States.NOTHING; }
-                P2Used = false;
+                P2Used = true;
             }
 
         }
 
         public void AttackMove(Pokemon Attacker,Pokemon Defenser ,Attack a)
         {
+            TextQueue.Add(Attacker.Name+" attacks !");
             if (Global.SuccessAcc(a.GetAcc()))
             {
                 if (a.GetCat() == "Heal")
@@ -590,6 +631,15 @@ namespace NScene
                 Console.Write(P.Xp+ "/"+P.XpNext);
             }
 
+
+        }
+
+        private void RandomArtAttack()
+        {
+            var rng = new RNGCryptoServiceProvider();
+            List<string> sprite = ReadFilesText(GetFileAtIndex(TXTAttacksPath, GenerateRandomNumber(rng, 1, 90)));
+            WriteSprites(sprite, 3, 2, false);
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
 
