@@ -100,7 +100,7 @@ namespace Projet_9
             }
 
             // Marche mais la recherche marche pas ? 
-            Hacker hackertest = new Hacker(Pokemons,Pokemons2,"Jarod","Francois",false);
+            Hacker hackertest = new Hacker(Pokemons,Pokemons2,"Jarod","Francois",true);
 
             /*WindowPokemonTeam window = new WindowPokemonTeam();
             window.WindowRun();*/

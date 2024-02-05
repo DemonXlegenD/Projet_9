@@ -327,20 +327,20 @@ namespace NGlobal
                         break;
 
                     case 2:
-                        if (Console.WindowWidth / 2 - sprite.Max().Length < 0)
+                        if (Console.WindowWidth - sprite.Max().Length - 2 < 0)
                         {
                             leftPosition = 0;
                             topPosition = Console.CursorTop;
                         }
                         else
                         {
-                            leftPosition = Console.WindowWidth - sprite.Max().Length - 5;
+                            leftPosition = Console.WindowWidth - sprite.Max().Length - 2;
                             topPosition = Console.CursorTop;
                         }
                         break;
 
                     case 3:
-                        if (Console.WindowWidth / 2 - sprite.Max().Length < 0)
+                        if (Console.WindowWidth / 2 - sprite.Max().Length/2 < 0)
                         {
                             leftPosition = 0;
                             topPosition = Console.CursorTop;
@@ -402,6 +402,7 @@ namespace NGlobal
                     x++;
                 }
                 Console.WriteLine();
+                Console.ForegroundColor= ConsoleColor.White;
             }
         }
 
