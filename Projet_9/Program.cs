@@ -8,6 +8,9 @@ using NSecurity;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using NGlobal;
+using static NGlobal.Global;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Projet_9
 {
