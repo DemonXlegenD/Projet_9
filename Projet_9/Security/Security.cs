@@ -47,6 +47,8 @@ namespace NSecurity
                 // Convertir le haché à vérifier en une chaîne hexadécimale
                 string hacheAVerifierStr = BitConverter.ToString(hacheAVerifier).Replace("-", "").ToLower();
 
+                Console.WriteLine(hacheAVerifierStr);
+                Console.WriteLine(motDePasseStocke);
                 // Comparer le haché à vérifier avec le haché stocké
                 return hacheAVerifierStr == motDePasseStocke;
             }

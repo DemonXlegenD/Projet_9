@@ -95,12 +95,12 @@ namespace Maths
             return vector;
         }
 */
-        public float Dot(Vector2i rhs)
+        public int Dot(Vector2i rhs)
         {
             return x * rhs.x + y * rhs.y;
         }
 
-        public float Cross(Vector2i rhs)
+        public int Cross(Vector2i rhs)
         {
             return x * rhs.y - y * rhs.x;
         }
@@ -110,7 +110,7 @@ namespace Maths
             return (float)Math.Sqrt(x * x + y * y);
         }
 
-        public float MagnitudeSquared()
+        public int MagnitudeSquared()
         {
             return x * x + y * y;
         }
@@ -126,7 +126,7 @@ namespace Maths
             return (float)Math.Sqrt((x - rhs.x) * (x - rhs.x) + (y - rhs.y) * (y - rhs.y));
         }
 
-        public float DistanceSquared(Vector2i rhs)
+        public int DistanceSquared(Vector2i rhs)
         {
             return (x - rhs.x) * (x - rhs.x) + (y - rhs.y) * (y - rhs.y);
         }
@@ -258,5 +258,6 @@ namespace Maths
         public static readonly Vector2i Left = new Vector2i(-1, 0);
         public static readonly Vector2i Right = new Vector2i(1, 0);
         public static readonly Vector2i DiagonaleLeft = new Vector2i(-1, 1);
+        public static readonly Vector2i DiagonaleRight= new Vector2i(1, 1);
     }
 }
