@@ -331,7 +331,7 @@ namespace NGlobal
                         break;
 
                     case 2:
-                        if (Console.WindowWidth / 2 - sprite.Max().Length < 0)
+                        if ((int)(Math.Ceiling((decimal)(Console.WindowWidth / 2))) - sprite.Max().Length < 0)
                         {
                             leftPosition = 0;
                             topPosition = Console.CursorTop;
@@ -344,7 +344,7 @@ namespace NGlobal
                         break;
 
                     case 3:
-                        if (Console.WindowWidth / 2 - sprite.Max().Length < 0)
+                        if ((int)(Math.Ceiling((decimal)(Console.WindowWidth / 2))) - sprite.Max().Length / 2 < 0)
                         {
                             leftPosition = 0;
                             topPosition = Console.CursorTop;

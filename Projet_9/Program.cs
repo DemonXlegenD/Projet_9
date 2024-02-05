@@ -75,12 +75,7 @@ namespace Projet_9
         {
 
             Engine engine = Engine.GetInstance();
-
-            SetConsoleWindowSize(50, 50);
-            UserManager userManager = UserManager.GetInstance();
-            userManager.NewUser("Jawad", "Mamague28021");
-            Console.WriteLine("C'est bien : " + userManager.ActualUser.Username);
-          
+            SetConsoleWindowSize(400, 100);
             List<Pokemon> Pokemons = new List<Pokemon>();
             Pokemons.Add(new Pokemon("Jarod", new List<string> { "Water" }, 100, 100, 100, 100, 100, 100, 100));
             Pokemons.Add(new Pokemon("Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 10, 20));
@@ -106,16 +101,6 @@ namespace Projet_9
                 p.Moves.Add(new Attack("Cool", "Fire", "Physical", 50, 100, 25));
             }
 
-            
-            Hacker hackertest = new Hacker(Pokemons,Pokemons2,"Jarod","Francois",false);
-
-            /*WindowPokemonTeam window = new WindowPokemonTeam();
-            window.WindowRun();*/
-            Engine engine = Engine.GetInstance();
-
-            SetConsoleWindowSize(400, 100);
-
-
 
             engine.Run();
 
@@ -135,6 +120,7 @@ namespace Projet_9
             player.AddPokemon(new Pokemon("Jarod", list, 40, 50, 70, 50, 50, 70));
 
             SavePlayer.GetInstance(player.FirstName, player.LastName, player.Id).WriteSave(player, 2, listConverter);
+            Environment.Exit(0);
         }
     }
     public class Person

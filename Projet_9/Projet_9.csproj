@@ -122,6 +122,7 @@
     <Compile Include="Security\User.cs" />
     <Compile Include="Security\UserManager.cs" />
     <Compile Include="Types\CharacterObject.cs" />
+    <Compile Include="UIElements\UIButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -6,15 +6,15 @@ namespace NSaveUserTests;
 
 public class SaveUserTests
 {
-    private static SaveUser saveUser;
+    private SaveUser saveUser;
     [SetUp]
-    public static void Setup()
+    public void Setup()
     {
         saveUser = SaveUser.GetInstance();
     }
 
     [TestCase("Sacha", "Ketchum")]
-    public static void SaveUsersTestSuccess(string username, string password)
+    public void SaveUsersTestSuccess(string username, string password)
     {
         UserManager userManager = UserManager.GetInstance();
         userManager.NewUser(username, password);
@@ -26,7 +26,7 @@ public class SaveUserTests
     }
 
     [Test]
-    public static void ReadUserSaveTestSuccess()
+    public void ReadUserSaveTestSuccess()
     {
         UserManager userManager = UserManager.GetInstance();
         userManager.LoadUsers();
@@ -37,7 +37,7 @@ public class SaveUserTests
     }
 
     [TestCase("Sacha", "Ketchum")]
-    public static void CheckConnexionSaveTestSuccess(string username, string password)
+    public void CheckConnexionSaveTestSuccess(string username, string password)
     {
         UserManager userManager = UserManager.GetInstance();
         userManager.LoadUsers();
@@ -46,7 +46,7 @@ public class SaveUserTests
     }
 
     [TestCase("Sacha", "Ketchup")]
-    public static void CheckConnexionSaveTestFail(string username, string password)
+    public void CheckConnexionSaveTestFail(string username, string password)
     {
         UserManager userManager = UserManager.GetInstance();
         userManager.LoadUsers();
