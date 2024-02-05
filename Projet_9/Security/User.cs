@@ -14,30 +14,20 @@ namespace NSecurity
 
         public string PlayerId { get; set; } = string.Empty;
 
-        public static User NewUser(string username, string password)
+        public User()
+        {
+
+        }
+        public User(string username, string password)
         {
             Guid uniqueIdUser = Guid.NewGuid();
             Guid uniqueIdPlayer = Guid.NewGuid();
-            User user = new User();
-            user.Id = uniqueIdUser.ToString();
-            user.Username = username;
-            user.Sel = Security.GenererSel();
-            user.Password = Security.HacherMotDePasse(password, user.Sel);
-            user.PlayerId = uniqueIdPlayer.ToString();
-            user.IsConnected = true;
-            return user;
-        }
-
-        public static User GetActualUser()
-        {
-            UserManager userManager = UserManager.GetInstance();
-            return userManager.ActualUser;
-        }
-
-        public static void LoadUser(string username, string password)
-        {
-            UserManager userManager = UserManager.GetInstance();
-            userManager.CheckConnexion(username, password);
+            Id = uniqueIdUser.ToString();
+            Username = username;
+            Sel = Security.GenererSel();
+            Password = Security.HacherMotDePasse(password, Sel);
+            PlayerId = uniqueIdPlayer.ToString();
+            IsConnected = true;
         }
 
         public void DisconnectedUser()
@@ -53,11 +43,7 @@ namespace NSecurity
                 Console.WriteLine("User est déjà déconnecté");
             }
         }
-        public void DeleteUser(string username, string password)
-        {
-            UserManager userManager = UserManager.GetInstance();
-            userManager.RemoveUser(this);
-        }
+        
     }
 
     public class UserJsonConverter : JsonConverter<User>

@@ -1,16 +1,12 @@
-﻿using NPokemon;
-using NSave;
+﻿using NEngine;
 using NEntity;
-using NPotionType;
-using System.Collections.Generic;
 using Newtonsoft.Json;
-using NEngine;
-using Projet_9.PokemonTeam;
-using NModules;
-using NScene;
-using Projet_9.Save;
+using NPokemon;
+using NPotionType;
+using NSave;
 using NSecurity;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Projet_9
@@ -74,65 +70,32 @@ namespace Projet_9
 
         static void Main(string[] args)
         {
-/*            List<Pokemon> Pokemons = new List<Pokemon>();
-            Pokemons.Add(new Pokemon("Jarod", new List<string> { "Water" }, 100, 100, 100, 100, 100, 100, 100));
-            Pokemons.Add(new Pokemon("Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 10, 20));
-            Pokemons.Add(new Pokemon("Maurad", new List<string> { "Grass" }, 80, 10, 10, 10, 10, 10, 50));
-            Pokemons.Add(new Pokemon("Adrien", new List<string> { "Ground" }, 80, 10, 10, 10, 10, 10, 99));
-            Pokemons.Add(new Pokemon("Kyle", new List<string> { "Dragon" }, 80, 10, 10, 10, 10, 10, 40));
-            Pokemons.Add(new Pokemon("Ethan", new List<string> { "Bug", "Grass" }, 80, 10, 10, 10, 10, 10, 50));
-            Pokemons[0].Moves.Add(new Attack("Cool", "Fire", "Physical", 50, 100, 25));
-            foreach (Pokemon p in Pokemons)
-            {
-                p.Moves.Add(new Attack("Cool", "Fire", "Physical", 50, 100, 25));
-            }
-
-            List<Pokemon> Pokemons2 = new List<Pokemon>();
-            Pokemons2.Add(new Pokemon("Jarod", new List<string> { "Ground" }, 80, 54, 64, 100, 100, 100, 100));
-            Pokemons2.Add(new Pokemon("Francois", new List<string> { "Grass" }, 80, 10, 24, 10, 10, 10, 20));
-            Pokemons2.Add(new Pokemon("Maurad", new List<string> { "Grass" }, 14, 24, 10, 10, 10, 10, 50));
-            Pokemons2.Add(new Pokemon("Adrien", new List<string> { "Grass" }, 78, 10, 10, 54, 10, 10, 99));
-            Pokemons2.Add(new Pokemon("Kyle", new List<string> { "Grass" }, 80, 54, 78, 10, 22, 10, 40));
-            Pokemons2.Add(new Pokemon("Ethan", new List<string> { "Bug", "Grass" }, 80, 10, 10, 25, 10, 10, 50));
-            foreach (Pokemon p in Pokemons2)
-            {
-                p.Moves.Add(new Attack("Cool", "Fire", "Physical", 50, 100, 25));
-            }
-
-            
-            Hacker hackertest = new Hacker(Pokemons,Pokemons2,"Jarod","Francois");*/
-
-            /*WindowPokemonTeam window = new WindowPokemonTeam();
-            window.WindowRun();*/
             Engine engine = Engine.GetInstance();
 
             SetConsoleWindowSize(50, 50);
-
+            UserManager userManager = UserManager.GetInstance();
+            userManager.NewUser("Jawad", "Mamague28021");
+            Console.WriteLine("C'est bien : " + userManager.ActualUser.Username);
 
 
             engine.Run();
-        /*    window.WindowClose();*/
 
             Player player = new Player();
-            List<string> list = new List<string>();
-            list.Add("Water");
-            List<JsonConverter> listConverter = new List<JsonConverter>();
-            listConverter.Add(new PlayerJsonConverter());
-            listConverter.Add(new PokemonJsonConverter());
+            List<string> list = new List<string>
+            {
+                "Water"
+            };
+            List<JsonConverter> listConverter = new List<JsonConverter>
+            {
+                new PlayerJsonConverter(),
+                new PokemonJsonConverter()
+            };
 
 
-              player.AddItem(new Potion());
-              player.AddPokemon(new Pokemon("Jarod", list, 40, 50, 70, 50, 50, 70));
+            player.AddItem(new Potion());
+            player.AddPokemon(new Pokemon("Jarod", list, 40, 50, 70, 50, 50, 70));
 
-              SavePlayer.GetInstance(player.FirstName, player.LastName, player.Id).WriteSave(player, 2, listConverter);
-            /*          Player player = Save.GetInstance().ReadTestSave<Player>(2);
-                      Console.WriteLine(player.ToString());*/
-/*            SaveUser saveUser = SaveUser.GetInstance();*/
-            UserManager userManager = UserManager.GetInstance();
-     /*       userManager.AddUser("Zarod", "azerty");
-            saveUser.SaveUsers();*/
-            User.LoadUser("Zarod", "azerty");
-            Console.WriteLine("C'est bien : " + userManager.ActualUser.Username);
+            SavePlayer.GetInstance(player.FirstName, player.LastName, player.Id).WriteSave(player, 2, listConverter);
         }
     }
     public class Person
