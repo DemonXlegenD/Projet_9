@@ -5,7 +5,7 @@ namespace NHealing
 {
     public abstract class PotionAbstract : ItemAbstract
     {
-        private int _heal;
+        protected int _heal;
         public int Heal { get { return _heal; } set {  _heal = value; } }
 
         public PotionAbstract() : base()
