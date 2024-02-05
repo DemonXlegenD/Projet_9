@@ -4,6 +4,7 @@ using NSave;
 using NSecurity;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace Projet_9.Save
 
         private string _fileType = ".json";
         private string _userTag = string.Empty;
+        private string _filePath = string.Empty;
 
         public string Name
         {
@@ -35,6 +37,7 @@ namespace Projet_9.Save
             jsonSaver = JsonDevelopper.GetInstance();
             jsonSaver.CreateFolder(_folderName);
             jsonSaver.CreateFolder(_folderName + "/" + _folderUserName);
+            _filePath = _folderName + "/" + _folderUserName + "/" + _fileName + _fileType;
         }
 
         public SaveUser(string userName, string userUid)
@@ -44,6 +47,16 @@ namespace Projet_9.Save
             jsonSaver.CreateFolder(_folderName + "/" + _folderUserName);
             _userTag = userName + "_" + userUid;
             jsonSaver.CreateFolder(_folderName + "/" + _folderUserName + "/" + _userTag);
+            _filePath = _folderName + "/" + _folderUserName + "/" + _fileName + _fileType;
+        }
+
+        public static SaveUser GetInstance(string userName, string userUid)
+        {
+            if (instance == null)
+            {
+                instance = new SaveUser(userName, userUid);
+            }
+            return instance;
         }
 
         public static SaveUser GetInstance()
@@ -56,19 +69,33 @@ namespace Projet_9.Save
         }
 
         public string GetFilePath()
-        { 
-            return _folderName + "/" + _folderUserName + "/" + _fileName + _fileType;
-        }
-        public void SaveUsers()
         {
-            UserManager userManager = UserManager.GetInstance();
-            userManager.SaveUserIntoFile(_folderName + "/" + _folderUserName + "/" + _fileName + _fileType);
+            return _filePath;
+        }
+        public void SaveUsersIntoFile(List<User> users)
+        {
+            string json = JsonConvert.SerializeObject(users, Formatting.Indented);
+            File.WriteAllText(_filePath, json);
         }
 
-        public void LoadUserFromSaveFile()
+        public List<User> LoadUserFromSaveFile()
         {
-            UserManager userManager = UserManager.GetInstance();
-            userManager.LoadUsersFromFile(_folderName + "/" + _folderUserName + "/" + _fileName + _fileType);
+            List<User> users = new List<User>();
+            if (File.Exists(_filePath))
+            {
+                Console.WriteLine($"Path trouvé : {_filePath}");
+                string json = File.ReadAllText(_filePath);
+                users = JsonConvert.DeserializeObject<List<User>>(json);
+                if (users == null)
+                {
+                    users = new List<User>();
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Path non trouvé : {_filePath}");
+            }
+            return users;
         }
     }
 }
