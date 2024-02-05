@@ -1,40 +1,17 @@
-﻿using Map;
-using Maths;
+﻿using Maths;
 using NEngine;
 using NEntity;
 using Newtonsoft.Json;
-using NGlobal;
 using NModules;
-using NPokemon;
-using NScene;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Messaging;
+using System.IO;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
 
 namespace NScene
 {
     public class MapScene : SceneAbstract
     {
-        private void GetTiles(string _tile)
-        {
-
-            if (_tile == "T")
-            {
-                Console.BackgroundColor = ConsoleColor.Green;
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.Write(" ♣ ");
-            }
-        }
-
         private enum Actions
         {
             MOVING,
@@ -70,9 +47,46 @@ namespace NScene
         {
             Console.OutputEncoding = Encoding.UTF8;
 
+            LoadMap("Map1");
+
             enemy1.Add("D", new Vector2i(10, 2));
 
             enemies.Add(enemy1);
+        }
+
+        private List<string> collidable = new List<string>() { "C", "T", "W" };
+        private void GetTiles(string tile, bool display)
+        {
+            string character = "   ";
+
+            if (tile == "T")
+            {
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                if (display)
+                {
+
+                }
+                character = " ♣ ";
+            }
+            else if (tile == "C")
+            {
+                Console.BackgroundColor = ConsoleColor.DarkGray;
+                Console.ForegroundColor = ConsoleColor.Gray;
+                character = " ■ ";
+            }
+            else if (tile == "G")
+            {
+                Console.BackgroundColor = ConsoleColor.Green;
+                character = "   ";
+            }
+
+            if (display)
+            {
+                Console.Write(character);
+            }
+
+            return;
         }
 
         public override void Launch() {
@@ -94,21 +108,33 @@ namespace NScene
             switch (currentAction)
             {
                 case Actions.MOVING:
-                    if (key.Key == ConsoleKey.DownArrow && playerPosition.GetY() < height - 2)
+                    if (key.Key == ConsoleKey.DownArrow)
                     {
-                        playerPosition.SetY(playerPosition.GetY() + 1);
+                        if (!collidable.Contains(map[playerPosition.GetY() + 1, (playerPosition.GetX())]))
+                        {
+                            playerPosition.SetY(playerPosition.GetY() + 1);
+                        }
                     }
-                    else if (key.Key == ConsoleKey.UpArrow && playerPosition.GetY() > 1)
+                    else if (key.Key == ConsoleKey.UpArrow)
                     {
-                        playerPosition.SetY(playerPosition.GetY() - 1);
+                        if (!collidable.Contains(map[playerPosition.GetY() - 1, playerPosition.GetX()]))
+                        {
+                            playerPosition.SetY(playerPosition.GetY() - 1);
+                        }
                     }
-                    else if (key.Key == ConsoleKey.LeftArrow && playerPosition.GetX() > 1)
+                    else if (key.Key == ConsoleKey.LeftArrow)
                     {
-                        playerPosition.SetX(playerPosition.GetX() - 1);
+                        if (!collidable.Contains(map[playerPosition.GetY(), playerPosition.GetX() - 1]))
+                        {
+                            playerPosition.SetX(playerPosition.GetX() - 1);
+                        }
                     }
-                    else if (key.Key == ConsoleKey.RightArrow && playerPosition.GetX() < width - 2)
+                    else if (key.Key == ConsoleKey.RightArrow)
                     {
-                        playerPosition.SetX(playerPosition.GetX() + 1);
+                        if (!collidable.Contains(map[playerPosition.GetY(), playerPosition.GetX() + 1]))
+                        {
+                            playerPosition.SetX(playerPosition.GetX() + 1);
+                        }
                     }
 
                     if (key.Key == ConsoleKey.Escape)
@@ -179,7 +205,6 @@ namespace NScene
 
         private void DisplayMap()
         {
-            map = new string[height, width];
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
@@ -187,7 +212,7 @@ namespace NScene
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.White;
 
-                    map[i, j] = null;
+                    var enemyTile = false;
 
                     foreach (var entry in enemies)
                     {
@@ -197,29 +222,30 @@ namespace NScene
                             {
                                 if (playerPosition.GetX() == enemy.Value.GetX() && playerPosition.GetY() == enemy.Value.GetY())
                                 {
-
                                     enemyFound = true;
                                     Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
                                 }
                                 else
                                 {
-                                    map[i, j] = " " + enemy.Key + " ";
+                                    GetTiles(map[i, j], false);
+                                    Console.Write(" " + enemy.Key + " ");
+                                    enemyTile = true;
                                 }
                             }
                         }
                     }
 
-                    if (playerPosition.GetX() == j && playerPosition.GetY() == i)
+                    if (!enemyTile)
                     {
-                        Console.Write(" " + playerCharacter + " ");
-                    }
-                    else if (i == 0 || i == height - 1 || j == 0 || j == width - 1)
-                    {
-                        GetTiles("T");
-                    }
-                    else
-                    {
-                        Console.Write(map[i, j]);
+                        if (playerPosition.GetX() == j && playerPosition.GetY() == i)
+                        {
+                            GetTiles(map[i, j], false);
+                            Console.Write(" " + playerCharacter + " ");
+                        }
+                        else
+                        {
+                            GetTiles(map[i, j], true);
+                        }
                     }
                 }
                 Console.Write("\n");
@@ -277,49 +303,27 @@ namespace NScene
             Console.Write("\n");
         }
 
-        private void LoadMap(JsonReader reader, Type objectType, Player existingValue, bool hasExistingValue, JsonSerializer serializer)
+        private void LoadMap(string _map)
         {
-            // Avancer vers le début de l'objet JSON
-            reader.Read();
+            string jsonContent = System.IO.File.ReadAllText("Maps/" + _map + ".json");
+            var deserializedObject = JsonConvert.DeserializeAnonymousType(jsonContent, new { Tiles = new string[0], Size = new int[0] });
 
-            // Lire les propriétés de l'objet JSON
-            while (reader.TokenType == JsonToken.PropertyName)
+            Console.WriteLine(deserializedObject.Size[0]);
+            //System.Threading.Thread.Sleep(10000);
+            width = deserializedObject.Size[0];
+            height = deserializedObject.Size[1];
+
+            map = new string[width, height];
+
+            for (int i = 0; i < deserializedObject.Size[0]; i++)
             {
-                string propertyName = reader.Value.ToString();
-
-                switch (propertyName)
+                for (int j = 0; j < deserializedObject.Size[1]; j++)
                 {
-                    case "Tiles":
-                        reader.Read();
-                        for (int i = 0; i < height; i++)
-                        {
-                            for (int j = 0; j < width; j++)
-                            {
-                                Console.BackgroundColor = ConsoleColor.Black;
-                                Console.ForegroundColor = ConsoleColor.White;
-
-                                map[i, j] = " " + serializer.Deserialize<List<string>>(reader)[i*width + j] + " ";
-                                break;
-                            }
-                        }
-                        break;
-
-
-                    case "Size":
-                        reader.Read();
-                        map = new string[serializer.Deserialize<List<int>>(reader)[0], serializer.Deserialize<List<int>>(reader)[1]];
-                        break;
-
-                    default:
-                        // Ignorer les propriétés inconnues si nécessaire
-                        reader.Read();
-                        reader.Skip();
-                        break;
+                    map[i, j] = deserializedObject.Tiles[i * deserializedObject.Size[1] + j];
                 }
-                // Passer à la propriété suivante
-                reader.Read();
             }
+
+            return;
         }
-    }
     }
 }

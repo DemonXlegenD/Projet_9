@@ -73,7 +73,6 @@ namespace Projet_9
 
         static void Main(string[] args)
         {
-
             Engine engine = Engine.GetInstance();
 
             SetConsoleWindowSize(50, 50);
@@ -107,15 +106,13 @@ namespace Projet_9
             }
 
             
-            Hacker hackertest = new Hacker(Pokemons,Pokemons2,"Jarod","Francois",false);
+            //Hacker hackertest = new Hacker(Pokemons,Pokemons2,"Jarod","Francois",false);
 
             /*WindowPokemonTeam window = new WindowPokemonTeam();
             window.WindowRun();*/
-            Engine engine = Engine.GetInstance();
+            //Engine engine = Engine.GetInstance();
 
             SetConsoleWindowSize(400, 100);
-
-
 
             engine.Run();
 
