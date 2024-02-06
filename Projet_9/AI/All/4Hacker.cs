@@ -44,7 +44,7 @@ namespace NPokemon
         private int branchId = 0; // L'id pour chaque branche
 
 
-        int SearchLenght = 20; // En 3 tours tue tout le monde
+        int SearchLenght = 3; // En 3 tours tue tout le monde
 
         // Si un pokemon est en vie +5 points, si un pokemon ennemie est mort +5 points,
         // Si un pokemon a perdu des hp -1 point, si un pokemon ennemie a perdu des hp +1 point
@@ -107,7 +107,7 @@ namespace NPokemon
             var result = selectedBranches
                 .Select(branch => $"Branch ID: {branch.ID}, Actions: {string.Join(", ", branch.Actions)}");
 
-            MessageBox.Show($"Branches with max EvalValue ({maxEval}): {string.Join(Environment.NewLine, result)}");
+            MessageBox.Show($"list 1 AI : {pokemonsSelf[0].Name}"+$"BRANCHES MAX: {branches.Count-1} "+$"Branches with max EvalValue ({maxEval}): {string.Join(Environment.NewLine, result)}");
 
             //Print just the branch with max
             /*            var selectedBranch = branches
@@ -336,7 +336,7 @@ namespace NPokemon
             {
                 if(CheckWin(pokemonsSelfTest, pokemonsEnemyTest) != 0)
                 {
-                    int EvalValue2 = Evaluation(pokemonsEnemyTest, pokemonsSelfTest, pokemonsSelf, pokemonsEnemy, InBattleSelf, InBattleEnemy) + 10000;
+                    int EvalValue2 = Evaluation(pokemonsEnemyTest, pokemonsSelfTest, pokemonsSelf, pokemonsEnemy, InBattleSelf, InBattleEnemy)+10000;
                     return EvalValue2;
                 }
                 int EvalValue = Evaluation(pokemonsEnemyTest, pokemonsSelfTest, pokemonsSelf, pokemonsEnemy, InBattleSelf, InBattleEnemy);
@@ -535,8 +535,6 @@ namespace NPokemon
                                                                     maxEval = Math.Max(maxEval, newBranch.EvalValue);
 
                                                                     //chosenActions.RemoveAt(chosenActions.Count - 1);
-                                                                    RestoreHpAttack(InBattleSelf, InBattleEnemy, move, m, n);
-                                                                    ResetList(pokemonsSelfTest, LS6, pokemonsEnemyTest, LE6);
                                                                     //ResetList(pokemonsSelfTest, LS3, pokemonsEnemyTest, LE3);
                                                                 }
                                                                 RestoreHpAttack(InBattleSelf, InBattleEnemy, move, m, n);
@@ -546,7 +544,9 @@ namespace NPokemon
                                                             }
                                                         }
                                                     }
+                                                    ResetList(pokemonsSelfTest, LS3, pokemonsEnemyTest, LE3);
                                                     RestoreHpAttack(InBattleSelf, InBattleEnemy, move, k, l);
+                                                    RestoreHpAttack(InBattleEnemy, InBattleSelf, attack, k, l);
 
 
 
@@ -700,6 +700,7 @@ namespace NPokemon
                                         // Faire un truc pour tout les changements de pokemon, pour remettre celui de base
                                         List<Pokemon> LS2 = new List<Pokemon>(pokemonsSelfTest);
                                         List<Pokemon> LE2 = new List<Pokemon>(pokemonsEnemyTest);
+                                        Pokemon InBattleE2 = LE2[LE2.IndexOf(InBattleEnemy)];
                                         foreach (Pokemon poke in pokemonsEnemyTest) // Pour chaque pokemon encore en vie de l'ennemie
                                         {
                                             if (poke.IsAlive() && InBattleEnemy != poke)
@@ -714,6 +715,8 @@ namespace NPokemon
                                                 branches.Add(newBranch3);
                                                 newBranch3.EvalValue = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, newBranch3.ID, branches);
                                                 maxEval = Math.Max(maxEval, newBranch3.EvalValue);
+
+                                                InBattleEnemy = InBattleE2;
                                             }
                                         }
                                     }
