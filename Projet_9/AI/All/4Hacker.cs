@@ -44,7 +44,7 @@ namespace NPokemon
         private int branchId = 0; // L'id pour chaque branche
 
 
-        int SearchLenght = 2; // En 3 tours tue tout le monde
+        int SearchLenght = 3; // En 3 tours tue tout le monde
 
         // Si un pokemon est en vie +5 points, si un pokemon ennemie est mort +5 points,
         // Si un pokemon a perdu des hp -1 point, si un pokemon ennemie a perdu des hp +1 point
@@ -485,59 +485,66 @@ namespace NPokemon
 
                                                         }
                                                     }
-                                                    foreach (bool m in boolArray) // Fail acc ou pas
-                                                    {
-                                                        foreach (bool n in boolArray) // Fail crit ou pas
-                                                        {
-                                                            AttackMove(InBattleEnemy, InBattleSelf, attack, m, n);
-                                                            List<Pokemon> LE4 = new List<Pokemon>(pokemonsEnemyTest);
-                                                            List<Pokemon> LS4 = new List<Pokemon>(pokemonsSelfTest);
-                                                            if (!InBattleSelf.IsAlive())
-                                                            {
-                                                                foreach (Pokemon poke in pokemonsSelfTest) // Pour chaque pokemon encore en vie
-                                                                {
-                                                                    if (poke.IsAlive() && InBattleSelf != poke)
-                                                                    {
-                                                                        //chosenActions.Add($"AI_CHANGE_{poke.GetName()}");
-                                                                        InBattleSelf = poke;
 
-                                                                        Branch newBranch3 = new Branch(branches.Count);
-                                                                        newBranch3.Actions.AddRange(branches[branchID].Actions);
-                                                                        newBranch3.Actions.Add($"AIATTACK{move.GetName()} && Died AICHANGE{poke.GetName()}");
-                                                                        branches.Add(newBranch3);
-                                                                        newBranch3.EvalValue = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, newBranch3.ID, branches);
-                                                                        maxEval = Math.Max(maxEval, newBranch3.EvalValue);
-                                                                        // appel récursif
-                                                                        //chosenActions.RemoveAt(chosenActions.Count - 1);
-                                                                        // Reset Lists at previous states
-                                                                        ResetList(pokemonsSelfTest, LS4, pokemonsEnemyTest, LE4);
-                                                                    }
-                                                                }
-                                                            }
-
-                                                            Branch newBranch = new Branch(branches.Count);
-                                                            int num = branches[branchID].Actions.Count;
-                                                            newBranch.Actions.AddRange(branches[branchID].Actions); // ID hors limite (jsp pourquoi)
-                                                            newBranch.Actions.Add($"AIATTACK{move.GetName()}");
-                                                            branches.Add(newBranch);
-                                                            newBranch.EvalValue = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, newBranch.ID, branches);
-                                                            maxEval = Math.Max(maxEval, newBranch.EvalValue);
-                                                            
-                                                            //chosenActions.RemoveAt(chosenActions.Count - 1);
-                                                            ResetList(pokemonsSelfTest, LS3, pokemonsEnemyTest, LE3);
-                                                            // appel récursif
-                                                        }
-                                                    }
-                                                    ResetList(pokemonsSelfTest, LS3, pokemonsEnemyTest, LE3);
 
 
                                                 }
                                             }
+                                            foreach (bool m in boolArray) // Fail acc ou pas
+                                            {
+                                                foreach (bool n in boolArray) // Fail crit ou pas
+                                                {
+                                                    AttackMove(InBattleEnemy, InBattleSelf, attack, m, n);
+                                                    List<Pokemon> LE4 = new List<Pokemon>(pokemonsEnemyTest);
+                                                    List<Pokemon> LS4 = new List<Pokemon>(pokemonsSelfTest);
+                                                    if (!InBattleSelf.IsAlive())
+                                                    {
+                                                        foreach (Pokemon poke in pokemonsSelfTest) // Pour chaque pokemon encore en vie
+                                                        {
+                                                            if (poke.IsAlive() && InBattleSelf != poke)
+                                                            {
+                                                                //chosenActions.Add($"AI_CHANGE_{poke.GetName()}");
+                                                                InBattleSelf = poke;
+
+                                                                Branch newBranch3 = new Branch(branches.Count);
+                                                                newBranch3.Actions.AddRange(branches[branchID].Actions);
+                                                                newBranch3.Actions.Add($"AIATTACK{move.GetName()} && Died AICHANGE{poke.GetName()}");
+                                                                branches.Add(newBranch3);
+                                                                newBranch3.EvalValue = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, newBranch3.ID, branches);
+                                                                maxEval = Math.Max(maxEval, newBranch3.EvalValue);
+                                                                // appel récursif
+                                                                //chosenActions.RemoveAt(chosenActions.Count - 1);
+                                                                // Reset Lists at previous states
+                                                                ResetList(pokemonsSelfTest, LS4, pokemonsEnemyTest, LE4);
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        Branch newBranch = new Branch(branches.Count);
+                                                        int num = branches[branchID].Actions.Count;
+                                                        newBranch.Actions.AddRange(branches[branchID].Actions); // ID hors limite (jsp pourquoi)
+                                                        newBranch.Actions.Add($"AIATTACK{move.GetName()}");
+                                                        branches.Add(newBranch);
+                                                        newBranch.EvalValue = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, newBranch.ID, branches);
+                                                        maxEval = Math.Max(maxEval, newBranch.EvalValue);
+
+                                                        //chosenActions.RemoveAt(chosenActions.Count - 1);
+                                                        RestoreHpAttack(InBattleSelf, InBattleEnemy, move, m, n);
+                                                        ResetList(pokemonsSelfTest, LS3, pokemonsEnemyTest, LE3);
+                                                    }
+
+                                                    
+                                                    // appel récursif
+                                                }
+                                            }
+                                            ResetList(pokemonsSelfTest, LS3, pokemonsEnemyTest, LE3);
                                         }
                                     }
                                 }
                                 else if (i == "CHANGE")
                                 {
+                                    // Je suis con c'est que pour quand le pokemon meurt de l'ennemie
                                     List<Pokemon> LS3 = new List<Pokemon>(pokemonsSelfTest);
                                     List<Pokemon> LE3 = new List<Pokemon>(pokemonsEnemyTest);
                                     Pokemon InBattleE = LE3[LE3.IndexOf(InBattleEnemy)];
@@ -547,6 +554,7 @@ namespace NPokemon
                                         {
 
                                             InBattleEnemy = poke; // Remttre le pokemon avant les trucs
+                                            Pokemon pokeBefore = poke;
                                             foreach (bool k in boolArray) // Fail acc ou pas
                                             {
                                                 foreach (bool l in boolArray) // Fail crit ou pas
@@ -568,9 +576,10 @@ namespace NPokemon
                                                                 branches.Add(newBranch3);
                                                                 newBranch3.EvalValue = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, newBranch3.ID, branches);
                                                                 maxEval = Math.Max(maxEval, newBranch3.EvalValue);
-                                                                
+
                                                                 //chosenActions.RemoveAt(chosenActions.Count - 1);
-                                                                ResetList(pokemonsSelfTest, LS3, pokemonsEnemyTest, LE3);
+
+                                                                //ResetList(pokemonsSelfTest, LS3, pokemonsEnemyTest, LE3);
                                                                 
                                                                 // appel récursif
                                                             }
@@ -585,16 +594,20 @@ namespace NPokemon
                                                         branches.Add(newBranch3);
                                                         newBranch3.EvalValue = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, newBranch3.ID, branches);
                                                         maxEval = Math.Max(maxEval, newBranch3.EvalValue);
-                                                        
+
                                                         //chosenActions.RemoveAt(chosenActions.Count - 1);
-                                                        ResetList(pokemonsSelfTest, LS3, pokemonsEnemyTest, LE3);
+                                                        RestoreHpAttack(InBattleSelf, InBattleEnemy, move, k, l);
+                                                        //ResetList(pokemonsSelfTest, LS3, pokemonsEnemyTest, LE3);
                                                     }
-                                                    RestoreHpAttack(InBattleSelf, InBattleEnemy, move, k, l);
+                                                    InBattleEnemy = pokeBefore;
+                                                    
+
                                                 }
+
                                             }
 
                                         }
-                                        InBattleEnemy = InBattleE;
+                                        //InBattleEnemy = InBattleE;
                                     }
                                 }
                             }
