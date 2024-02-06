@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using NGlobal;
+using static NPokemon.Hacker;
 
 namespace NPokemon
 {
@@ -753,5 +754,116 @@ namespace NPokemon
         }
 
 
+
+
+
+
     }
 }
+
+/*
+                                                    AttackMove(InBattleEnemy, InBattleSelf, attack, k, l);
+                                                    List<Pokemon> LE2 = new List<Pokemon>(pokemonsSelfTest);
+                                                    if (!InBattleSelf.IsAlive())
+                                                    {
+                                                        List<Pokemon> LS2 = new List<Pokemon>(pokemonsSelfTest);
+                                                        foreach (Pokemon poke in pokemonsSelfTest) // Pour chaque pokemon encore en vie
+                                                        {
+                                                            if (poke.IsAlive() && InBattleSelf != poke)
+                                                            {
+                                                                InBattleSelf = poke;
+                                                                //chosenActions.Add($"AI_CHANGE_{poke.GetName()}");
+                                                                // appel récursif
+                                                                Branch newBranch3 = new Branch(branches.Count);
+                                                                newBranch3.Actions.AddRange(branches[branchID].Actions);
+                                                                branches.Add(newBranch3);
+                                                                newBranch3.Actions.Add($"AIATTACK{move.GetName()} && Died AICHANGE{poke.GetName()}");
+                                                                newBranch3.EvalValue = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, newBranch3.ID, branches);
+                                                                maxEval = Math.Max(maxEval, newBranch3.EvalValue);
+
+                                                                // Reset Lists at previous states
+                                                                //chosenActions.RemoveAt(chosenActions.Count - 1);
+                                                            }
+                                                            ResetList(pokemonsSelfTest, LS2, pokemonsEnemyTest, LE2);
+                                                        }
+                                                    }
+*/
+
+/*
+ 
+                                                                AttackMove(InBattleSelf, InBattleEnemy, move, m, n);
+
+                                                                List<Pokemon> LS4 = new List<Pokemon>(pokemonsSelfTest);
+                                                                List<Pokemon> LE4 = new List<Pokemon>(pokemonsEnemyTest);
+                                                                Pokemon E1 = LE4[LE4.FindIndex(p => p.Name == InBattleEnemy.Name)];
+                                                                if (!InBattleEnemy.IsAlive())
+                                                                {
+                                                                    foreach (Pokemon poke in pokemonsEnemyTest) // Pour chaque pokemon encore en vie de l'ennemie
+                                                                    {
+                                                                        if (poke.IsAlive() && InBattleEnemy != poke)
+                                                                        {
+                                                                            InBattleEnemy = poke;
+
+                                                                            Branch newBranch3 = new Branch(branches.Count);
+                                                                            newBranch3.Actions.AddRange(branches[branchID].Actions);
+                                                                            branches.Add(newBranch3);
+                                                                            newBranch3.Actions.Add($"11AIATTACK{move.GetName()} && Killed {E1.Name} ({m}{n})");
+                                                                            newBranch3.EvalValue = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, newBranch3.ID, branches);
+                                                                            maxEval = Math.Max(maxEval, newBranch3.EvalValue);
+
+
+
+                                                                            ResetList(pokemonsSelfTest, LS4, pokemonsEnemyTest, LE4);
+                                                                            // appel récursif
+                                                                        }
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    Branch newBranch3 = new Branch(branches.Count);
+                                                                    newBranch3.Actions.AddRange(branches[branchID].Actions);
+                                                                    newBranch3.Actions.Add($"0AIATTACK{move.GetName()}");
+                                                                    branches.Add(newBranch3);
+                                                                    newBranch3.EvalValue = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, newBranch3.ID, branches);
+                                                                    maxEval = Math.Max(maxEval, newBranch3.EvalValue);
+
+
+                                                                    //chosenActions.RemoveAt(chosenActions.Count - 1);
+                                                                    ResetList(pokemonsSelfTest, LS1, pokemonsEnemyTest, LE1);
+                                                                    // appel récursif
+                                                                }
+ 
+ */
+
+/*
+
+                                                                AttackMove(InBattleSelf, InBattleEnemy, move, m, n);
+
+                                                                List<Pokemon> LS4 = new List<Pokemon>(pokemonsSelfTest);
+                                                                List<Pokemon> LE4 = new List<Pokemon>(pokemonsEnemyTest);
+                                                                Pokemon E1 = LE4[LE4.FindIndex(p => p.Name == InBattleEnemy.Name)];
+                                                                if (!InBattleEnemy.IsAlive())
+                                                                {
+                                                                    foreach (Pokemon poke in pokemonsEnemyTest) // Pour chaque pokemon encore en vie de l'ennemie
+                                                                    {
+                                                                        if (poke.IsAlive() && InBattleEnemy != poke)
+                                                                        {
+                                                                            InBattleEnemy = poke;
+
+                                                                            Branch newBranch3 = new Branch(branches.Count);
+                                                                            newBranch3.Actions.AddRange(branches[branchID].Actions);
+                                                                            branches.Add(newBranch3);
+                                                                            newBranch3.Actions.Add($"11AIATTACK{move.GetName()} && Killed {E1.Name} ({m}{n})");
+                                                                            newBranch3.EvalValue = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, newBranch3.ID, branches);
+                                                                            maxEval = Math.Max(maxEval, newBranch3.EvalValue);
+
+
+
+                                                                            ResetList(pokemonsSelfTest, LS4, pokemonsEnemyTest, LE4);
+                                                                            // appel récursif
+                                                                        }
+                                                                    }
+                                                                } 
+
+ */
+

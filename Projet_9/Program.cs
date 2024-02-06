@@ -75,7 +75,7 @@ namespace Projet_9
         {
             Engine engine = Engine.GetInstance();
 
-            SetConsoleWindowSize(50, 50);
+            //SetConsoleWindowSize(50, 50);
             UserManager userManager = UserManager.GetInstance();
             userManager.NewUser("Jawad", "Mamague28021");
             Console.WriteLine("C'est bien : " + userManager.ActualUser.Username);
@@ -112,7 +112,7 @@ namespace Projet_9
             window.WindowRun();*/
             //Engine engine = Engine.GetInstance();
 
-            SetConsoleWindowSize(400, 100);
+            //SetConsoleWindowSize(400, 100);
 
             engine.Run();
 
