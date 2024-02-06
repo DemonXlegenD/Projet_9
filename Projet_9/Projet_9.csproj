@@ -29,7 +29,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -39,7 +39,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -113,6 +113,8 @@
     <Compile Include="Scene\FightScene.cs" />
     <Compile Include="Save\SavePlayer.cs" />
     <Compile Include="Save\SaveUser.cs" />
+    <Compile Include="Scene\MapScene.cs" />
+    <Compile Include="Scene\MenuScene.cs" />
     <Compile Include="Scene\Scene.cs" />
     <Compile Include="Scene\SceneAbstract.cs" />
     <Compile Include="Scene\SceneCredit.cs" />

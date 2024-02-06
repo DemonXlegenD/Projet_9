@@ -1,8 +1,6 @@
-﻿using Newtonsoft.Json;
-using Projet_9.Save;
+﻿using Projet_9.Save;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace NSecurity
 {
@@ -12,21 +10,44 @@ namespace NSecurity
 
         private List<User> users = new List<User>();
 
-        public User ActualUser { get; set; } = new User();
+        public User ActualUser { get; set; } = null;
 
         public static UserManager GetInstance()
         {
             if (Instance == null)
             {
                 Instance = new UserManager();
-                Instance.LoadUsersFromFile(SaveUser.GetInstance().GetFilePath());
+                Instance.LoadUsers();
             }
             return Instance;
         }
 
-        public void AddUser(string userName, string password)
+        public void NewUser(string userName, string password, bool replace = true)
         {
-            User user = User.NewUser(userName, password);
+            
+            if (!this.CheckConnexion(userName, password))
+            {
+                User user = new User(userName, password);
+                if (!users.Contains(user))
+                {
+                    foreach (var _user in users)
+                    {
+                        _user.IsConnected = false;
+                    }
+                    users.Add(user);
+                    SaveUser.GetInstance().SaveUsersIntoFile(users);
+                    if (replace) ActualUser = user;
+                    Console.WriteLine("User ajouté");
+                }
+                else
+                {
+                    Console.WriteLine("User déjà ajouté");
+                }
+            }
+        }
+
+        public void AddUser(User user)
+        {
             if (!users.Contains(user))
             {
                 foreach (var _user in users)
@@ -34,7 +55,6 @@ namespace NSecurity
                     _user.IsConnected = false;
                 }
                 users.Add(user);
-                ActualUser = user;
                 Console.WriteLine("User ajouté");
             }
             else
@@ -43,66 +63,61 @@ namespace NSecurity
             }
 
         }
+        public void DeleteUser()
+        {
+            this.RemoveUser(ActualUser);
+        }
 
         public void RemoveUser(User user)
         {
-            users.Remove(user);
-            if (user == ActualUser)
+            if (users.Contains(user))
             {
-                ActualUser = null;
+                users.Remove(user);
+                if (user == ActualUser)
+                {
+                    ActualUser = null;
+                }
             }
         }
 
-        public void CheckConnexion()
+        public bool CheckConnexion()
         {
             User user = users.Find(u => u.IsConnected == true);
             if (user != null)
             {
                 ActualUser = user;
+                return true;
             }
+            return false;
         }
 
-        public void CheckConnexion(string username, string motDePasse)
+        public bool CheckConnexion(string username, string motDePasse)
         {
-            User user = users.Find(u => u.Username == username);
-
-            if (user != null)
+            List<User> _users = users.FindAll(u => u.Username == username);
+            foreach (var _user in _users)
             {
-                string motDePasseHacheAVerifier = Security.HacherMotDePasse(motDePasse, user.Sel);
-                if (motDePasseHacheAVerifier == user.Password)
+                if (_user != null)
                 {
-                    ActualUser = user;
+                    string motDePasseHacheAVerifier = Security.HacherMotDePasse(motDePasse, _user.Sel);
+                    if (motDePasseHacheAVerifier == _user.Password)
+                    {
+                        ActualUser = _user;
+                        return true;
+                    }
                 }
             }
+            return false;
         }
 
-        public void LoadUsersFromFile(string filePath)
+        public void LoadUsers()
         {
-            if (File.Exists(filePath))
-            {
-                Console.WriteLine($"Path trouvé : {filePath}");
-                string json = File.ReadAllText(filePath);
-                users = JsonConvert.DeserializeObject<List<User>>(json);
-                if(users == null)
-                {
-                    users = new List<User>();
-                }
-            }
-            else
-            {
-                Console.WriteLine($"Path non trouvé : {filePath}");
-            }
+            users = SaveUser.GetInstance().LoadUserFromSaveFile();
+            this.CheckConnexion();
         }
 
-        public void UnloadUsersFromFile()
+        public void UnloadUsers()
         {
             users.Clear();
-        }
-
-        public void SaveUserIntoFile(string filePath)
-        {
-            string json = JsonConvert.SerializeObject(users, Formatting.Indented);
-            File.WriteAllText(filePath, json);
         }
     }
 }

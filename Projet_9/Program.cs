@@ -1,17 +1,16 @@
-﻿using NPokemon;
-using NSave;
+﻿using NEngine;
 using NEntity;
-using NPotionType;
-using System.Collections.Generic;
 using Newtonsoft.Json;
-using NEngine;
-using Projet_9.PokemonTeam;
-using NModules;
-using NScene;
-using Projet_9.Save;
+using NPokemon;
+using NPotionType;
+using NSave;
 using NSecurity;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using NGlobal;
+using static NGlobal.Global;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Projet_9
 {
@@ -74,6 +73,13 @@ namespace Projet_9
 
         static void Main(string[] args)
         {
+            Engine engine = Engine.GetInstance();
+
+            SetConsoleWindowSize(50, 50);
+            UserManager userManager = UserManager.GetInstance();
+            userManager.NewUser("Jawad", "Mamague28021");
+            Console.WriteLine("C'est bien : " + userManager.ActualUser.Username);
+          
             List<Pokemon> Pokemons = new List<Pokemon>();
             Pokemons.Add(new Pokemon("Jarod", new List<string> { "Water" }, 100, 100, 100, 100, 100, 100, 1000));
             Pokemons.Add(new Pokemon("Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 10, 200));
@@ -104,35 +110,28 @@ namespace Projet_9
 
             /*WindowPokemonTeam window = new WindowPokemonTeam();
             window.WindowRun();*/
-            Engine engine = Engine.GetInstance();
+            //Engine engine = Engine.GetInstance();
 
             SetConsoleWindowSize(400, 100);
 
-
-
             engine.Run();
-        /*    window.WindowClose();*/
 
             Player player = new Player();
-            List<string> list = new List<string>();
-            list.Add("Water");
-            List<JsonConverter> listConverter = new List<JsonConverter>();
-            listConverter.Add(new PlayerJsonConverter());
-            listConverter.Add(new PokemonJsonConverter());
+            List<string> list = new List<string>
+            {
+                "Water"
+            };
+            List<JsonConverter> listConverter = new List<JsonConverter>
+            {
+                new PlayerJsonConverter(),
+                new PokemonJsonConverter()
+            };
 
 
-              player.AddItem(new Potion());
-              player.AddPokemon(new Pokemon("Jarod", list, 40, 50, 70, 50, 50, 70));
+            player.AddItem(new Potion());
+            player.AddPokemon(new Pokemon("Jarod", list, 40, 50, 70, 50, 50, 70));
 
-              SavePlayer.GetInstance(player.FirstName, player.LastName, player.Id).WriteSave(player, 2, listConverter);
-            /*          Player player = Save.GetInstance().ReadTestSave<Player>(2);
-                      Console.WriteLine(player.ToString());*/
-/*            SaveUser saveUser = SaveUser.GetInstance();*/
-            UserManager userManager = UserManager.GetInstance();
-     /*       userManager.AddUser("Zarod", "azerty");
-            saveUser.SaveUsers();*/
-            User.LoadUser("Zarod", "azerty");
-            Console.WriteLine("C'est bien : " + userManager.ActualUser.Username);
+            SavePlayer.GetInstance(player.FirstName, player.LastName, player.Id).WriteSave(player, 2, listConverter);
         }
     }
     public class Person

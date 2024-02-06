@@ -185,15 +185,15 @@ namespace NPokemon
 
         // SETTERS
         public void SetName(string NewName) { Name = NewName; }
-        public void SetHp(int x) { Hp += x; }
+        public void AddHp(int x) { Hp += x; }
 
         public void DeathHp() { Hp = 0; }
 
-        public void SetAttack(int x) { Attack -= x; }
-        public void SetAttackSpe(int x) { AttackSpe -= x; }
-        public void SetDefense(int x) { Defense -= x; }
-        public void SetDefenseSpe(int x) { DefenseSpe -= x; }
-        public void SetSpeed(int x) { Speed -= x; }
+        public void SubstractAttack(int x) { Attack -= x; }
+        public void SubstractAttackSpe(int x) { AttackSpe -= x; }
+        public void SubstractDefense(int x) { Defense -= x; }
+        public void SubstractDefenseSpe(int x) { DefenseSpe -= x; }
+        public void SubstractSpeed(int x) { Speed -= x; }
 
         public void SetLevel(int x)
         {
