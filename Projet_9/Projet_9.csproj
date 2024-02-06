@@ -79,6 +79,7 @@
     <Compile Include="AI\All\2Jarod.cs" />
     <Compile Include="AI\All\3Magnus.cs" />
     <Compile Include="AI\All\4Hacker.cs" />
+    <Compile Include="AI\All\HackerBefore.cs" />
     <Compile Include="Bag\Inventory\Healing\MedecineAbstract.cs" />
     <Compile Include="Bag\Inventory\Healing\PotionAbstract.cs" />
     <Compile Include="Bag\Inventory\Healing\PotionType\FullRestore.cs" />

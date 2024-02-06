@@ -88,12 +88,12 @@ namespace Projet_9
             }
 
             List<Pokemon> Pokemons2 = new List<Pokemon>();
-            Pokemons2.Add(new Pokemon("Jarod", new List<string> { "Ground" }, 80, 54, 64, 100, 100, 100, 100));
-            Pokemons2.Add(new Pokemon("Francois", new List<string> { "Grass" }, 80, 10, 24, 10, 10, 10, 200));
-            Pokemons2.Add(new Pokemon("Maurad", new List<string> { "Grass" }, 14, 24, 10, 10, 10, 10, 500));
-            Pokemons2.Add(new Pokemon("Adrien", new List<string> { "Grass" }, 78, 10, 10, 54, 10, 10, 99));
-            Pokemons2.Add(new Pokemon("Kyle", new List<string> { "Grass" }, 80, 54, 78, 10, 22, 10, 400));
-            Pokemons2.Add(new Pokemon("Ethan", new List<string> { "Bug", "Grass" }, 80, 10, 10, 25, 10, 10, 500));
+            Pokemons2.Add(new Pokemon("c", new List<string> { "Ground" }, 80, 54, 64, 100, 100, 100, 100));
+            Pokemons2.Add(new Pokemon("b", new List<string> { "Grass" }, 80, 10, 24, 10, 10, 10, 200));
+            Pokemons2.Add(new Pokemon("a", new List<string> { "Grass" }, 14, 24, 10, 10, 10, 10, 500));
+            Pokemons2.Add(new Pokemon("d", new List<string> { "Grass" }, 78, 10, 10, 54, 10, 10, 99));
+            Pokemons2.Add(new Pokemon("e", new List<string> { "Grass" }, 80, 54, 78, 10, 22, 10, 400));
+            Pokemons2.Add(new Pokemon("f", new List<string> { "Bug", "Grass" }, 80, 10, 10, 25, 10, 10, 500));
             foreach (Pokemon p in Pokemons2)
             {
                 p.Moves.Add(new Attack("Cool", "Fire", "Physical", 50, 100, 25));

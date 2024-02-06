@@ -69,6 +69,7 @@ namespace NPokemon
 
         public List<VolatileStatus> STATUSVOLATILE = new List<VolatileStatus>();
         public NonVolatileStatus STATUSNONVOLATILE = NonVolatileStatus.None;
+        private Pokemon pokemon;
 
         // Formula of Gen1 of pokemon
         public int StatCalculationOtherGen1(int BaseStat, int IVStat, int StateXp = 0)
@@ -137,6 +138,11 @@ namespace NPokemon
             DefenseSpe = MaxDefenseSpe;
             Speed = MaxSpeed;
             //GiveMoves();
+        }
+
+        public Pokemon(Pokemon pokemon)
+        {
+            this.pokemon = pokemon;
         }
 
 
