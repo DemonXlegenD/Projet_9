@@ -41,6 +41,8 @@ namespace NScene
         private Pokemon P1;
         private Pokemon P2;
 
+        
+
         private List<String> TextQueue = new List<String>();
         private string AnimationQueue = "";
 
@@ -54,6 +56,8 @@ namespace NScene
 
         private string[] List_Actions_Select = { "1: Move ","2: Items ","3: Pokemons ","4: Escape " };
 
+
+        // TO START A FIGHT : CHANGE ( IsWildFight,EnemyPokemons,PlayerPokemons )
         public FightScene() : base("FightScene")
         {
 
@@ -131,14 +135,18 @@ namespace NScene
                                 break;
                             
                             case 4:
-                                if (OddsEscape(P1.Speed, P2.Speed))
+                                if (Global.IsWildFight)
                                 {
-                                    // Escape
+                                    if (OddsEscape(P1.Speed, P2.Speed))
+                                    {
+                                        // GO TO MAP SCENE
+                                    }
+                                    else
+                                    {
+                                        // Doesnt escape and take damage
+                                    }
                                 }
-                                else
-                                {
-                                    // Doesnt escape and take damage
-                                }
+                                else { TextQueue.Add("You can't escape from a trainer !"); }
                                 break;
                         }
 
@@ -162,7 +170,20 @@ namespace NScene
                                 break;
 
                             case 3:
-                                // Escape
+                                if (Global.IsWildFight)
+                                {
+                                    if (OddsEscape(P1.Speed, P2.Speed))
+                                    {
+                                        // GO TO MAP SCENE
+                                    }
+                                    else
+                                    {
+                                        TextQueue.Add("The escape failed !");
+                                        P1Used = true;
+                                        STATE = States.TURN;
+                                    }
+                                }
+                                else { TextQueue.Add("You can't escape from a trainer !"); }
                                 break;
                         }
                     }
@@ -544,6 +565,18 @@ namespace NScene
 
             if (!P1.IsAlive())
             {
+                int o = 0;
+                foreach(Pokemon p in List1)
+                {
+                    if (p.IsAlive()) { o++; }
+                }
+                // Death of the player
+                if(o == 0)
+                {
+                    AfterFightTeamPokemon(List1);
+                    HealTeamPokemon(List1);
+                    // Go to main scene
+                }
                 P1.DeathHp();
                 P1Used = true;
                 STATE = States.CHANGE;
@@ -554,10 +587,25 @@ namespace NScene
                 int o = 0;
                 foreach (Pokemon p in List2)
                 {
-                    o++;
+                    if (p.IsAlive()) {  o++; }
                 }
-                if (o == List2.Count-1) { STATE = States.NOTHING; }
-                P2Used = true;
+                // Death of the bot
+                if (o <= 0) 
+                {
+                    AfterFightTeamPokemon(List1);
+                    // Change to main scene
+                }
+                else
+                {
+                    foreach (Pokemon p in List2)
+                    {
+                        if(p.IsAlive()) { P2 = p; }
+                    }
+                    P1Used = false;
+                    P2Used = false;
+                    STATE = States.SELECT;
+                    return;
+                }
             }
 
         }

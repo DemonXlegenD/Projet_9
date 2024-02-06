@@ -14,7 +14,9 @@ namespace NGlobal
     public class Global
     {
         public static bool IsInBattle = false;
-		public static List<Pokemon> PlayerPokemons = new List<Pokemon>();
+        public static bool IsWildFight = true;
+		public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { new Pokemon("JSP", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5) };
+        public static List<Pokemon> EnemyPokemons = new List<Pokemon>();
 
         public static string TXTArtCollectionPath = "./Assets/__ASCII Text-Art Collection/";
         public static string TXTAttacksPath = "./Assets/TXT_files_Attacks/";
@@ -260,12 +262,18 @@ namespace NGlobal
 		} 		
 
 		/// <summary> Heals all the pokemons of the player </summary> <param name="PokemonList"></param>
-		public void HealTeamPokemon(List<Pokemon> PokemonList)
+		public static void HealTeamPokemon(List<Pokemon> PokemonList)
 		{
 			foreach (Pokemon i in PokemonList){i.Restore();}
 		}
 
-    	public Pokemon ReadPokemonDatas(string nameP, int level = 1)
+        public static void AfterFightTeamPokemon(List<Pokemon> PokemonList)
+        {
+            foreach(Pokemon i in PokemonList) { i.AfterFight();}
+        }
+
+
+    	public static Pokemon ReadPokemonDatas(string nameP, int level = 1)
     	{
     	    Console.WriteLine("Name: " + nameP);
 	
@@ -278,7 +286,7 @@ namespace NGlobal
 	
     	    return new Pokemon((string)P["Name"], PTypes, (int)P["Hp"], (int)P["Att"], (int)P["AttSpe"], (int)P["Def"], (int)P["DefSpe"], (int)P["Speed"], level);
     	}
-    	public Attack ReadAttacksDatas(string nameA)
+    	public static Attack ReadAttacksDatas(string nameA)
     	{
     	    Dictionary<string, object> A = AttacksDic.attacks[nameA] as Dictionary<string, object>;
     	    return new Attack((string)A["Name"], (string)A["Type"], (string)A["Cat"], (int)A["Power"], (int)A["Acc"], (int)A["Pp"]);

@@ -157,6 +157,15 @@ namespace NPokemon
             foreach (Attack i in Moves) { i.ResetPp(); }
         }
 
+        public void AfterFight()
+        {
+            Attack = MaxAttack;
+            AttackSpe = MaxAttackSpe;
+            Defense = MaxDefense;
+            DefenseSpe = MaxDefenseSpe;
+            Speed = MaxSpeed;
+        }
+
         public bool IsAlive()
         {
             return Hp > 0;
