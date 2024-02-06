@@ -46,7 +46,7 @@ public class SecurityTest
     [TestCase("", "", "")]
     public void VerifierMotDePasseTestFail(string passwordTest, string selTest, string passwordResult)
     {
-        Assert.IsTrue(!Security.VerifierMotDePasse(passwordTest, passwordResult, selTest));
+        Assert.IsFalse(Security.VerifierMotDePasse(passwordTest, passwordResult, selTest));
     }
 
     [TestCase("azerty", "BqTMLtO0BK+VqyabD59A7E8IcWmIUD8zkciUqztU5GY=", "749c1aded16fee9f641c68bb1c1e2036e2aff04ba37f18fce2834f61eba2e457")]
@@ -54,5 +54,19 @@ public class SecurityTest
     public void VerifierMotDePasseTestSuccess(string passwordTest, string selTest, string passwordResult)
     {
         Assert.IsTrue(Security.VerifierMotDePasse(passwordTest, passwordResult, selTest));
+    }
+
+    public void ValiderMotDePasseTestSuccess(string passwordTest)
+    {
+        Assert.IsTrue(Security.ValidationMotDePasse(passwordTest));
+    }
+
+    [TestCase("JenesuispasCommeToi12345")]
+    [TestCase("")]
+    [TestCase("")]
+    [TestCase("")]
+    public void ValiderMotDePasseTestFail(string passwordTest)
+    {
+        Assert.IsFalse(Security.ValidationMotDePasse(passwordTest));
     }
 }

@@ -1,7 +1,7 @@
 ﻿using NEngine;
 using NGlobal;
 using NModules;
-using NSave;
+using NSecurity;
 using NUIElements;
 using System;
 using System.Collections.Generic;
@@ -27,41 +27,10 @@ namespace NScene
             });
 
             UIButton newGameButton = new UIButton("Créer Partie");
-            newGameButton.AddEvent(() =>
-            {
-                Global.WriteSprites(new List<string> { "██████  ██ ███████ ███    ██ ██    ██ ███████ ███    ██ ██    ██ ███████     ███████ ██    ██ ██████ ", "██   ██ ██ ██      ████   ██ ██    ██ ██      ████   ██ ██    ██ ██          ██      ██    ██ ██   ██", "██████  ██ █████   ██ ██  ██ ██    ██ █████   ██ ██  ██ ██    ██ █████       ███████ ██    ██ ██████ ", "██   ██ ██ ██      ██  ██ ██  ██  ██  ██      ██  ██ ██ ██    ██ ██               ██ ██    ██ ██   ██", "██████  ██ ███████ ██   ████   ████   ███████ ██   ████  ██████  ███████     ███████  ██████  ██   ██", "                                                                                                     " }, 3);
-                Global.WriteSprites(new List<string> { "███████╗██╗   ██╗ ██████╗  █████╗ ███████╗ ██████╗██╗██╗", "██╔════╝██║   ██║██╔═══██╗██╔══██╗██╔════╝██╔════╝██║██║", "█████╗  ██║   ██║██║   ██║███████║███████╗██║     ██║██║", "██╔══╝  ╚██╗ ██╔╝██║   ██║██╔══██║╚════██║██║     ██║██║", "███████╗ ╚████╔╝ ╚██████╔╝██║  ██║███████║╚██████╗██║██║", "╚══════╝  ╚═══╝   ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝", "                                                        " }, 3, 2);
-                string LastName;
-                string FirstName;
-
-                Guid uniqueId = Guid.NewGuid();
-                string playerUid = uniqueId.ToString();
-
-                Console.WriteLine("CREER UNE NOUVELLE SAUVEGARDE\n");
-
-                do
-                {
-                    Console.Write("Entrez votre nom de famille et j'ai bien dit 'Famille': ");
-                    LastName = Console.ReadLine();
-                } while (!IsOnlyCharacter(LastName));
-
-                do
-                {
-                    Console.Write("Entrez votre prénom, pas ton pseudo: ");
-                    FirstName = Console.ReadLine();
-                } while (!IsOnlyCharacter(FirstName));
-
-                new SavePlayer(LastName, FirstName, playerUid);
-
-                Console.WriteLine("BIENVENUE, " + LastName + " " + FirstName);
-
-                System.Threading.Thread.Sleep(3000);
-
-                Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
-            });
+            newGameButton.AddEvent(() => { CreateNewGame(); });
 
             UIButton optionsButton = new UIButton("Options");
-            
+
 
             optionsButton.AddEvent(() =>
             {
@@ -87,11 +56,111 @@ namespace NScene
         {
             base.Launch();
 
-            
+
             DisplaySelection();
 
             Console.Out.Flush();
             Console.Clear();
+        }
+
+        public void CreateNewGame()
+        {
+            Global.WriteSprites(new List<string> { "██████  ██ ███████ ███    ██ ██    ██ ███████ ███    ██ ██    ██ ███████     ███████ ██    ██ ██████ ", "██   ██ ██ ██      ████   ██ ██    ██ ██      ████   ██ ██    ██ ██          ██      ██    ██ ██   ██", "██████  ██ █████   ██ ██  ██ ██    ██ █████   ██ ██  ██ ██    ██ █████       ███████ ██    ██ ██████ ", "██   ██ ██ ██      ██  ██ ██  ██  ██  ██      ██  ██ ██ ██    ██ ██               ██ ██    ██ ██   ██", "██████  ██ ███████ ██   ████   ████   ███████ ██   ████  ██████  ███████     ███████  ██████  ██   ██", "                                                                                                     " }, 3);
+            Global.WriteSprites(new List<string> { "███████╗██╗   ██╗ ██████╗  █████╗ ███████╗ ██████╗██╗██╗", "██╔════╝██║   ██║██╔═══██╗██╔══██╗██╔════╝██╔════╝██║██║", "█████╗  ██║   ██║██║   ██║███████║███████╗██║     ██║██║", "██╔══╝  ╚██╗ ██╔╝██║   ██║██╔══██║╚════██║██║     ██║██║", "███████╗ ╚████╔╝ ╚██████╔╝██║  ██║███████║╚██████╗██║██║", "╚══════╝  ╚═══╝   ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝", "                                                        " }, 3, 2);
+            string userName;
+            string password;
+            bool validUsername = false;
+            bool validPassword = false;
+            Guid uniqueId = Guid.NewGuid();
+            string playerUid = uniqueId.ToString();
+
+            Global.WriteSprites(new List<string> { "CREER UN NOUVEL UTILISATEUR" }, 3);
+
+            UserManager userManager = UserManager.GetInstance();
+
+            do
+            {
+                System.Threading.Thread.Sleep(2000);
+                Console.Clear();
+                Console.Write("Créez votre nom d'utilisateur : ");
+                userName = Console.ReadLine();
+                validUsername = userManager.IsUserAlreadyExistingByName(userName) || Security.ValidationPseudo(userName);
+            } while (!validUsername);
+
+            do
+            {
+                System.Threading.Thread.Sleep(2000);
+                Console.Clear();
+                Console.Write("Créez votre mot de passe : ");
+                password = Console.ReadLine();
+                validPassword = Security.ValidationMotDePasse(password);
+            } while (!validPassword);
+
+            userManager.NewUser(userName, password);
+
+            System.Threading.Thread.Sleep(2000);
+
+            Global.WriteSprites(new List<string> { "BIENVENUE " + userName });
+
+            System.Threading.Thread.Sleep(3000);
+
+            Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
+        }
+
+        public void LoadGame()
+        {
+            Global.WriteSprites(new List<string> { "██████  ██ ███████ ███    ██ ██    ██ ███████ ███    ██ ██    ██ ███████     ███████ ██    ██ ██████ ", "██   ██ ██ ██      ████   ██ ██    ██ ██      ████   ██ ██    ██ ██          ██      ██    ██ ██   ██", "██████  ██ █████   ██ ██  ██ ██    ██ █████   ██ ██  ██ ██    ██ █████       ███████ ██    ██ ██████ ", "██   ██ ██ ██      ██  ██ ██  ██  ██  ██      ██  ██ ██ ██    ██ ██               ██ ██    ██ ██   ██", "██████  ██ ███████ ██   ████   ████   ███████ ██   ████  ██████  ███████     ███████  ██████  ██   ██", "                                                                                                     " }, 3);
+            Global.WriteSprites(new List<string> { "███████╗██╗   ██╗ ██████╗  █████╗ ███████╗ ██████╗██╗██╗", "██╔════╝██║   ██║██╔═══██╗██╔══██╗██╔════╝██╔════╝██║██║", "█████╗  ██║   ██║██║   ██║███████║███████╗██║     ██║██║", "██╔══╝  ╚██╗ ██╔╝██║   ██║██╔══██║╚════██║██║     ██║██║", "███████╗ ╚████╔╝ ╚██████╔╝██║  ██║███████║╚██████╗██║██║", "╚══════╝  ╚═══╝   ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝", "                                                        " }, 3, 2);
+            string userName;
+            string password;
+            bool validUsername = false;
+            bool validPassword = false;
+            Guid uniqueId = Guid.NewGuid();
+            string playerUid = uniqueId.ToString();
+
+            Global.WriteSprites(new List<string> { "SE CONNECTER" }, 3);
+
+            UserManager userManager = UserManager.GetInstance();
+
+            do
+            {
+                System.Threading.Thread.Sleep(2000);
+                Console.Clear();
+                Console.Write("Entrez un nom d'utilisateur : ");
+                userName = Console.ReadLine();
+                validUsername = userManager.IsUserAlreadyExistingByName(userName);
+                if (!validUsername)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{userName} introuvable");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
+            } while (!validUsername);
+
+            if (!userManager.CheckConnexion(userName))
+            {
+                do
+                {
+                    System.Threading.Thread.Sleep(2000);
+                    Console.Clear();
+                    Console.Write("Entrez votre mot de passe : ");
+                    password = Console.ReadLine();
+                    validPassword = userManager.CheckConnexion(userName, password);
+                    if (!validPassword)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"Mot de passe incorrect");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                } while (!validPassword);
+            }
+            System.Threading.Thread.Sleep(2000);
+            Console.WriteLine($"Bienvenue {userName}, content de vous revoir");
+
+            System.Threading.Thread.Sleep(2000);
+
+            Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
         }
 
         public void DisplaySelection()
@@ -134,21 +203,7 @@ namespace NScene
             {
                 selections[selected].Clear();
                 selections[selected].Click();
-            }  
-        }
-
-        static bool IsOnlyCharacter(string input)
-        {
-            foreach (char c in input)
-            {
-                if (!char.IsLetter(c))
-                {
-                    Console.WriteLine("La saisie ne doit contenir que des lettres. Réessayez.");
-                    return false;
-                }
             }
-
-            return true;
         }
     }
 }
