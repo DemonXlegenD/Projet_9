@@ -305,7 +305,7 @@ namespace NScene
 
         private void LoadMap(string _map)
         {
-            string jsonContent = System.IO.File.ReadAllText("Maps/" + _map + ".json");
+            string jsonContent = System.IO.File.ReadAllText("Data/Maps/" + _map + ".json");
             var deserializedObject = JsonConvert.DeserializeAnonymousType(jsonContent, new { Tiles = new string[0], Size = new int[0] });
 
             Console.WriteLine(deserializedObject.Size[0]);

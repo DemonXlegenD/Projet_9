@@ -145,6 +145,7 @@ namespace NScene
 
         public void ReturnMap()
         {
+            quit1 = true;
             Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>();
         }
 
