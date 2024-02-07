@@ -14,7 +14,7 @@ namespace NSave
     {
         private static SavePlayer instance;
 
-        private JsonDevelopper jsonSaver;
+        private JsonDeveloper jsonSaver;
         private int _actualIndex = 1;
         private string _fileName = "Save";
         private string _folderName = "Saves/Users";
@@ -29,13 +29,13 @@ namespace NSave
 
         public SavePlayer()
         {
-            jsonSaver = JsonDevelopper.GetInstance();
+            jsonSaver = JsonDeveloper.GetInstance();
             jsonSaver.CreateFolder(_folderName);
         }
 
         public SavePlayer(string playerUid, bool needFolders = true)
         {
-            jsonSaver = JsonDevelopper.GetInstance();
+            jsonSaver = JsonDeveloper.GetInstance();
             _playerTag = playerUid;
 
             if(needFolders)
@@ -72,50 +72,6 @@ namespace NSave
             return instance;
         }
 
-        public void ApplySave(object data)
-        {
-            jsonSaver.CreateFile(data, _folderName + "/" + _fileName + _actualIndex + _fileType);
-        }
-        public void ApplySave(object data, int indexSave)
-        {
-            if (_actualIndex != indexSave)
-            {
-                _actualIndex = ((indexSave - 1) % 3) + 1;
-            }
-            jsonSaver.CreateFile(data, _folderName + "/" + _fileName + _actualIndex + _fileType);
-        }
-
-        public object ReadSave()
-        {
-            object objet = jsonSaver.DeserializeJsonFromFile<object>(_folderName + "/" + _fileName + _actualIndex + _fileType);
-            return objet;
-        }
-
-        public object ReadSave(int indexSave)
-        {
-            if (_actualIndex != indexSave)
-            {
-                _actualIndex = ((indexSave - 1) % 3) + 1;
-            }
-            object objet = jsonSaver.DeserializeJsonFromFile<object>(_folderName + "/" + _fileName + _actualIndex + _fileType);
-            return objet;
-        }
-        public T ReadSave<T>()
-        {
-            T objet = jsonSaver.DeserializeJsonFromFile<T>(_folderName + "/" + _fileName + _actualIndex + _fileType);
-            return objet;
-        }
-
-
-        public T ReadSave<T>(int indexSave)
-        {
-            if (_actualIndex != indexSave)
-            {
-                _actualIndex = ((indexSave - 1) % 3) + 1;
-            }
-            T objet = jsonSaver.DeserializeJsonFromFile<T>(_folderName + "/" + _fileName + _actualIndex + _fileType);
-            return objet;
-        }
         public T ReadTestSave<T>(List<JsonConverter> converters)
         {
             return jsonSaver.DeserializeObjectToJsonFile<T>(_folderName + "/" + _playerTag + "/" + _fileName + _actualIndex + _fileType, converters);

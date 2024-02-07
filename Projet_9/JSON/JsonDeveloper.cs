@@ -7,15 +7,15 @@ using System;
 
 namespace NJSON
 {
-    public class JsonDevelopper
+    public class JsonDeveloper
     {
-        public static JsonDevelopper instance;
+        public static JsonDeveloper instance;
 
-        public static JsonDevelopper GetInstance()
+        public static JsonDeveloper GetInstance()
         {
             if(instance == null)
             {
-                instance = new JsonDevelopper();
+                instance = new JsonDeveloper();
             }
                return instance;
         }
