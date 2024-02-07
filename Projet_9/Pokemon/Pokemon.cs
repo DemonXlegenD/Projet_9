@@ -71,6 +71,7 @@ namespace NPokemon
 
         public List<VolatileStatus> STATUSVOLATILE = new List<VolatileStatus>();
         public NonVolatileStatus STATUSNONVOLATILE = NonVolatileStatus.None;
+        private Pokemon pokemon;
 
         // Formula of Gen1 of pokemon
         public int StatCalculationOtherGen1(int BaseStat, int IVStat, int StateXp = 0)
@@ -152,6 +153,10 @@ namespace NPokemon
         {
             PokemonsData.GetIPokemonWithId(idPokemon);
         }
+        public Pokemon(Pokemon pokemon)
+        {
+            this.pokemon = pokemon;
+        }
 
 
         // func Restore() -> void: ## To restore the pokemon Hp and restore all the Pp of all his moves
@@ -163,6 +168,15 @@ namespace NPokemon
         {
             Hp = MaxHp;
             foreach (Attack i in Moves) { i.ResetPp(); }
+        }
+
+        public void AfterFight()
+        {
+            Attack = MaxAttack;
+            AttackSpe = MaxAttackSpe;
+            Defense = MaxDefense;
+            DefenseSpe = MaxDefenseSpe;
+            Speed = MaxSpeed;
         }
 
         public bool IsAlive()
@@ -323,7 +337,7 @@ namespace NPokemon
             Pokemon pokemon = new Pokemon();
             reader.Read();
 
-            // Lire les propriétés de l'objet JSON
+            // Lire les propriï¿½tï¿½s de l'objet JSON
             while (reader.TokenType == JsonToken.PropertyName)
             {
                 string propertyName = reader.Value.ToString();
