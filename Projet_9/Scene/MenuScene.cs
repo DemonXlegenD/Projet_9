@@ -1,6 +1,8 @@
 ﻿using NEngine;
+using NEntity;
 using NGlobal;
 using NModules;
+using NSave;
 using NSecurity;
 using NUIElements;
 using System;
@@ -23,7 +25,7 @@ namespace NScene
             };
             loadGameButton.AddEvent(() =>
             {
-                Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
+                LoadGame();
             });
 
             UIButton newGameButton = new UIButton("Créer Partie");
@@ -104,7 +106,7 @@ namespace NScene
 
             System.Threading.Thread.Sleep(3000);
 
-            Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
+            Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<SceneIntroduction>(true);
         }
 
         public void LoadGame()
@@ -155,11 +157,13 @@ namespace NScene
                     }
                 } while (!validPassword);
             }
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(2000); 
             Console.WriteLine($"Bienvenue {userName}, content de vous revoir");
 
             System.Threading.Thread.Sleep(2000);
-
+            PlayerManager playerManager = PlayerManager.GetInstance();
+            playerManager.LoadPlayer();
+            SavePlayer.GetInstance(playerManager.GetActualPlayer().Id, false);
             Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
         }
 

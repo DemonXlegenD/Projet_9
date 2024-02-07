@@ -113,12 +113,12 @@ namespace Projet_9.PokemonTeam
         [STAThread] // Définir le thread en mode STA
         public void WindowRun()
         {
-            Pokemons.Add(new Pokemon("Jarod", new List<string> { "Water" }, 100, 100, 100, 100, 100, 100, 10));
-            Pokemons.Add(new Pokemon("Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 10, 2));
-            Pokemons.Add(new Pokemon("Maurad", new List<string> { "Grass" }, 80, 10, 10, 10, 10, 10, 50));
-            Pokemons.Add(new Pokemon("Adrien", new List<string> { "Ground" }, 80, 10, 10, 10, 10, 10, 99));
-            Pokemons.Add(new Pokemon("Kyle", new List<string> { "Dragon" }, 80, 10, 10, 10, 10, 10, 40));
-            Pokemons.Add(new Pokemon("Ethan", new List<string> { "Bug", "Grass" }, 80, 10, 10, 10, 10, 10, 5));
+            Pokemons.Add(new Pokemon("1", "Jarod", new List<string> { "Water" }, 100, 100, 100, 100, 100, 100, 10));
+            Pokemons.Add(new Pokemon("1", "Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 10, 2));
+            Pokemons.Add(new Pokemon("1", "Maurad", new List<string> { "Grass" }, 80, 10, 10, 10, 10, 10, 50));
+            Pokemons.Add(new Pokemon("1", "Adrien", new List<string> { "Ground" }, 80, 10, 10, 10, 10, 10, 99));
+            Pokemons.Add(new Pokemon("1", "Kyle", new List<string> { "Dragon" }, 80, 10, 10, 10, 10, 10, 40));
+            Pokemons.Add(new Pokemon("1", "Ethan", new List<string> { "Bug", "Grass" }, 80, 10, 10, 10, 10, 10, 5));
 
             Thread thread = new Thread(() =>
             {

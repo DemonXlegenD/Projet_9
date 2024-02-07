@@ -42,6 +42,21 @@ namespace NJSON
             }
         }
 
+        public T DeserializeObjectToJsonFile<T>(string filePath, List<JsonConverter> converters)
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            foreach (JsonConverter converter in converters)
+            {
+                serializer.Converters.Add(converter);
+            }
+
+            using (StreamReader sr = new StreamReader(filePath))
+            using (JsonReader reader = new JsonTextReader(sr))
+            {
+                return serializer.Deserialize<T>(reader);
+            }
+        }
+
         public bool CreateFolder(string pathFile)
         {
             if (!Directory.Exists(pathFile))
@@ -49,12 +64,12 @@ namespace NJSON
                 // Créez le dossier
                 Directory.CreateDirectory(pathFile);
 
-                Console.WriteLine("Dossier créé avec succès !");
+                /*Console.WriteLine("Dossier créé avec succès !");*/
                 return true;
             }
             else
             {
-                Console.WriteLine("Le dossier existe déjà.");
+                /*Console.WriteLine("Le dossier existe déjà.");*/
             }
             return false;
         }

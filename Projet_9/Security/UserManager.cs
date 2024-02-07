@@ -40,8 +40,8 @@ namespace NSecurity
                     {
                         user.IsConnected = false;
                         users.Add(user);
-                        SaveUser.GetInstance().SaveUsersIntoFile(users);
                     }
+                    SaveUser.GetInstance().SaveUsersIntoFile(users);
                     Console.WriteLine("User ajouté");
                 }
                 else

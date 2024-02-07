@@ -77,12 +77,12 @@ namespace Projet_9
             Engine engine = Engine.GetInstance();
             SetConsoleWindowSize(400, 100);
             List<Pokemon> Pokemons = new List<Pokemon>();
-            Pokemons.Add(new Pokemon("Jarod", new List<string> { "Water" }, 100, 100, 100, 100, 100, 100, 100));
-            Pokemons.Add(new Pokemon("Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 10, 20));
-            Pokemons.Add(new Pokemon("Maurad", new List<string> { "Grass" }, 80, 10, 10, 10, 10, 10, 50));
-            Pokemons.Add(new Pokemon("Adrien", new List<string> { "Ground" }, 80, 10, 10, 10, 10, 10, 99));
-            Pokemons.Add(new Pokemon("Kyle", new List<string> { "Dragon" }, 80, 10, 10, 10, 10, 10, 40));
-            Pokemons.Add(new Pokemon("Ethan", new List<string> { "Bug", "Grass" }, 80, 10, 10, 10, 10, 10, 50));
+            Pokemons.Add(new Pokemon("1","Jarod", new List<string> { "Water" }, 100, 100, 100, 100, 100, 100, 100));
+            Pokemons.Add(new Pokemon("1","Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 10, 20));
+            Pokemons.Add(new Pokemon("1","Maurad", new List<string> { "Grass" }, 80, 10, 10, 10, 10, 10, 50));
+            Pokemons.Add(new Pokemon("1","Adrien", new List<string> { "Ground" }, 80, 10, 10, 10, 10, 10, 99));
+            Pokemons.Add(new Pokemon("1","Kyle", new List<string> { "Dragon" }, 80, 10, 10, 10, 10, 10, 40));
+            Pokemons.Add(new Pokemon("1", "Ethan", new List<string> { "Bug", "Grass" }, 80, 10, 10, 10, 10, 10, 50));
             Pokemons[0].Moves.Add(new Attack("Cool", "Fire", "Physical", 50, 100, 25));
             foreach (Pokemon p in Pokemons)
             {
@@ -90,12 +90,12 @@ namespace Projet_9
             }
 
             List<Pokemon> Pokemons2 = new List<Pokemon>();
-            Pokemons2.Add(new Pokemon("Jarod", new List<string> { "Ground" }, 80, 54, 64, 100, 100, 100, 100));
-            Pokemons2.Add(new Pokemon("Francois", new List<string> { "Grass" }, 80, 10, 24, 10, 10, 10, 200));
-            Pokemons2.Add(new Pokemon("Maurad", new List<string> { "Grass" }, 14, 24, 10, 10, 10, 10, 500));
-            Pokemons2.Add(new Pokemon("Adrien", new List<string> { "Grass" }, 78, 10, 10, 54, 10, 10, 99));
-            Pokemons2.Add(new Pokemon("Kyle", new List<string> { "Grass" }, 80, 54, 78, 10, 22, 10, 400));
-            Pokemons2.Add(new Pokemon("Ethan", new List<string> { "Bug", "Grass" }, 80, 10, 10, 25, 10, 10, 500));
+            Pokemons2.Add(new Pokemon("1","Jarod", new List<string> { "Ground" }, 80, 54, 64, 100, 100, 100, 100));
+            Pokemons2.Add(new Pokemon("1","Francois", new List<string> { "Grass" }, 80, 10, 24, 10, 10, 10, 200));
+            Pokemons2.Add(new Pokemon("1","Maurad", new List<string> { "Grass" }, 14, 24, 10, 10, 10, 10, 500));
+            Pokemons2.Add(new Pokemon("1","Adrien", new List<string> { "Grass" }, 78, 10, 10, 54, 10, 10, 99));
+            Pokemons2.Add(new Pokemon("1","Kyle", new List<string> { "Grass" }, 80, 54, 78, 10, 22, 10, 400));
+            Pokemons2.Add(new Pokemon("1", "Ethan", new List<string> { "Bug", "Grass" }, 80, 10, 10, 25, 10, 10, 500));
             foreach (Pokemon p in Pokemons2)
             {
                 p.Moves.Add(new Attack("Cool", "Fire", "Physical", 50, 100, 25));
@@ -105,7 +105,7 @@ namespace Projet_9
             engine.Run();
 
             Player player = new Player();
-            List<string> list = new List<string>
+ /*           List<string> list = new List<string>
             {
                 "Water"
             };
@@ -117,9 +117,18 @@ namespace Projet_9
 
 
             player.AddItem(new Potion());
-            player.AddPokemon(new Pokemon("Jarod", list, 40, 50, 70, 50, 50, 70));
+            player.AddPokemon(new Pokemon("1", "Jarod", list, 40, 50, 70, 50, 50, 70));
+            player.AddPokemon(new Pokemon("1", "Jarod", list, 40, 50, 70, 50, 50, 70));*/
 
-            SavePlayer.GetInstance(player.FirstName, player.LastName, player.Id).WriteSave(player, 2, listConverter);
+            SavePlayer.GetInstance(player.Id);
+
+            PlayerManager playerManager = PlayerManager.GetInstance();
+            playerManager.LoadPlayer();
+
+            Console.WriteLine($"Votre nom : {playerManager.GetActualPlayer().TeamPokemons[0].Name}");
+            Console.WriteLine($"Max attack : {playerManager.GetActualPlayer().TeamPokemons[0].MaxAttack}");
+            Console.WriteLine($"Attack : {playerManager.GetActualPlayer().TeamPokemons[0].Attack}");
+
             Environment.Exit(0);
         }
     }

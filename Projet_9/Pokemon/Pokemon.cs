@@ -1,4 +1,4 @@
-using NEntity;
+using NDatas;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -27,6 +27,8 @@ namespace NPokemon
     public class Pokemon
     {
         // VALUES DEFAULT
+
+        public string Id { get; set; }
         public string Name { get; set; }
         public List<string> Types { get; set; }
         public int Hp { get; set; }
@@ -103,10 +105,17 @@ namespace NPokemon
         }
 
         // Constructor
+        public Pokemon()
+        {
+            Level = 1;
+            Xp = 0;
+            XpNext = Level * 20 / 4;
+        }
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public Pokemon(string name_, List<string> types, int hp, int attack, int attackspe, int defense, int defensespe, int speed, int level = 1)
+        public Pokemon(string id, string name_, List<string> types, int hp, int attack, int attackspe, int defense, int defensespe, int speed, int level = 1)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
+            Id = id;
             OriginalName = name_;
             BaseHp = hp;
             BaseAttack = attack;
@@ -137,6 +146,11 @@ namespace NPokemon
             DefenseSpe = MaxDefenseSpe;
             Speed = MaxSpeed;
             //GiveMoves();
+        }
+
+        public void LoadPokemonFromFile(string idPokemon)
+        {
+            PokemonsData.GetIPokemonWithId(idPokemon);
         }
 
 
@@ -258,15 +272,16 @@ namespace NPokemon
         //     return MoveToLearn;
         // }
 
-       
+
     }
     public class PokemonJsonConverter : JsonConverter<Pokemon>
     {
         public override void WriteJson(JsonWriter writer, Pokemon value, JsonSerializer serializer)
         {
-
-            writer.WritePropertyName(value.Name);
             writer.WriteStartObject();
+
+            writer.WritePropertyName(nameof(Pokemon.Id));
+            serializer.Serialize(writer, value.Id);
 
             writer.WritePropertyName(nameof(Pokemon.Hp));
             serializer.Serialize(writer, value.Hp);
@@ -305,7 +320,101 @@ namespace NPokemon
         }
         public override Pokemon ReadJson(JsonReader reader, Type objectType, Pokemon existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            Pokemon pokemon = new Pokemon();
+            reader.Read();
+
+            // Lire les propriétés de l'objet JSON
+            while (reader.TokenType == JsonToken.PropertyName)
+            {
+                string propertyName = reader.Value.ToString();
+
+                switch (propertyName)
+                {
+                    case nameof(Pokemon.Id):
+                        reader.Read();
+                        pokemon.Id = serializer.Deserialize<string>(reader);
+                        break;
+
+                    case nameof(Pokemon.Hp):
+                        reader.Read();
+                        pokemon.Hp = serializer.Deserialize<Int32>(reader);
+                        break;
+
+                    case nameof(Pokemon.OriginalName):
+                        reader.Read();
+                        pokemon.OriginalName = serializer.Deserialize<string>(reader);
+                        break;
+
+                    case nameof(Pokemon.Name):
+                        reader.Read();
+                        pokemon.Name = serializer.Deserialize<string>(reader);
+                        break;
+
+                    case nameof(Pokemon.Xp):
+                        reader.Read();
+                        pokemon.Xp = serializer.Deserialize<Int32>(reader);
+                        break;
+
+                    case nameof(Pokemon.Level):
+                        reader.Read();
+                        pokemon.Level = serializer.Deserialize<Int32>(reader);
+                        break;
+
+                    case nameof(Pokemon.IVHp):
+                        reader.Read();
+                        pokemon.IVHp = serializer.Deserialize<Int32>(reader);
+                        break;
+
+                    case nameof(Pokemon.IVAttack):
+                        reader.Read();
+                        pokemon.IVAttack = serializer.Deserialize<Int32>(reader);
+                        break;
+
+                    case nameof(Pokemon.IVAttackSpe):
+                        reader.Read();
+                        pokemon.IVAttackSpe = serializer.Deserialize<Int32>(reader);
+                        break;
+
+                    case nameof(Pokemon.IVDefense):
+                        reader.Read();
+                        pokemon.IVDefense = serializer.Deserialize<Int32>(reader);
+                        break;
+
+                    case nameof(Pokemon.IVDefenseSpe):
+                        reader.Read();
+                        pokemon.IVDefenseSpe = serializer.Deserialize<Int32>(reader);
+                        break;
+
+                    case nameof(Pokemon.IVSpeed):
+                        reader.Read();
+                        pokemon.IVSpeed = serializer.Deserialize<Int32>(reader);
+                        break;
+
+                    default:
+                        reader.Read();
+                        reader.Skip();
+                        break;
+                }
+                reader.Read();
+            }
+
+            IPokemon pokemonsData = PokemonsData.GetIPokemonWithId(pokemon.Id);
+
+            if (pokemonsData != null)
+            {
+                pokemon.Name = pokemonsData.Name;
+                pokemon.Types = pokemonsData.Types;
+                pokemon.Attack = pokemonsData.Att;
+                pokemon.AttackSpe = pokemonsData.AttSpe;
+                pokemon.Defense = pokemonsData.Def;
+                pokemon.DefenseSpe = pokemonsData.DefSpe;
+                pokemon.Speed = pokemonsData.Speed;
+
+                pokemon.RedoStats();
+            }
+
+
+            return pokemon;
         }
     }
 }

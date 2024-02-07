@@ -88,10 +88,11 @@
     <Compile Include="Bag\Inventory\Healing\PotionType\Potion.cs" />
     <Compile Include="Bag\Inventory\ItemAbstract.cs" />
     <Compile Include="Datas\Attacks.cs" />
-    <Compile Include="Datas\Pokemons.cs" />
+    <Compile Include="Datas\PokemonsData.cs" />
     <Compile Include="Engine\Modules\InputModule.cs" />
     <Compile Include="Engine\Modules\TimeModule.cs" />
     <Compile Include="Entity\Player.cs" />
+    <Compile Include="Entity\PlayerManager.cs" />
     <Compile Include="Global\Global.cs" />
     <Compile Include="Global\GlobalString.cs" />
     <Compile Include="JSON\JsonDevelopper.cs" />
@@ -118,12 +119,14 @@
     <Compile Include="Scene\Scene.cs" />
     <Compile Include="Scene\SceneAbstract.cs" />
     <Compile Include="Scene\SceneCredit.cs" />
+    <Compile Include="Scene\SceneIntroduction.cs" />
     <Compile Include="Scene\SceneOpening.cs" />
     <Compile Include="Security\Security.cs" />
     <Compile Include="Security\User.cs" />
     <Compile Include="Security\UserManager.cs" />
     <Compile Include="Types\CharacterObject.cs" />
     <Compile Include="UIElements\UIButton.cs" />
+    <Compile Include="UIElements\UIPanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

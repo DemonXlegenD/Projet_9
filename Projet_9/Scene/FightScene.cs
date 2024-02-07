@@ -57,10 +57,10 @@ namespace NScene
         public FightScene() : base("FightScene")
         {
 
-            List1 = new List<Pokemon>() { new Pokemon("jarod", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5), new Pokemon("Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5) };
+            List1 = new List<Pokemon>() { new Pokemon("1","jarod", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5), new Pokemon("3", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5) };
             List1[0].Moves.Add(new Attack("Charge", "Normal", "Physical", 20, 100, 25));
             List1[1].Moves.Add(new Attack("Brule", "Fire", "Special", 20, 100, 25));
-            List2 = new List<Pokemon>() { new Pokemon("maurad", new List<string> { "Grass" }, 10, 10, 10, 10, 10, 10, 5) };
+            List2 = new List<Pokemon>() { new Pokemon("2", "maurad", new List<string> { "Grass" }, 10, 10, 10, 10, 10, 10, 5) };
             List2[0].Moves.Add(new Attack("Charge", "Normal", "Physical", 20, 100, 25));
 
             P1 = List1[0];

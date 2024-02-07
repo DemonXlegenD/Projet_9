@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NUIElements
 {
-    internal class UIButton
+    public class UIButton
     {
         public string Name { get; set; }
         private event Action OnClear;

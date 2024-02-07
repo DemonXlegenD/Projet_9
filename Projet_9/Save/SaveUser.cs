@@ -83,7 +83,7 @@ namespace Projet_9.Save
             List<User> users = new List<User>();
             if (File.Exists(_filePath))
             {
-                Console.WriteLine($"Path trouvé : {_filePath}");
+                /*Console.WriteLine($"Path trouvé : {_filePath}");*/
                 string json = File.ReadAllText(_filePath);
                 users = JsonConvert.DeserializeObject<List<User>>(json);
                 if (users == null)
@@ -93,7 +93,7 @@ namespace Projet_9.Save
             }
             else
             {
-                Console.WriteLine($"Path non trouvé : {_filePath}");
+                /*Console.WriteLine($"Path non trouvé : {_filePath}");*/
             }
             return users;
         }
