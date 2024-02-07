@@ -81,12 +81,12 @@ namespace Projet_9
             Console.WriteLine("C'est bien : " + userManager.ActualUser.Username);
           
             List<Pokemon> Pokemons = new List<Pokemon>();
-            Pokemons.Add(new Pokemon("Jarod", new List<string> { "Water" }, 100, 100, 100, 100, 100, 100, 1000));
-            Pokemons.Add(new Pokemon("Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 10, 200));
-            Pokemons.Add(new Pokemon("Maurad", new List<string> { "Grass" }, 80, 10, 10, 10, 10, 10, 500));
-            Pokemons.Add(new Pokemon("Adrien", new List<string> { "Ground" }, 80, 10, 10, 10, 10, 10, 99));
-            Pokemons.Add(new Pokemon("Kyle", new List<string> { "Dragon" }, 80, 10, 10, 10, 10, 10, 400));
-            Pokemons.Add(new Pokemon("Ethan", new List<string> { "Bug", "Grass" }, 80, 10, 10, 10, 10, 10, 500));
+            Pokemons.Add(new Pokemon("Jarod", new List<string> { "Water" }, 100, 100, 100, 100, 100, 1000, 1000));
+            Pokemons.Add(new Pokemon("Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 1000, 200));
+            Pokemons.Add(new Pokemon("Maurad", new List<string> { "Grass" }, 80, 10, 10, 10, 10, 1000, 500));
+            Pokemons.Add(new Pokemon("Adrien", new List<string> { "Ground" }, 80, 10, 10, 10, 10, 1000, 909));
+            Pokemons.Add(new Pokemon("Kyle", new List<string> { "Dragon" }, 80, 10, 10, 10, 10, 1000, 400));
+            Pokemons.Add(new Pokemon("Ethan", new List<string> { "Bug", "Grass" }, 80, 10, 10, 10, 10, 1000, 500));
             Pokemons[0].Moves.Add(new Attack("Cool", "Fire", "Physical", 50, 100, 25));
             foreach (Pokemon p in Pokemons)
             {
@@ -106,7 +106,7 @@ namespace Projet_9
             }
 
             // Marche mais la recherche marche pas ? 
-            Hacker hackertest = new Hacker(Pokemons,Pokemons2,"Jarod","Francois",true);
+            Hacker hackertest = new Hacker(Pokemons,Pokemons2,"Jarod","c",true);
 
             /*WindowPokemonTeam window = new WindowPokemonTeam();
             window.WindowRun();*/

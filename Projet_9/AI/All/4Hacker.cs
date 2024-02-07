@@ -44,7 +44,7 @@ namespace NPokemon
         private int branchId = 0; // L'id pour chaque branche
 
 
-        int SearchLenght = 3; // En 3 tours tue tout le monde
+        int SearchLenght = 5; // En 3 tours tue tout le monde
 
         // Si un pokemon est en vie +5 points, si un pokemon ennemie est mort +5 points,
         // Si un pokemon a perdu des hp -1 point, si un pokemon ennemie a perdu des hp +1 point
@@ -334,9 +334,15 @@ namespace NPokemon
         {
             if (depth <= 0 || CheckWin(pokemonsSelfTest, pokemonsEnemyTest) != 0)
             {
-                if(CheckWin(pokemonsSelfTest, pokemonsEnemyTest) != 0)
+                if(CheckWin(pokemonsSelfTest, pokemonsEnemyTest) == 1)
                 {
                     int EvalValue2 = Evaluation(pokemonsEnemyTest, pokemonsSelfTest, pokemonsSelf, pokemonsEnemy, InBattleSelf, InBattleEnemy)+10000;
+                    return EvalValue2;
+                }
+                else if(CheckWin(pokemonsSelfTest, pokemonsEnemyTest) == -1)
+                {
+                    // Toute la team self se fait détruire au bout de 2 tours, voir 1 tour
+                    int EvalValue2 = Evaluation(pokemonsEnemyTest, pokemonsSelfTest, pokemonsSelf, pokemonsEnemy, InBattleSelf, InBattleEnemy) + 10000;
                     return EvalValue2;
                 }
                 int EvalValue = Evaluation(pokemonsEnemyTest, pokemonsSelfTest, pokemonsSelf, pokemonsEnemy, InBattleSelf, InBattleEnemy);
@@ -457,6 +463,7 @@ namespace NPokemon
 
                                             List<Pokemon> LS3 = new List<Pokemon>(pokemonsSelfTest);
                                             List<Pokemon> LE3 = new List<Pokemon>(pokemonsEnemyTest);
+                                            Pokemon E2 = LE3[LE3.FindIndex(p => p.Name == InBattleEnemy.Name)];
                                             foreach (bool k in boolArray) // Fail acc ou pas
                                             {
                                                 foreach (bool l in boolArray) // Fail crit ou pas
@@ -484,12 +491,13 @@ namespace NPokemon
                                                                 maxEval = Math.Max(maxEval, newBranch2.EvalValue);
                                                                 
                                                                 //chosenActions.RemoveAt(chosenActions.Count - 1);
-                                                                ResetList(pokemonsSelfTest, LS5, pokemonsEnemyTest, LE5);
                                                                 InBattleEnemy = E1;
                                                                 // appel récursif
                                                             }
 
                                                         }
+                                                        RestoreHpAttack(InBattleEnemy, InBattleSelf, attack, k, l);
+
                                                     }
                                                     else
                                                     {
@@ -504,6 +512,7 @@ namespace NPokemon
                                                                 List<Pokemon> LS4 = new List<Pokemon>(pokemonsSelfTest);
                                                                 if (!InBattleSelf.IsAlive())
                                                                 {
+                                                                    Pokemon E1 = LE4[LE4.FindIndex(p => p.Name == InBattleEnemy.Name)];
                                                                     foreach (Pokemon poke in pokemonsSelfTest) // Pour chaque pokemon encore en vie
                                                                     {
                                                                         if (poke.IsAlive() && InBattleSelf != poke)
@@ -521,6 +530,7 @@ namespace NPokemon
                                                                             //chosenActions.RemoveAt(chosenActions.Count - 1);
                                                                             // Reset Lists at previous states
                                                                             ResetList(pokemonsSelfTest, LS4, pokemonsEnemyTest, LE4);
+                                                                            InBattleSelf = E1;
                                                                         }
                                                                     }
                                                                 }
@@ -529,7 +539,7 @@ namespace NPokemon
                                                                     Branch newBranch = new Branch(branches.Count);
                                                                     int num = branches[branchID].Actions.Count;
                                                                     newBranch.Actions.AddRange(branches[branchID].Actions); // ID hors limite (jsp pourquoi)
-                                                                    newBranch.Actions.Add($"2AIATTACK{move.GetName()}");
+                                                                    newBranch.Actions.Add($"22AIATTACK{move.GetName()}  && P1{pokemonsEnemyTest[0].IsAlive()}P2{pokemonsEnemyTest[1].IsAlive()}P3{pokemonsEnemyTest[2].IsAlive()}P4{pokemonsEnemyTest[3].IsAlive()}P5{pokemonsEnemyTest[4].IsAlive()}P6{pokemonsEnemyTest[5].IsAlive()}");
                                                                     branches.Add(newBranch);
                                                                     newBranch.EvalValue = MiniMax(pokemonsEnemyTest, pokemonsSelfTest, InBattleSelf, InBattleEnemy, depth - 1, true, newBranch.ID, branches);
                                                                     maxEval = Math.Max(maxEval, newBranch.EvalValue);
@@ -545,8 +555,8 @@ namespace NPokemon
                                                         }
                                                     }
                                                     ResetList(pokemonsSelfTest, LS3, pokemonsEnemyTest, LE3);
-                                                    RestoreHpAttack(InBattleSelf, InBattleEnemy, move, k, l);
-                                                    RestoreHpAttack(InBattleEnemy, InBattleSelf, attack, k, l);
+                                                    
+                                                    
 
 
 
