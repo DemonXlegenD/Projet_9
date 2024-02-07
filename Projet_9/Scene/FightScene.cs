@@ -41,7 +41,8 @@ namespace NScene
         private Pokemon P1;
         private Pokemon P2;
 
-        
+        private int SelectedAI;
+
 
         private List<String> TextQueue = new List<String>();
         private string AnimationQueue = "";
@@ -201,6 +202,16 @@ namespace NScene
                         else
                         {
                             DoMove();
+                            int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                            if (choice > 0)
+                            {
+                                SelectedAI = choice - 1;
+                            }
+                            else
+                            {
+                                P2 = List2[choice + 1];
+                                P2Used = false;
+                            }
                             STATE = States.TURN;
                         }
 
@@ -216,6 +227,16 @@ namespace NScene
                         {
                             SelectedIndex = PSelectIndex+1;
                             DoMove();
+                            int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                            if (choice > 0)
+                            {
+                                SelectedAI = choice - 1;
+                            }
+                            else
+                            {
+                                P2 = List2[Math.Abs(choice + 1)];
+                                P2Used = false;
+                            }
                             STATE = States.TURN;
                             PSelectIndex = 0;
                         }
@@ -240,6 +261,16 @@ namespace NScene
                                     P1 = List1[SelectedIndex];
                                     P1Used = true;
                                     STATE = States.TURN;
+                                    int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                                    if (choice > 0)
+                                    {
+                                        SelectedAI = choice-1;
+                                    }
+                                    else
+                                    {
+                                        P2 = List2[choice+1];
+                                        P2Used = false;
+                                    }
                                 }
                                 else
                                 {
@@ -266,6 +297,16 @@ namespace NScene
                                     P1 = List1[SelectedIndex];
                                     P1Used = true;
                                     STATE = States.TURN;
+                                    int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                                    if (choice > 0)
+                                    {
+                                        SelectedAI = choice - 1;
+                                    }
+                                    else
+                                    {
+                                        P2 = List2[choice + 1];
+                                        P2Used = false;
+                                    }
                                 }
                                 else
                                 {
@@ -544,7 +585,7 @@ namespace NScene
                 else if (!P2Used)
                 {
                     P2Used = true;
-                    AttackMove(P2, P1, P2.Moves[0]);
+                    AttackMove(P2, P1, P2.Moves[SelectedAI]);
                 }
                 AnimationQueue = "1";
             }
@@ -553,7 +594,7 @@ namespace NScene
                 if (!P2Used)
                 {
                     P2Used = true;
-                    AttackMove(P2, P1, P2.Moves[0]);
+                    AttackMove(P2, P1, P2.Moves[SelectedAI]);
                 }
                 else if (!P1Used)
                 {
@@ -583,6 +624,7 @@ namespace NScene
             }
             if (!P2.IsAlive())
             {
+                P1.ChangeXp(P2.Level * 2 + 1);
                 P2.DeathHp();
                 int o = 0;
                 foreach (Pokemon p in List2)

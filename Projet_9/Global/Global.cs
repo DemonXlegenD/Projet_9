@@ -18,6 +18,7 @@ namespace NGlobal
 		public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { new Pokemon("JSP", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5) };
         public static List<Pokemon> EnemyPokemons = new List<Pokemon>();
 
+        /// <summary> Paths to look for the assets </summary>
         public static string TXTArtCollectionPath = "./Assets/__ASCII Text-Art Collection/";
         public static string TXTAttacksPath = "./Assets/TXT_files_Attacks/";
         public static string TXTCharactersPath = "./Assets/TXT_files_Characters/";
@@ -28,10 +29,12 @@ namespace NGlobal
 
         // public List<Pokemon_Class> EnemyPokemons
 
+        /// <summary> Enum of all the pokemontypes </summary>
         public enum PokemonType {	
 			Normal, Fire, Water, Grass, Electric, Ice, Fighting, Poison, Ground, Flying, Psychic, Bug, Rock, Ghost, Steel, Dark, Fairy, Dragon, Unknown
 		}
 
+        /// <summary> Chart containing all the types things </summary>
     	public static float[,] Chart { get; } = new float[18, 19]
     	{
     	    //               Normal  Fire  Water  Grass  Electric Ice   Fighting  Poison  Ground  Flying  Psychic  Bug   Rock   Ghost  Steel  Dark  Fairy  Dragon Unknown
@@ -55,32 +58,16 @@ namespace NGlobal
     	    /* Dragon */    {1.0f,  1.0f, 1.0f,  1.0f,  0.5f,    2.0f,  1.0f,    1.0f,   1.0f,   1.0f,   1.0f,    1.0f, 1.0f,  1.0f,  1.0f,  1.0f, 2.0f,  2.0f,  0.0f }
     	};
 
+        /// <summary> For the calculation of the type </summary>
 		public static PokemonType TypeToIndex(string typeName) {
             if (Enum.TryParse(typeName, out PokemonType pokemonType))
             {
                 return pokemonType;
             }
-            /*			if (typeName == "Water"){         return PokemonType.Water;}
-                        else if (typeName == "Fire"){        return PokemonType.Fire;}
-                        else if (typeName == "Grass"){       return PokemonType.Grass;}
-                        else if (typeName == "Electric"){    return PokemonType.Electric;}
-                        else if (typeName == "Normal"){      return PokemonType.Normal;}
-                        else if (typeName == "Ice"){         return PokemonType.Ice;}
-                        else if (typeName == "Fighting"){    return PokemonType.Fighting;}
-                        else if (typeName == "Poison"){      return PokemonType.Poison;}
-                        else if (typeName == "Ground"){      return PokemonType.Ground;}
-                        else if (typeName == "Flying"){      return PokemonType.Flying;}
-                        else if (typeName == "Psychic"){     return PokemonType.Psychic;}
-                        else if (typeName == "Bug"){         return PokemonType.Bug;}
-                        else if (typeName == "Rock"){        return PokemonType.Rock;}
-                        else if (typeName == "Ghost"){       return PokemonType.Ghost;}
-                        else if (typeName == "Steel"){       return PokemonType.Steel;}
-                        else if (typeName == "Dark"){        return PokemonType.Dark;}
-                        else if (typeName == "Fairy"){       return PokemonType.Fairy;}
-                        else if (typeName == "Dragon"){      return PokemonType.Dragon;}*/
             else {return PokemonType.Unknown;}
 		}
 
+        /// <summary> For the window text color, to return the color based on the type </summary>
 		public static SolidColorBrush TypeToColor(string typeName)
 		{
 			if (typeName == "Water") { return Brushes.Blue; }
@@ -104,6 +91,7 @@ namespace NGlobal
             else { return Brushes.Gray; }
 		}
 
+        /// <summary> Gives the color the console should be based on the type </summary>
 		public static ConsoleColor TypeToConsoleColor(string typeName)
 		{
             if (typeName == "Water") { return ConsoleColor.Blue; }
@@ -127,6 +115,7 @@ namespace NGlobal
             return ConsoleColor.White;
 		}
 
+        /// <summary> To color using an int </summary>
         public static ConsoleColor IntToConsoleColor(int x)
         {
             if (x == 1) { return ConsoleColor.Black; }
@@ -148,6 +137,7 @@ namespace NGlobal
             return ConsoleColor.White;
         }
 
+        /// <summary> For the console, to get the color in a rainbow order </summary>
         public static List<ConsoleColor> rainbowColors = new List<ConsoleColor>
         {
             ConsoleColor.Red,
@@ -159,6 +149,7 @@ namespace NGlobal
             ConsoleColor.DarkMagenta
         };
 
+        /// <summary> Return if the attack failed or not </summary>
         public static bool SuccessAcc(int Acc) {
 			Random rnd = new Random();
 			int Num = rnd.Next(1,100);
@@ -172,6 +163,7 @@ namespace NGlobal
             }
 		}
 
+        /// <summary> Returns the int of the critical </summary>
 		public static int SuccessCritical(int Speed) {
 			Random rnd = new Random();
 			int random = rnd.Next(1,100);
@@ -180,11 +172,13 @@ namespace NGlobal
             else {return 2;}
         }
 
+        /// <summary> calculates the stab of the pokemon </summary>
 		public static float StabCalculator(string[] PokemonTypes, string AttackType){
 			if (PokemonTypes.Contains(AttackType)) { return 1.5f; }
 			else { return 1.0f; }
         }
 
+        /// <summary> The damage calculation  </summary>
 		public static int DamageCalculator(Pokemon P1,Pokemon P2,Attack MoveP1,int Critical ) {
 
 			
@@ -240,6 +234,7 @@ namespace NGlobal
 			return rnd.Next() > a;
 		}
 
+        /// <summary> Odd of a pokemon to escape </summary>
 		public static bool OddsEscape(int SpeedP, int SpeedW)
 		{
 			Random rnd = new Random();
@@ -252,6 +247,7 @@ namespace NGlobal
 			else{return true;}
 		}
 
+        /// <summary> Change the order of 2 pokemons in a team </summary>
 		public static void ChangePokemonOrder(List<Pokemon> PokemonList,int x, int y)
 		{
 			Pokemon X = PokemonList[x];
@@ -267,12 +263,14 @@ namespace NGlobal
 			foreach (Pokemon i in PokemonList){i.Restore();}
 		}
 
+        /// <summary> After a fight it make all the stats go to normal, expect the hp </summary>
         public static void AfterFightTeamPokemon(List<Pokemon> PokemonList)
         {
             foreach(Pokemon i in PokemonList) { i.AfterFight();}
         }
 
 
+        /// <summary> Read the pokemon in the dictionary datas </summary>
     	public static Pokemon ReadPokemonDatas(string nameP, int level = 1)
     	{
     	    Console.WriteLine("Name: " + nameP);
@@ -286,12 +284,15 @@ namespace NGlobal
 	
     	    return new Pokemon((string)P["Name"], PTypes, (int)P["Hp"], (int)P["Att"], (int)P["AttSpe"], (int)P["Def"], (int)P["DefSpe"], (int)P["Speed"], level);
     	}
+
+        /// <summary> Read the datas of the attacks </summary>
     	public static Attack ReadAttacksDatas(string nameA)
     	{
     	    Dictionary<string, object> A = AttacksDic.attacks[nameA] as Dictionary<string, object>;
     	    return new Attack((string)A["Name"], (string)A["Type"], (string)A["Cat"], (int)A["Power"], (int)A["Acc"], (int)A["Pp"]);
     	}
 
+        /// <summary> Read the file and returns it as a list of string containing all the lines of the file </summary>
 		public static List<string> ReadFilesText(string filepath)
 		{
 			List<string> lines = new List<string>();
@@ -309,7 +310,7 @@ namespace NGlobal
             return lines;
 		}
 
-        // Function to generate a random number using RNGCryptoServiceProvider, parce que le random utilise la même seed
+        /// <summary> Function to generate a random number using RNGCryptoServiceProvider, parce que le random utilise la même seed </summary>
         public static int GenerateRandomNumber(RNGCryptoServiceProvider rng, int minValue, int maxValue)
         {
             byte[] randomNumber = new byte[4];
@@ -320,6 +321,7 @@ namespace NGlobal
             return Math.Abs(value % (maxValue - minValue + 1)) + minValue;
         }
 
+        /// <summary> Write sprites, text, with a color, a position </summary>
         public static void WriteSprites(List<string> sprite, int Position = 0, int color = 0, bool all = true)
         {
             int leftPosition = 0;
@@ -418,6 +420,7 @@ namespace NGlobal
             }
         }
 
+        /// <summary> Get the file x in a directory </summary>
         public static string GetFileAtIndex(string folderPath, int index)
         {
             try
