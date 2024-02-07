@@ -73,7 +73,6 @@ namespace Projet_9
 
         static void Main(string[] args)
         {
-
             Engine engine = Engine.GetInstance();
             SetConsoleWindowSize(400, 100);
             List<Pokemon> Pokemons = new List<Pokemon>();
@@ -101,6 +100,14 @@ namespace Projet_9
                 p.Moves.Add(new Attack("Cool", "Fire", "Physical", 50, 100, 25));
             }
 
+            
+            //Hacker hackertest = new Hacker(Pokemons,Pokemons2,"Jarod","Francois",false);
+
+            /*WindowPokemonTeam window = new WindowPokemonTeam();
+            window.WindowRun();*/
+            //Engine engine = Engine.GetInstance();
+
+            SetConsoleWindowSize(400, 100);
 
             engine.Run();
 
