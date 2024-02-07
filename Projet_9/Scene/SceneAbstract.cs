@@ -1,4 +1,6 @@
-﻿using NGameObject;
+﻿using NEntity;
+using NGameObject;
+using NSecurity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +13,12 @@ namespace NScene
     {
         protected string _name = string.Empty;
         protected List<GameObject> _gameObjects = new List<GameObject>();
-
+        protected PlayerManager PlayerManager { get; set; } = null;
+        protected UserManager UserManager { get; set; } = null;
         public SceneAbstract(string name)
         {
             this._name = name;
+            
         }
 
         public string Name
@@ -23,9 +27,20 @@ namespace NScene
             set { _name = value; }
         }
 
+        public Player GetPlayer()
+        {
+            return PlayerManager.GetActualPlayer();
+        }
+
+        public User GetUser()
+        {
+            return UserManager.ActualUser;
+        }
+
         public virtual void Init()
         {
-
+            PlayerManager = PlayerManager.GetInstance();
+            UserManager = UserManager.GetInstance();
         }
 
 

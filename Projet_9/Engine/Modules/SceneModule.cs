@@ -23,8 +23,7 @@ namespace NModules
             base.Init();
             timeModule = base.ModuleManager.GetModule<TimeModule>();
 
-            this.SetScene<PauseMenu>();
-
+            this.SetScene<SceneOpening>();
 
         }
         public override void Start()

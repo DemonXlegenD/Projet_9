@@ -133,6 +133,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Assets\Monocraft.ttf" />
+    <None Include="Maps\Map1.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

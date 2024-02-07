@@ -40,7 +40,7 @@ namespace NScene
         private string[,] map;
         private int height = 0;
         private int width = 0;
-
+private List<string> collidable = new List<string>() { "C", "T", "W" };
         public MapScene() : base("MapScene") { }
 
         public override void Init()
@@ -54,7 +54,7 @@ namespace NScene
             enemies.Add(enemy1);
         }
 
-        private List<string> collidable = new List<string>() { "C", "T", "W" };
+        
         private void GetTiles(string tile, bool display)
         {
             string character = "   ";

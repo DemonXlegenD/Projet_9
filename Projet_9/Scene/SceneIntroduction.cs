@@ -45,10 +45,9 @@ namespace NScene
             List<string> answers = new List<string>() { "o", "oui", "n", "non" };
             do
             {
-                Console.Write(text + " (oui ou non) :");
+                Console.Write(text + " (oui ou non) : ");
                 result = Console.ReadLine();
-                Console.Write('\n');    
-                Global.ClearLines(cursorDefault);
+                Global.ClearLines(cursorDefault - 1);
             } while (!answers.Contains(result.ToLower()));
             if (result.StartsWith("o"))
             {
@@ -88,12 +87,12 @@ namespace NScene
             panel.AddButton(thirdPokemon);
             do
             {
+                pokemon = null;
                 do
                 {
                     panel.SelectButton();
                 } while (pokemon == null);
             } while (!Valider("Est-ce votre ultime bafouille ? "));
-            Global.ClearLines(cursorDefault);
             return pokemon;
         }
 
@@ -107,7 +106,7 @@ namespace NScene
             ShowProf2();
             cursorDefault = Console.CursorTop;
             WaitForPressing("Je suis le Professeur Chêne. Je te souhaite la bienvenue");
-            WaitForPressing("Dis moi comment tu t'appelles :");
+            WaitForPressing("Dis moi comment tu t'appelles?");
             string firstname, lastname, age, description;
             UserManager userManager = UserManager.GetInstance();
             PlayerManager playerManager = PlayerManager.GetInstance();
@@ -119,9 +118,8 @@ namespace NScene
                     Console.Write("Votre prénom : ");
 
                     firstname = Console.ReadLine();
-                    Console.Write('\n');
                     resultFirstName = Security.ValidationName(firstname);
-                    Global.ClearLines(cursorDefault - 2);
+                    Global.ClearLines(cursorDefault - 1);
                     System.Threading.Thread.Sleep(500);
                     Global.ClearLines(cursorDefault - 1);
                 } while (!resultFirstName);
@@ -129,14 +127,12 @@ namespace NScene
                 {
                     Console.Write("Votre nom : ");
                     lastname = Console.ReadLine();
-                    Console.Write('\n');
                     resultLastName = Security.ValidationName(lastname);
-                    Global.ClearLines(cursorDefault - 2);
+                    Global.ClearLines(cursorDefault - 1);
                     System.Threading.Thread.Sleep(500);
                     Global.ClearLines(cursorDefault - 1);
                 } while (!resultLastName);
                 valideName = Valider($"Est-ce bien vous : {firstname} {lastname} ?");
-                Global.ClearLines(cursorDefault);
             } while (!valideName);
 
             WaitForPressing($"Bien. Heureux de te rencontrer : {firstname} {lastname}");
@@ -148,10 +144,9 @@ namespace NScene
                 Console.Write("Votre âge : ");
 
                 age = Console.ReadLine();
-                Console.Write('\n');
-                Global.ClearLines(cursorDefault);
+                Global.ClearLines(cursorDefault - 1);
                 resultAge = Security.ValidationAge(age, test);
-                Global.ClearLines(cursorDefault);
+                System.Threading.Thread.Sleep(2000);
             } while (!resultAge);
 
             int.TryParse(age, out int ageNumber);
@@ -175,8 +170,6 @@ namespace NScene
             {
                 Console.Write("Votre description : ");
                 description = Console.ReadLine();
-                Console.Write('\n');
-                Global.ClearLines(cursorDefault);
             } while (description == string.Empty);
             Global.ClearLines(cursorDefault);
             WaitForPressing("Interessant");
@@ -191,12 +184,10 @@ namespace NScene
             WaitForPressing("Mais j'ai aqua poney, tu me comprends surement.");
             if(Valider("Ta réponse sera fatale : "))
             {
-                Global.ClearLines(cursorDefault);
                 WaitForPressing("Parfait, je t'aime bien toi.");
             }
             else
             {
-                Global.ClearLines(cursorDefault);
                 WaitForPressing("Encore un cas déséspéré.");
             }
 
