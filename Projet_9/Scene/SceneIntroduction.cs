@@ -15,7 +15,7 @@ namespace NScene
     {
         public SceneIntroduction() : base("Scene Introduction") { }
 
-        private int cursorDefault = 1;
+        private int cursorDefault = 0;
         public override void Launch()
         {
             base.Launch();
@@ -105,7 +105,7 @@ namespace NScene
             ShowProf1();
             Console.Clear();
             ShowProf2();
-            cursorDefault = Console.CursorTop - 1;
+            cursorDefault = Console.CursorTop;
             WaitForPressing("Je suis le Professeur Chêne. Je te souhaite la bienvenue");
             WaitForPressing("Dis moi comment tu t'appelles :");
             string firstname, lastname, age, description;
@@ -120,18 +120,20 @@ namespace NScene
 
                     firstname = Console.ReadLine();
                     Console.Write('\n');
-                    Global.ClearLines(cursorDefault);
                     resultFirstName = Security.ValidationName(firstname);
-                    Global.ClearLines(cursorDefault);
+                    Global.ClearLines(cursorDefault - 2);
+                    System.Threading.Thread.Sleep(500);
+                    Global.ClearLines(cursorDefault - 1);
                 } while (!resultFirstName);
                 do
                 {
                     Console.Write("Votre nom : ");
                     lastname = Console.ReadLine();
                     Console.Write('\n');
-                    Global.ClearLines(cursorDefault);
                     resultLastName = Security.ValidationName(lastname);
-                    Global.ClearLines(cursorDefault);
+                    Global.ClearLines(cursorDefault - 2);
+                    System.Threading.Thread.Sleep(500);
+                    Global.ClearLines(cursorDefault - 1);
                 } while (!resultLastName);
                 valideName = Valider($"Est-ce bien vous : {firstname} {lastname} ?");
                 Global.ClearLines(cursorDefault);
@@ -173,6 +175,7 @@ namespace NScene
             {
                 Console.Write("Votre description : ");
                 description = Console.ReadLine();
+                Console.Write('\n');
                 Global.ClearLines(cursorDefault);
             } while (description == string.Empty);
             Global.ClearLines(cursorDefault);
@@ -188,15 +191,18 @@ namespace NScene
             WaitForPressing("Mais j'ai aqua poney, tu me comprends surement.");
             if(Valider("Ta réponse sera fatale : "))
             {
+                Global.ClearLines(cursorDefault);
                 WaitForPressing("Parfait, je t'aime bien toi.");
             }
             else
             {
+                Global.ClearLines(cursorDefault);
                 WaitForPressing("Encore un cas déséspéré.");
             }
 
             WaitForPressing($"Aller, la bise {firstname}.");
 
+            Console.Clear();
             Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
         }
     }

@@ -67,7 +67,7 @@ namespace NUIElements
             {
                 Buttons[selected].Click();
             }
-            Global.ClearLines(Buttons.Count);
+            Global.ClearLines(Console.CursorTop - Buttons.Count);
         }
     }
 }
