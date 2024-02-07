@@ -33,12 +33,16 @@ namespace NSave
             jsonSaver.CreateFolder(_folderName);
         }
 
-        public SavePlayer(string playerFirstname, string playerLastname, string playerUid)
+        public SavePlayer(string playerUid, bool needFolders = true)
         {
             jsonSaver = JsonDevelopper.GetInstance();
-            jsonSaver.CreateFolder(_folderName);
-            _playerTag = playerFirstname + "_" + playerLastname + "_" + playerUid;
-            jsonSaver.CreateFolder(_folderName +"/" + _playerTag);
+            _playerTag = playerUid;
+
+            if(needFolders)
+            {
+                jsonSaver.CreateFolder(_folderName);
+                jsonSaver.CreateFolder(_folderName +"/" + _playerTag);
+            }  
         }
 
         public static SavePlayer GetInstance()
@@ -50,11 +54,20 @@ namespace NSave
             return instance;
         }
 
-        public static SavePlayer GetInstance(string playerFirstname, string playerLastname, string playerUid)
+        public static SavePlayer GetInstance(string playerUid, bool needFolders)
         {
             if (instance == null)
             {
-                instance = new SavePlayer(playerFirstname, playerLastname, playerUid);
+                instance = new SavePlayer(playerUid, needFolders);
+            }
+            return instance;
+        }
+
+        public static SavePlayer GetInstance(string playerUid)
+        {
+            if (instance == null)
+            {
+                instance = new SavePlayer(playerUid);
             }
             return instance;
         }
@@ -103,20 +116,18 @@ namespace NSave
             T objet = jsonSaver.DeserializeJsonFromFile<T>(_folderName + "/" + _fileName + _actualIndex + _fileType);
             return objet;
         }
-        public T ReadTestSave<T>(int indexSave)
+        public T ReadTestSave<T>(List<JsonConverter> converters)
+        {
+            return jsonSaver.DeserializeObjectToJsonFile<T>(_folderName + "/" + _playerTag + "/" + _fileName + _actualIndex + _fileType, converters);
+        }
+
+        public T ReadTestSave<T>(int indexSave, List<JsonConverter> converters)
         {
             if (_actualIndex != indexSave)
             {
                 _actualIndex = ((indexSave - 1) % 3) + 1;
-            }
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.Converters.Add(new PlayerJsonConverter());
-
-            using (StreamReader sr = new StreamReader(_folderName + "/" + _fileName + _actualIndex + _fileType))
-            using (JsonReader reader = new JsonTextReader(sr))
-            {
-                return serializer.Deserialize<T>(reader);
-            }
+            }    
+            return jsonSaver.DeserializeObjectToJsonFile<T>(_folderName + "/" + _playerTag + "/" + _fileName + _actualIndex + _fileType, converters);
         }
 
         public void WriteSave(object data, int indexSave, List<JsonConverter> converters)
@@ -152,13 +163,21 @@ namespace NSave
             writer.WritePropertyName(nameof(Player.Description));
             serializer.Serialize(writer, value.Description);
 
-            writer.WritePropertyName("Pokemons");
-            writer.WriteStartObject();
+            writer.WritePropertyName(nameof(Player.TeamPokemons));
+            writer.WriteStartArray();
             foreach (var pokemon in value.TeamPokemons)
             {
                 new PokemonJsonConverter().WriteJson(writer, pokemon, serializer);
             }
-            writer.WriteEndObject();
+            writer.WriteEndArray();
+
+            writer.WritePropertyName(nameof(Player.PCPokemons));
+            writer.WriteStartArray();
+            foreach (var pokemon in value.PCPokemons)
+            {
+                new PokemonJsonConverter().WriteJson(writer, pokemon, serializer);
+            }
+            writer.WriteEndArray();
 
             writer.WritePropertyName(nameof(Player.Inventory));
             writer.WriteStartObject();
@@ -220,6 +239,31 @@ namespace NSave
                         // Lire la valeur de la propriété LastName
                         reader.Read();
                         player.Description = serializer.Deserialize<string>(reader);
+                        break;
+
+                    case nameof(Player.TeamPokemons):
+                        player.TeamPokemons = new List<Pokemon>();
+                        while (reader.Read() && reader.TokenType != JsonToken.EndArray)
+                        {
+                            if (reader.TokenType == JsonToken.StartObject)
+                            {
+                                // Lire un objet Pokémon en utilisant votre méthode ReadJson personnalisée pour Pokemon
+                                Pokemon pokemon = serializer.Deserialize<Pokemon>(reader);
+                                player.TeamPokemons.Add(pokemon);
+                            }
+                        }
+                        break;
+                    case nameof(Player.PCPokemons):
+                        player.PCPokemons = new List<Pokemon>();
+                        while (reader.Read() && reader.TokenType != JsonToken.EndArray)
+                        {
+                            if (reader.TokenType == JsonToken.StartObject)
+                            {
+                                // Lire un objet Pokémon en utilisant votre méthode ReadJson personnalisée pour Pokemon
+                                Pokemon pokemon = serializer.Deserialize<Pokemon>(reader);
+                                player.PCPokemons.Add(pokemon);
+                            }
+                        }
                         break;
 
                     default:

@@ -1,12 +1,31 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using NPokemon;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace NDatas
 {
-    public class PokemonsDic
+    public class IPokemon
     {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public List<string> Types { get; set; }
+        public int Hp { get; set; }
+        public int Att { get; set; }
+        public int AttSpe { get; set; }
+        public int Def { get; set; }
+        public int DefSpe { get; set; }
+        public int Speed { get; set; }
+    }
+    public class PokemonsData
+    {
+        private string _foldername = "Data/pokemons.json";
     	public static Dictionary<string, Dictionary<string, object>> pokemons { get; set; } = new Dictionary<string, Dictionary<string, object>>()
     	{
+
     	    {
     	        "Jarod", new Dictionary<string, object>()
     	        {
@@ -86,8 +105,38 @@ namespace NDatas
     	        }
     	    }
     	};
+        public static IPokemon GetIPokemonWithId(string idPokemon)
+        {
+            string jsonString = File.ReadAllText("Data/pokemons.json");
+            List<IPokemon> pokemons = JsonConvert.DeserializeObject<List<IPokemon>>(jsonString);
+            return  pokemons.FirstOrDefault(p => p.Id == idPokemon);
+        }
+
+        public static Pokemon GetPokemonWithId(string idPokemon)
+        {
+            string jsonString = File.ReadAllText("Data/pokemons.json");
+            List<IPokemon> pokemons = JsonConvert.DeserializeObject<List<IPokemon>>(jsonString);
+            IPokemon pokemon = pokemons.FirstOrDefault(p => p.Id == idPokemon);
+            Pokemon result = new Pokemon();
+            result.Id = idPokemon;
+            result.Name = pokemon.Name;
+            result.Hp = pokemon.Hp;
+            result.Types = pokemon.Types;
+            result.Attack = pokemon.Att;
+            result.AttackSpe = pokemon.AttSpe;
+            result.Defense = pokemon.Def;
+            result.DefenseSpe = pokemon.DefSpe;
+            result.Speed = pokemon.Speed;
+
+            return result;
+        }
     }
+
+    
+
 }
+
+
 /*
 const Pokemon_Dic: Dictionary = {
 	"Jarod":{"Name": "Jarod", "Types": ["Water"], "Hp": 40, "Att": 50, "AttSpe": 70, "Def": 50, "DefSpe": 50, "Speed": 70},

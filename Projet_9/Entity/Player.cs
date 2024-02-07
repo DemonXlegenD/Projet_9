@@ -39,7 +39,21 @@ namespace NEntity
             Inventory = new Dictionary<string, ItemAbstract>();
         }
 
-        public Player(string id, string firstName, string lastName, int age, string description, List<Pokemon> teamPokemons, List<Pokemon> pCPokemons, Vector2i position, Dictionary<string, ItemAbstract> inventory)
+        public Player(string id, string firstName, string lastName, int age, string description, Pokemon pokemon)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Age = age;
+            Description = description;
+            TeamPokemons = new List<Pokemon>();
+            TeamPokemons.Add(pokemon);
+            PCPokemons = new List<Pokemon>();
+            Position = Vector2i.Zero;
+            Inventory = new Dictionary<string, ItemAbstract>();
+        }
+
+            public Player(string id, string firstName, string lastName, int age, string description, List<Pokemon> teamPokemons, List<Pokemon> pCPokemons, Vector2i position, Dictionary<string, ItemAbstract> inventory)
         {
             Id = id;
             FirstName = firstName;

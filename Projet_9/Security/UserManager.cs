@@ -24,19 +24,24 @@ namespace NSecurity
 
         public void NewUser(string userName, string password, bool replace = true)
         {
-            
+
             if (!this.CheckConnexion(userName, password))
             {
                 User user = new User(userName, password);
-                if (!users.Contains(user))
+                if (!IsUserAlreadyExisting(user))
                 {
-                    foreach (var _user in users)
+
+                    if (replace)
                     {
-                        _user.IsConnected = false;
+                        AddUser(user);
+                        ActualUser = user;
                     }
-                    users.Add(user);
+                    else
+                    {
+                        user.IsConnected = false;
+                        users.Add(user);
+                    }
                     SaveUser.GetInstance().SaveUsersIntoFile(users);
-                    if (replace) ActualUser = user;
                     Console.WriteLine("User ajouté");
                 }
                 else
@@ -48,13 +53,14 @@ namespace NSecurity
 
         public void AddUser(User user)
         {
-            if (!users.Contains(user))
+            if (!IsUserAlreadyExisting(user))
             {
                 foreach (var _user in users)
                 {
                     _user.IsConnected = false;
                 }
                 users.Add(user);
+                SaveUser.GetInstance().SaveUsersIntoFile(users);
                 Console.WriteLine("User ajouté");
             }
             else
@@ -80,6 +86,22 @@ namespace NSecurity
             }
         }
 
+        public bool IsUserAlreadyExisting(User user)
+        {
+            return users.Contains(user);
+        }
+
+        public User FindUserByName(string username)
+        {
+            return users.Find(u => u.Username == username);
+        }
+
+        public bool IsUserAlreadyExistingByName(string username)
+        {
+            if (FindUserByName(username) != null) return true;
+            return false;
+        }
+
         public bool CheckConnexion()
         {
             User user = users.Find(u => u.IsConnected == true);
@@ -91,20 +113,33 @@ namespace NSecurity
             return false;
         }
 
+        public bool CheckConnexion(string username)
+        {
+            User user = users.Find(u => u.Username == username);
+            if (user != null)
+            {
+                if (user.IsConnected)
+                {
+                    ActualUser = user;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool CheckConnexion(string username, string motDePasse)
         {
-            List<User> _users = users.FindAll(u => u.Username == username);
-            foreach (var _user in _users)
+            User _user = FindUserByName(username);
+
+            if (_user != null)
             {
-                if (_user != null)
+                string motDePasseHacheAVerifier = Security.HacherMotDePasse(motDePasse, _user.Sel);
+                if (motDePasseHacheAVerifier == _user.Password)
                 {
-                    string motDePasseHacheAVerifier = Security.HacherMotDePasse(motDePasse, _user.Sel);
-                    if (motDePasseHacheAVerifier == _user.Password)
-                    {
-                        ActualUser = _user;
-                        return true;
-                    }
+                    ActualUser = _user;
+                    return true;
                 }
+
             }
             return false;
         }
