@@ -117,8 +117,7 @@ namespace NScene
             string password;
             bool validUsername = false;
             bool validPassword = false;
-            Guid uniqueId = Guid.NewGuid();
-            string playerUid = uniqueId.ToString();
+            string playerUid;
 
             Global.WriteSprites(new List<string> { "SE CONNECTER" }, 3);
 
@@ -161,9 +160,11 @@ namespace NScene
             Console.WriteLine($"Bienvenue {userName}, content de vous revoir");
 
             System.Threading.Thread.Sleep(2000);
+
             PlayerManager playerManager = PlayerManager.GetInstance();
             playerManager.LoadPlayer();
-            SavePlayer.GetInstance(playerManager.GetActualPlayer().Id, false);
+
+            SavePlayer savePlayer = SavePlayer.GetInstance(playerManager.GetActualPlayer().Id, false);
             Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
         }
 
