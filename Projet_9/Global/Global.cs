@@ -19,7 +19,7 @@ namespace NGlobal
 
         public static Attack DefaultAttack = new Attack("Def","Normal","Physical",10,100,999);
 		public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { 
-            new Pokemon("0", "JSP", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5), 
+            new Pokemon("0", "Francois", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5), 
             new Pokemon("0", "Jaja", new List<string> { "Grass" }, 20, 20, 20, 20, 20, 20, 10) 
         };
         public static List<Pokemon> EnemyPokemons = new List<Pokemon>();
@@ -349,8 +349,8 @@ namespace NGlobal
                         topPosition = Console.CursorTop;
                         break;
 
-                    case 2:
-                        if ((int)Math.Ceiling((decimal)(Console.WindowWidth / 2)) - sprite.Max().Length < 0)
+                    case 2: // Center
+                        if ((int)Math.Ceiling((decimal)(Console.WindowWidth / 2)) - sprite.Max().Length/2 < 0)
                         {
                             leftPosition = 0;
                             topPosition = Console.CursorTop;
@@ -362,7 +362,7 @@ namespace NGlobal
                         }
                         break;
 
-                    case 3:
+                    case 3: // Right (normalement)
                         if ((int)Math.Ceiling((decimal)(Console.WindowWidth / 2)) - (sprite.Max().Length / 2) < 0)
                         {
                             leftPosition = 0;

@@ -2,6 +2,8 @@ using NDatas;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using NGlobal;
+using Projet_9.Datas;
 
 namespace NPokemon
 {
@@ -105,6 +107,38 @@ namespace NPokemon
             MaxSpeed = StatCalculationOtherGen3(BaseSpeed, IVSpeed);
         }
 
+        public void LearnMoves()
+        {
+            Dictionary<string, Dictionary<int, object>> DicLearnSets = PokemonsLearnSet.LearnSets;
+
+            Dictionary<int, object> learnset = DicLearnSets.TryGetValue(OriginalName+"_LearnSet", out var value) ? value : null;
+
+            if (learnset != null)
+            {
+                foreach (int key in learnset.Keys)
+                {
+                    if (learnset[key] is List<string> moveList)
+                    {
+                        foreach (string move in moveList)
+                        {
+                            if(Moves.Count < 4 && key < Level+1)
+                            {
+                                Moves.Add(Global.ReadAttacksDatas(move));
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("La clé 'Jarod_LearnSet' n'a pas été trouvée dans le dictionnaire.");
+            }
+        }
+
         // Constructor
         public Pokemon()
         {
@@ -147,6 +181,7 @@ namespace NPokemon
             DefenseSpe = MaxDefenseSpe;
             Speed = MaxSpeed;
             //GiveMoves();
+            LearnMoves();
         }
 
         public void LoadPokemonFromFile(string idPokemon)

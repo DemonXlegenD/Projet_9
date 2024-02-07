@@ -90,6 +90,7 @@
     <Compile Include="Bag\Inventory\ItemAbstract.cs" />
     <Compile Include="Datas\Attacks.cs" />
     <Compile Include="Datas\PokemonsData.cs" />
+    <Compile Include="Datas\PokemonsLearnSet.cs" />
     <Compile Include="Engine\Modules\InputModule.cs" />
     <Compile Include="Engine\Modules\TimeModule.cs" />
     <Compile Include="Entity\Player.cs" />

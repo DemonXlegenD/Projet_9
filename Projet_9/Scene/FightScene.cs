@@ -61,12 +61,9 @@ namespace NScene
         // TO START A FIGHT : CHANGE ( IsWildFight,EnemyPokemons,PlayerPokemons )
         public FightScene() : base("FightScene")
         {
-
-            List1 = new List<Pokemon>() { new Pokemon("1","jarod", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5), new Pokemon("3", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5) };
-            List1[0].Moves.Add(new Attack("Charge", "Normal", "Physical", 20, 100, 25));
-            List1[1].Moves.Add(new Attack("Brule", "Fire", "Special", 20, 100, 25));
-            List2 = new List<Pokemon>() { new Pokemon("2", "maurad", new List<string> { "Grass" }, 10, 10, 10, 10, 10, 10, 5) };
-            List2[0].Moves.Add(new Attack("Charge", "Normal", "Physical", 20, 100, 25));
+            // à retirer si mit enemy pokemon ajouté etc
+            List1 = Global.PlayerPokemons;
+            List2 = new List<Pokemon>() { new Pokemon("2", "Maurad", new List<string> { "Grass" }, 10, 10, 10, 10, 10, 10, 5) };
 
             P1 = List1[0];
             P2 = List2[0];
@@ -452,10 +449,20 @@ namespace NScene
             Console.SetCursorPosition(leftPosition, topPosition);
 
             PokemonInfo(P2,right:true);
-            List<string> sprite = ReadFilesText(GetFileAtIndex(TXTCharactersPath, 1)); // Nombre impaire pour les faces
+            int Art1 = int.Parse(P2.Id); 
+            if (int.Parse(P2.Id) % 2 == 0)
+            {
+                Art1 = int.Parse(P2.Id) + 1;
+            }
+            List<string> sprite = ReadFilesText(GetFileAtIndex(TXTCharactersPath, Art1)); // Nombre impaire pour les faces
             WriteSprites(sprite,2);
             // Mettre des pokemons si on veut 
-            List<string> sprite1 = ReadFilesText(GetFileAtIndex(TXTCharactersPath, 5)); // Nombre impaire pour les faces
+            int Art2 = int.Parse(P1.Id);
+            if (int.Parse(P1.Id) % 2 == 0)
+            {
+                Art2 = int.Parse(P1.Id) + 1;
+            }
+            List<string> sprite1 = ReadFilesText(GetFileAtIndex(TXTCharactersPath, Art2)); // Nombre impaire pour les faces
             WriteSprites(sprite1);
             PokemonInfo(P1,true);
             SauterLignes(2);
