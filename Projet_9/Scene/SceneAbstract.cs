@@ -32,6 +32,11 @@ namespace NScene
             return PlayerManager.GetActualPlayer();
         }
 
+        public User GetUser()
+        {
+            return UserManager.ActualUser;
+        }
+
         public virtual void Init()
         {
             PlayerManager = PlayerManager.GetInstance();
