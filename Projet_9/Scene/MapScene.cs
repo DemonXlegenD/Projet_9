@@ -80,6 +80,12 @@ private List<string> collidable = new List<string>() { "C", "T", "W" };
                 Console.BackgroundColor = ConsoleColor.Green;
                 character = "   ";
             }
+            else if (tile == "#")
+            {
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                character = " # ";
+            }
 
             if (display)
             {
@@ -240,6 +246,16 @@ private List<string> collidable = new List<string>() { "C", "T", "W" };
                         if (playerPosition.GetX() == j && playerPosition.GetY() == i)
                         {
                             GetTiles(map[i, j], false);
+                            if (map[i, j] == "#")
+                            {
+                                Random rnd = new Random();
+                                int chance = rnd.Next(1, 10);
+                                if (chance == 1)
+                                {
+                                    enemyFound = true;
+                                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
+                                }
+                            }
                             Console.Write(" " + playerCharacter + " ");
                         }
                         else
