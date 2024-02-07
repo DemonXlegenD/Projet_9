@@ -14,6 +14,10 @@ namespace NGlobal
     {
         public static bool IsInBattle = false;
         public static bool IsWildFight = true;
+
+        public static int Pokeballs = 100;
+
+        public static Attack DefaultAttack = new Attack("Def","Normal","Physical",10,100,999);
 		public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { 
             new Pokemon("0", "JSP", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5), 
             new Pokemon("0", "Jaja", new List<string> { "Grass" }, 20, 20, 20, 20, 20, 20, 10) 

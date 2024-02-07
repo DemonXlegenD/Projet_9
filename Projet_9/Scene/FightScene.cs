@@ -55,7 +55,7 @@ namespace NScene
         private List<ConsoleKey> Inputs3 = new List<ConsoleKey>() { ConsoleKey.Z, ConsoleKey.W, ConsoleKey.UpArrow };
         private List<ConsoleKey> Inputs4 = new List<ConsoleKey>() { ConsoleKey.S, ConsoleKey.DownArrow };
 
-        private string[] List_Actions_Select = { "1: Move ","2: Items ","3: Pokemons ","4: Escape " };
+        private string[] List_Actions_Select = { "1: Move ","2: Items ","3: Pokemons ","4: Catch ","5: Escape " };
 
 
         // TO START A FIGHT : CHANGE ( IsWildFight,EnemyPokemons,PlayerPokemons )
@@ -134,8 +134,34 @@ namespace NScene
                                 STATE = States.CHANGE;
                                 PSelectIndex = 0;
                                 break;
-                            
+
                             case 4:
+                                if (Global.IsWildFight && Pokeballs > 0)
+                                {
+                                    if (Cath(P2))
+                                    {
+                                        AfterFightTeamPokemon(PlayerPokemons);
+                                        PlayerPokemons.Add(P2);
+                                        // Go to map scene
+                                    }
+                                    else
+                                    {
+                                        TextQueue.Add("Rahh, the pokemon was not catched !");
+                                        P1Used = true;
+                                        STATE = States.TURN;
+                                    }
+                                }
+                                else
+                                {
+                                    TextQueue.Add("Trying to catch the pokemon of a trainer ?");
+                                }
+                                if (Global.IsWildFight && Pokeballs <= 0)
+                                {
+                                    TextQueue.Add("No more pokeballs");
+                                }
+                                break;
+
+                            case 5:
                                 if (Global.IsWildFight)
                                 {
                                     if (OddsEscape(P1.Speed, P2.Speed))
@@ -152,7 +178,7 @@ namespace NScene
                         }
 
                     }
-                    if (key.Key == ConsoleKey.Enter)
+                    if (key.Key == ConsoleKey.Enter || key.Key == ConsoleKey.Spacebar)
                     {
                         switch (PSelectIndex)
                         {
@@ -171,6 +197,33 @@ namespace NScene
                                 break;
 
                             case 3:
+                                if (Global.IsWildFight && Pokeballs > 0)
+                                {
+                                    if (Cath(P2))
+                                    {
+                                        AfterFightTeamPokemon(PlayerPokemons);
+                                        PlayerPokemons.Add(P2);
+                                        // Go to map scene
+                                    }
+                                    else
+                                    {
+                                        TextQueue.Add("Rahh, the pokemon was not catched !");
+                                        P1Used = true;
+                                        STATE = States.TURN;
+                                    }
+                                }
+                                else
+                                {
+                                    TextQueue.Add("Trying to catch the pokemon of a trainer ?");
+                                }
+
+                                if (IsWildFight && Pokeballs <= 0)
+                                {
+                                    TextQueue.Add("No more pokeballs");
+                                }
+                                break;
+
+                            case 4:
                                 if (Global.IsWildFight)
                                 {
                                     if (OddsEscape(P1.Speed, P2.Speed))
@@ -216,7 +269,7 @@ namespace NScene
                         }
 
                     }
-                    if (key.Key == ConsoleKey.Enter)
+                    if (key.Key == ConsoleKey.Enter || key.Key == ConsoleKey.Spacebar)
                     {
                         if (PSelectIndex >= BackChoice-1)
                         {
@@ -281,7 +334,7 @@ namespace NScene
                             else { TextQueue.Add("Pokemon selected is either in battle or dead"); }
                         }
                     }
-                    if (key.Key == ConsoleKey.Enter)
+                    if (key.Key == ConsoleKey.Enter || key.Key == ConsoleKey.Spacebar)
                     {
                         SelectedIndex = PSelectIndex;
                         if (PSelectIndex >= BackChoice-1 && P1.IsAlive())

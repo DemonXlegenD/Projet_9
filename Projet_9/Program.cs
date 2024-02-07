@@ -75,7 +75,7 @@ namespace Projet_9
         {
             Engine engine = Engine.GetInstance();
             SetConsoleWindowSize(400, 100);
-            List<Pokemon> Pokemons = new List<Pokemon>();
+ /*           List<Pokemon> Pokemons = new List<Pokemon>();
             Pokemons.Add(new Pokemon("1","Jarod", new List<string> { "Water" }, 100, 100, 100, 100, 100, 100, 100));
             Pokemons.Add(new Pokemon("1","Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 10, 20));
             Pokemons.Add(new Pokemon("1","Maurad", new List<string> { "Grass" }, 80, 10, 10, 10, 10, 10, 50));
@@ -101,7 +101,7 @@ namespace Projet_9
             }
 
             // Marche mais la recherche marche pas ? 
-            Hacker hackertest = new Hacker(Pokemons,Pokemons2,"Jarod","c",true);
+            Hacker hackertest = new Hacker(Pokemons,Pokemons2,"Jarod","c",true);*/
 
             /*WindowPokemonTeam window = new WindowPokemonTeam();
             window.WindowRun();*/
