@@ -87,6 +87,7 @@ namespace NScene
             panel.AddButton(thirdPokemon);
             do
             {
+                pokemon = null;
                 do
                 {
                     panel.SelectButton();
@@ -146,7 +147,6 @@ namespace NScene
                 Global.ClearLines(cursorDefault - 1);
                 resultAge = Security.ValidationAge(age, test);
                 System.Threading.Thread.Sleep(2000);
-                Global.ClearLines(cursorDefault - 1);
             } while (!resultAge);
 
             int.TryParse(age, out int ageNumber);
@@ -170,7 +170,6 @@ namespace NScene
             {
                 Console.Write("Votre description : ");
                 description = Console.ReadLine();
-                Global.ClearLines(cursorDefault);
             } while (description == string.Empty);
             Global.ClearLines(cursorDefault);
             WaitForPressing("Interessant");

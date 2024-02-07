@@ -40,7 +40,7 @@ namespace NScene
         private string[,] map;
         private int height = 0;
         private int width = 0;
-
+private List<string> collidable = new List<string>() { "C", "T", "W" };
         public MapScene() : base("MapScene") { }
 
         public override void Init()
@@ -54,7 +54,7 @@ namespace NScene
             enemies.Add(enemy1);
         }
 
-        private List<string> collidable = new List<string>() { "C", "T", "W" };
+        
         private void GetTiles(string tile, bool display)
         {
             string character = "   ";
@@ -305,7 +305,7 @@ namespace NScene
 
         private void LoadMap(string _map)
         {
-            string jsonContent = System.IO.File.ReadAllText("Maps/" + _map + ".json");
+            string jsonContent = System.IO.File.ReadAllText("Data/Maps/" + _map + ".json");
             var deserializedObject = JsonConvert.DeserializeAnonymousType(jsonContent, new { Tiles = new string[0], Size = new int[0] });
 
             Console.WriteLine(deserializedObject.Size[0]);
