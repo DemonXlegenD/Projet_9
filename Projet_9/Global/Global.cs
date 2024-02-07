@@ -453,11 +453,9 @@ namespace NGlobal
                 Cursor--;
                 Console.SetCursorPosition(0, Cursor);
                 Console.Write(new string(' ', Console.WindowWidth));
-
             } while (defaultTop < Cursor);
             Console.SetCursorPosition(0, Cursor);
         }
-
     }
 }
 

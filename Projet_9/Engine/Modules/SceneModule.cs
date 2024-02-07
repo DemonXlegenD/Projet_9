@@ -23,7 +23,7 @@ namespace NModules
             base.Init();
             timeModule = base.ModuleManager.GetModule<TimeModule>();
 
-            this.SetScene<MenuScene>();
+            this.SetScene<SceneOpening>();
 
             
         }
