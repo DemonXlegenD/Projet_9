@@ -14,7 +14,7 @@ namespace NGlobal
     {
         public static bool IsInBattle = false;
         public static bool IsWildFight = true;
-		public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { new Pokemon("JSP", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5) };
+		public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { new Pokemon("0", "JSP", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5) };
         public static List<Pokemon> EnemyPokemons = new List<Pokemon>();
 
         /// <summary> Paths to look for the assets </summary>
@@ -180,7 +180,6 @@ namespace NGlobal
         }
 
         /// <summary> The damage calculation  </summary>
-		public static int DamageCalculator(Pokemon P1,Pokemon P2,Attack MoveP1,int Critical ) {
 
         public static int DamageCalculator(Pokemon P1, Pokemon P2, Attack MoveP1, int Critical)
         {
@@ -233,6 +232,9 @@ namespace NGlobal
             int rate = 1;
             int BonusBall = 1;
             int BonusStatus = 1;
+            int a = (3 * PokemonToCatch.GetMaxHp() - 2 * PokemonToCatch.GetHp()) / 3 * PokemonToCatch.GetMaxHp() * rate * BonusBall * BonusStatus;
+            return rnd.Next() > a;
+        }
 
         /// <summary> Odd of a pokemon to escape </summary>
 		public static bool OddsEscape(int SpeedP, int SpeedW)
@@ -272,14 +274,14 @@ namespace NGlobal
     	{
     	    Console.WriteLine("Name: " + nameP);
 	
-    	    Dictionary<string, object> P = PokemonsDic.pokemons[nameP];
+    	    Dictionary<string, object> P = PokemonsData.pokemons[nameP];
     	    List<string> PTypes = new List<string>();
     	    foreach (string type in (List<object>)P["Types"])
     	    {
     	        PTypes.Add(type);
     	    }
 	
-    	    return new Pokemon((string)P["Name"], PTypes, (int)P["Hp"], (int)P["Att"], (int)P["AttSpe"], (int)P["Def"], (int)P["DefSpe"], (int)P["Speed"], level);
+    	    return new Pokemon("0",(string)P["Name"], PTypes, (int)P["Hp"], (int)P["Att"], (int)P["AttSpe"], (int)P["Def"], (int)P["DefSpe"], (int)P["Speed"], level);
     	}
 
         /// <summary> Read the datas of the attacks </summary>

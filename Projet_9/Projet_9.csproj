@@ -117,6 +117,7 @@
     <Compile Include="Save\SaveUser.cs" />
     <Compile Include="Scene\MapScene.cs" />
     <Compile Include="Scene\MenuScene.cs" />
+    <Compile Include="Scene\PauseMenu.cs" />
     <Compile Include="Scene\Scene.cs" />
     <Compile Include="Scene\SceneAbstract.cs" />
     <Compile Include="Scene\SceneCredit.cs" />
