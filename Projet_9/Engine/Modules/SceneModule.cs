@@ -12,7 +12,7 @@ namespace NModules
         private SceneAbstract mainScene = null;
 
         private TimeModule timeModule = null;
-/*        private TimeModule timeModule = null;*/
+        /*        private TimeModule timeModule = null;*/
 
         public SceneModule()
         {
@@ -23,9 +23,9 @@ namespace NModules
             base.Init();
             timeModule = base.ModuleManager.GetModule<TimeModule>();
 
-            this.SetScene<MenuScene>();
+            this.SetScene<PauseMenu>();
 
-            
+
         }
         public override void Start()
         {
@@ -48,14 +48,14 @@ namespace NModules
         {
             if (replaceScenes)
             {
-               /* foreach (var scene in scenes)
-                {
-                    scene.Dispose(); // Assurez-vous d'implémenter IDisposable dans votre classe Scene
-                }
-                scenes.Clear();*/
+                /* foreach (var scene in scenes)
+                 {
+                     scene.Dispose(); // Assurez-vous d'implémenter IDisposable dans votre classe Scene
+                 }
+                 scenes.Clear();*/
             }
 
-            SceneAbstract scene = new T();
+            T scene = new T();
             scenes.Add(scene);
 
             if (replaceScenes)
@@ -69,6 +69,11 @@ namespace NModules
         public SceneAbstract GetMainScene()
         {
             return mainScene;
+        }
+
+        public T GetMainScene<T>() where T : SceneAbstract, new()
+        {
+            return (T)mainScene;
         }
 
         public SceneAbstract GetScene(string sceneName)

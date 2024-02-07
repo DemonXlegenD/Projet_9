@@ -14,7 +14,10 @@ namespace NGlobal
     {
         public static bool IsInBattle = false;
         public static bool IsWildFight = true;
-		public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { new Pokemon("0", "JSP", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5) };
+		public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { 
+            new Pokemon("0", "JSP", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5), 
+            new Pokemon("0", "Jaja", new List<string> { "Grass" }, 20, 20, 20, 20, 20, 20, 10) 
+        };
         public static List<Pokemon> EnemyPokemons = new List<Pokemon>();
 
         /// <summary> Paths to look for the assets </summary>
@@ -254,6 +257,9 @@ namespace NGlobal
 		{
 			Pokemon X = PokemonList[x];
 			Pokemon Y = PokemonList[y];
+
+            PokemonList[x] = Y;
+            PokemonList[y] = X;
         }
 
 		/// <summary> Heals all the pokemons of the player </summary> <param name="PokemonList"></param>

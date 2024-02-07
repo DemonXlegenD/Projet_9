@@ -14,6 +14,9 @@ using NPokemon;
 using Map;
 using System.Reflection.Emit;
 using NGlobal;
+using NScene;
+using NEngine;
+using NModules;
 
 namespace Projet_9.PokemonTeam
 {
@@ -113,12 +116,7 @@ namespace Projet_9.PokemonTeam
         [STAThread] // Définir le thread en mode STA
         public void WindowRun()
         {
-            Pokemons.Add(new Pokemon("1", "Jarod", new List<string> { "Water" }, 100, 100, 100, 100, 100, 100, 10));
-            Pokemons.Add(new Pokemon("1", "Francois", new List<string> { "Fire" }, 80, 10, 10, 10, 10, 10, 2));
-            Pokemons.Add(new Pokemon("1", "Maurad", new List<string> { "Grass" }, 80, 10, 10, 10, 10, 10, 50));
-            Pokemons.Add(new Pokemon("1", "Adrien", new List<string> { "Ground" }, 80, 10, 10, 10, 10, 10, 99));
-            Pokemons.Add(new Pokemon("1", "Kyle", new List<string> { "Dragon" }, 80, 10, 10, 10, 10, 10, 40));
-            Pokemons.Add(new Pokemon("1", "Ethan", new List<string> { "Bug", "Grass" }, 80, 10, 10, 10, 10, 10, 5));
+            Pokemons = Global.PlayerPokemons;
 
             Thread thread = new Thread(() =>
             {
@@ -194,17 +192,13 @@ namespace Projet_9.PokemonTeam
             else
             {
                 y = int.Parse(clickedPanel.Uid);
-                Console.WriteLine("Size" + Pokemons.Count() + "X:" + x + "Y:" + y);
+                //Console.WriteLine("Size" + Pokemons.Count() + "X:" + x + "Y:" + y);
                 Global.ChangePokemonOrder(Pokemons, x, y);
-                AllPokemons.Children.Clear();
-                ids.Clear();
-                foreach (Pokemon pokemon in Pokemons)
-                {
-                    AllPokemons.Children.Add(PokemonInfos(pokemon));
-                }
+                ReWrite();
                 x = -1;
                 y = -1;
                 clickedPanel = null;
+                Engine.GetInstance().ModuleManager.GetModule<SceneModule>().GetMainScene<PauseMenu>().ShowPanel();
             }
             //StackPanel clickedStackPanel = (StackPanel)sender;
             //string id = clickedStackPanel.Uid;
@@ -229,6 +223,16 @@ namespace Projet_9.PokemonTeam
                 stackPanel.Background = new SolidColorBrush(Color.FromArgb(175, 30, 30, 30));
             }
         }
+        public void ReWrite()
+        {
+            AllPokemons.Children.Clear();
+            ids.Clear();
+            foreach (Pokemon pokemon in Pokemons)
+            {
+                AllPokemons.Children.Add(PokemonInfos(pokemon));
+            }
+        }
+
 
     }
 }
