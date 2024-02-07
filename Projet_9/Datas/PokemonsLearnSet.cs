@@ -33,6 +33,90 @@ namespace Projet_9.Datas
                     { 5, new List<string> { "Blop" } },
                 }
             },
+            {
+                "Jean_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Rest" } },
+                }
+            },
+            {
+                "Marie_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "GUN" } },
+                }
+            },
+            {
+                "XPFARM_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Nothing" } },
+                }
+            },
+            // Ajout des ensembles d'apprentissage pour les autres Pokémon
+            {
+                "Sylvia_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Eclair" } },
+                }
+            },
+            {
+                "Lucas_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Force" } },
+                }
+            },
+            {
+                "Aurora_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Cout" } },
+                }
+            },
+            {
+                "PikaPool_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Rest" } },
+                }
+            },
+            {
+                "Sonicachu_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Eclair" } },
+                }
+            },
+            {
+                "Memeosaur_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Force" } },
+                }
+            },
+            {
+                "MystiWitch_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Bulle" } },
+                }
+            },
+            {
+                "GigaGamer_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "GUN" } },
+                }
+            },
+            {
+                "PixelKnight_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                }
+            }
         };
     }
 }
