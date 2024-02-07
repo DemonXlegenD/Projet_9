@@ -6,7 +6,7 @@ namespace NScene
     internal class SceneCredit : SceneAbstract
     {
 
-        private int indexPerson = 0;
+        private int _indexPerson = 0;
         private int maxNumberCharShow = 50;
         private int indexChar = 0;
         private int MaxIndexChar = 0;
@@ -44,7 +44,7 @@ namespace NScene
         {
             Console.Clear();
             base.Launch();
-                switch (indexPerson)
+                switch (_indexPerson)
                 {
                     case 0:
                         WriteLine(ResultJarod);
@@ -101,8 +101,8 @@ namespace NScene
 
             if (MaxIndexChar == 0 && indexChar == 0)
             {
-                indexPerson++;
-                switch (indexPerson)
+                _indexPerson++;
+                switch (_indexPerson)
                 {
                     case 0:
                         MaxIndexChar = ResultJarod[0].Length - 1;
@@ -115,7 +115,7 @@ namespace NScene
                         MaxIndexChar = ResultFrancois[0].Length - 1;
                         break;
                     default:
-                        indexPerson = 0;
+                        _indexPerson = 0;
                         break;
                 }
                 indexChar = MaxIndexChar;
