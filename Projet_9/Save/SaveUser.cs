@@ -1,13 +1,8 @@
 ﻿using Newtonsoft.Json;
 using NJSON;
-using NSave;
 using NSecurity;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Projet_9.Save
 {
@@ -15,7 +10,7 @@ namespace Projet_9.Save
     {
         private static SaveUser instance;
 
-        private JsonDevelopper jsonSaver;
+        private JsonDeveloper jsonSaver;
 
         private string _folderName = "Saves";
 
@@ -34,20 +29,23 @@ namespace Projet_9.Save
 
         public SaveUser()
         {
-            jsonSaver = JsonDevelopper.GetInstance();
+            jsonSaver = JsonDeveloper.GetInstance();
             jsonSaver.CreateFolder(_folderName);
             jsonSaver.CreateFolder(_folderName + "/" + _folderUserName);
             _filePath = _folderName + "/" + _folderUserName + "/" + _fileName + _fileType;
         }
 
-        public SaveUser(string userName, string userUid)
+        public SaveUser(string userName, string userUid, bool needFolders = true)
         {
-            jsonSaver = JsonDevelopper.GetInstance();
-            jsonSaver.CreateFolder(_folderName);
-            jsonSaver.CreateFolder(_folderName + "/" + _folderUserName);
+            jsonSaver = JsonDeveloper.GetInstance();
             _userTag = userName + "_" + userUid;
-            jsonSaver.CreateFolder(_folderName + "/" + _folderUserName + "/" + _userTag);
             _filePath = _folderName + "/" + _folderUserName + "/" + _fileName + _fileType;
+            if (needFolders)
+            {
+                jsonSaver.CreateFolder(_folderName);
+                jsonSaver.CreateFolder(_folderName + "/" + _folderUserName);
+                jsonSaver.CreateFolder(_folderName + "/" + _folderUserName + "/" + _userTag);
+            }
         }
 
         public static SaveUser GetInstance(string userName, string userUid)
@@ -55,6 +53,14 @@ namespace Projet_9.Save
             if (instance == null)
             {
                 instance = new SaveUser(userName, userUid);
+            }
+            return instance;
+        }
+        public static SaveUser GetInstance(string userName, string userUid, bool needFolders)
+        {
+            if (instance == null)
+            {
+                instance = new SaveUser(userName, userUid, needFolders);
             }
             return instance;
         }

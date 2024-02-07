@@ -102,7 +102,7 @@ namespace NSecurity
             return false;
         }
 
-            public static bool ValidationName(string name)
+        public static bool ValidationName(string name)
         {
             bool containsAtLeast3char = name.Length >= 3;
             bool containsLowerCase = GlobalString.ContainsLowerCase(name);
