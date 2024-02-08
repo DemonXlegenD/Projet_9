@@ -10,6 +10,7 @@ using System.Text;
 using NGlobal;
 using System.Linq;
 using System.Windows.Documents;
+using NTrainer;
 
 namespace NScene
 {
@@ -45,7 +46,7 @@ namespace NScene
         private int height = 0;
         private int width = 0;
         private List<string> collidable = new List<string>() { "C", "T" };
-        private List<string> trainer = new List<string>() { "D" };
+        //private List<string> trainer = new List<string>() { "D" };
         private Vector2i spawn = Vector2i.Zero;
 
         public MapScene() : base("MapScene") { }
@@ -282,15 +283,18 @@ namespace NScene
 
                     var enemyTile = false;
 
-                    foreach (var entry in enemies)
+                    foreach (var entry in Global.AllTrainers)
                     {
-                        foreach (KeyValuePair<string, Vector2i> enemy in entry)
+                        if (entry.Key == mapName && entry.Value != null)
                         {
-                            if (enemy.Value.GetX() == j && enemy.Value.GetY() == i)
-                            {  
-                                GetTiles(map[i, j], false);
-                                Console.Write(" " + enemy.Key + " ");
-                                enemyTile = true;
+                            foreach (Trainer enemy in entry.Value)
+                            {
+                                if (enemy.Position.GetX() == j && enemy.Position.GetY() == i)
+                                {
+                                    GetTiles(map[i, j], false);
+                                    Console.Write(" " + enemy.Name + " ");
+                                    enemyTile = true;
+                                }
                             }
                         }
                     }

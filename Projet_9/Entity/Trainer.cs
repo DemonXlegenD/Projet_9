@@ -10,18 +10,19 @@ namespace NTrainer
 {
     public class Trainer
     {
-        private string _name;
-        private Vector2i _position { get; set; }
-        private List<Pokemon> pokemons;
-        public Trainer(string name) {
-            _name = name;
-            _position = new Vector2i();
-            pokemons = new List<Pokemon>();
+        public string Name;
+        public Vector2i Position { get; set; }
+        public List<Pokemon> Pokemons { get; set; } = new List<Pokemon>();
+        public Trainer(string name, Vector2i position, List<Pokemon> pokemons)
+        {
+            Name = name;
+            Position = position;
+            Pokemons = pokemons;
         }
 
         void AddPokemon(Pokemon pokemon)
         {
-            pokemons.Add(pokemon);
+            Pokemons.Add(pokemon);
         }
 
     }
