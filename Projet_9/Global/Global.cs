@@ -1,5 +1,7 @@
 using NDatas;
+using NInventory;
 using NPokemon;
+using NScene;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,6 +27,9 @@ namespace NGlobal
             new Pokemon("5", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5)
 
         };
+
+        public static Dictionary<string, ItemAbstract> PlayerItems = new Dictionary<string, ItemAbstract>();
+
         /// <summary> List of the pokemons of the enemy </summary>
         public static List<Pokemon> EnemyPokemons = new List<Pokemon>() { new Pokemon("3", "Maurad", new List<string> { "Grass" }, 20, 20, 20, 20, 20, 20, 10) };
 

@@ -25,6 +25,7 @@ namespace Projet_9.Datas
                 {
                     { 1, new List<string> { "Charge" } },
                     { 5, new List<string> { "GUN" } },
+                    { 8, new List<string> { "PowerWhip" } },
                 }
             },
             {
@@ -32,6 +33,7 @@ namespace Projet_9.Datas
                 {
                     { 1, new List<string> { "Charge" } },
                     { 5, new List<string> { "Blop" } },
+                    { 8, new List<string> { "FirePunch" } },
                 }
             },
             {
