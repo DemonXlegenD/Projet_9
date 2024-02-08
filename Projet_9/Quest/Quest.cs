@@ -49,7 +49,6 @@ namespace NQuest
             activeQuests.Add(quest);
         }
 
-<<<<<<< HEAD
         public void TriggerTrainerDefeatedEvent(string trainerName)
         {
             if (TrainerDefeatedEvent != null)
@@ -68,15 +67,13 @@ namespace NQuest
         {
             TrainerDefeatedEvent += OnTrainerDefeated;
         }
-=======
+
         public void CompleteQuest(Quest quest)
         {
             activeQuests.Remove(quest);
             completedQuests.Add(quest);
             quest.IsCompleted = true;
         }
-
->>>>>>> 0c87498cf7b1f07d8d04220266f2f715715daa1c
     }
 
     public class Quest
@@ -109,8 +106,6 @@ namespace NQuest
         }
     }
 
-<<<<<<< HEAD
-=======
     public class QuestEventHandler
     {
         public event TrainerDefeatedEventHandler TrainerDefeatedEvent;
@@ -119,5 +114,4 @@ namespace NQuest
 
     }
 
->>>>>>> 0c87498cf7b1f07d8d04220266f2f715715daa1c
 }
