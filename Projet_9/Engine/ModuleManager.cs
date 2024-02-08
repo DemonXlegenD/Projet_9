@@ -25,6 +25,7 @@ namespace NEngine
             CreateModule<InputModule>();
             CreateModule<WindowModule>();
             CreateModule<SceneModule>();
+            CreateModule<SoundModule>();
         }
 
         public void Init()

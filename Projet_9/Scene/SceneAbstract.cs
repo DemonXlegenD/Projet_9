@@ -29,11 +29,13 @@ namespace NScene
 
         public Player GetPlayer()
         {
+            PlayerManager = PlayerManager.GetInstance();
             return PlayerManager.GetActualPlayer();
         }
 
         public User GetUser()
         {
+            UserManager = UserManager   .GetInstance();
             return UserManager.ActualUser;
         }
 

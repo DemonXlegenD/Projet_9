@@ -29,7 +29,7 @@ namespace NGlobal
         public static string TXTAttacksPath = "./Assets/TXT_files_Attacks/";
         public static string TXTCharactersPath = "./Assets/TXT_files_Characters/";
         public static string TXTDressersPath = "./Assets/TXT_files_Dressers/";
-        public static string TXTGeneralPath = "./Assets/TXT_fikes_General/";
+        public static string TXTGeneralPath = "./Assets/TXT_files_General/";
 
         // public Dictionary PlayerItems = { "Pokeball":{"Num":100} }
         // public List<Pokemon_Class> PC
