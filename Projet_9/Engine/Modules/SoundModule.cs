@@ -4,6 +4,7 @@ using NEngine;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using NAudio.Wave.SampleProviders;
 
 namespace NModules
 {
@@ -12,12 +13,14 @@ namespace NModules
         private Dictionary<string, AudioFileReader> audioFileReaders;
         private Dictionary<string, WaveOutEvent> waveOutDevices;
         private Dictionary<string, bool> loopingStates;
+        private Dictionary<string, VolumeSampleProvider> volumeProviders;
 
         public SoundModule()
         {
             audioFileReaders = new Dictionary<string, AudioFileReader>();
             waveOutDevices = new Dictionary<string, WaveOutEvent>();
             loopingStates = new Dictionary<string, bool>();
+            volumeProviders = new Dictionary<string, VolumeSampleProvider>();
 
             string[] files2 = Directory.GetFiles("Assets\\Musiques\\Boss_Fight");
             foreach (string file in files2)
@@ -29,8 +32,13 @@ namespace NModules
                 var waveOutDevice = new WaveOutEvent();
                 waveOutDevice.Init(audioFileReader);
                 waveOutDevices.Add(id, waveOutDevice);
-
                 loopingStates.Add(id, false);
+
+                var volumeProvider = new VolumeSampleProvider(audioFileReader.ToSampleProvider());
+                volumeProviders.Add(id, volumeProvider);
+
+                // Réglez le volume initial sur 1.0 (plein volume)
+                volumeProvider.Volume = 1.0f;
             }
 
             string[] files3 = Directory.GetFiles("Assets\\Musiques\\Fight");
@@ -53,6 +61,8 @@ namespace NModules
             audioFileReaders = new Dictionary<string, AudioFileReader>();
             waveOutDevices = new Dictionary<string, WaveOutEvent>();
             loopingStates = new Dictionary<string, bool>();
+            volumeProviders = new Dictionary<string, VolumeSampleProvider>();
+
 
             foreach (var kvp in musiqueEtChemins)
             {
@@ -95,6 +105,29 @@ namespace NModules
             else
             {
                 Console.WriteLine("Musique non trouvée !");
+            }
+        }
+
+        public void SetVolume(string nomMusique, float volume)
+        {
+            if (volumeProviders.ContainsKey(nomMusique))
+            {
+                volumeProviders[nomMusique].Volume = volume;
+            }
+            else
+            {
+                Console.WriteLine("Musique non trouvée !");
+            }
+        }
+
+        public void SetMainVolume(float volume)
+        {
+            foreach (var provider in volumeProviders.Values)
+            {
+                if (provider != null)
+                {
+                    provider.Volume = volume;
+                }
             }
         }
 
