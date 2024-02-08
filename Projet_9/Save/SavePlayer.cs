@@ -4,6 +4,7 @@ using NEntity;
 using Newtonsoft.Json;
 using NJSON;
 using NPokemon;
+using NSecurity;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +20,7 @@ namespace NSave
         private string _fileName = "Save";
         private string _folderName = "Saves/Users";
         private string _fileType = ".json";
-        private string _playerTag = string.Empty;
+        public string UserTag { get; set; } = string.Empty;
 
         public string Name
         {
@@ -30,19 +31,14 @@ namespace NSave
         public SavePlayer()
         {
             jsonSaver = JsonDeveloper.GetInstance();
-            jsonSaver.CreateFolder(_folderName);
+            UserTag = UserManager.GetInstance().GetUserTag();
+            CreateFolders();
         }
 
-        public SavePlayer(string playerUid, bool needFolders = true)
+        public void CreateFolders()
         {
-            jsonSaver = JsonDeveloper.GetInstance();
-            _playerTag = playerUid;
-
-            if(needFolders)
-            {
-                jsonSaver.CreateFolder(_folderName);
-                jsonSaver.CreateFolder(_folderName +"/" + _playerTag);
-            }  
+            if(!Directory.Exists(_folderName)) Directory.CreateDirectory(_folderName);
+            if(!Directory.Exists(_folderName + "/" + UserTag)) Directory.CreateDirectory(_folderName + "/" + UserTag);
         }
 
         public static SavePlayer GetInstance()
@@ -54,27 +50,24 @@ namespace NSave
             return instance;
         }
 
-        public static SavePlayer GetInstance(string playerUid, bool needFolders)
+        public List<string> ListSaveFiles()
         {
-            if (instance == null)
+            List<string> files = new List<string>();
+            if (Directory.Exists(_folderName + "/" + UserTag))
             {
-                instance = new SavePlayer(playerUid, needFolders);
+                // Récupérez les noms de fichiers dans le dossier spécifié
+                string[] nomsFichiers = Directory.GetFiles(_folderName + "/" + UserTag);
+                foreach (string file in nomsFichiers)
+                {
+                    files.Add(file);
+                }
             }
-            return instance;
-        }
-
-        public static SavePlayer GetInstance(string playerUid)
-        {
-            if (instance == null)
-            {
-                instance = new SavePlayer(playerUid);
-            }
-            return instance;
+            return files;
         }
 
         public T ReadTestSave<T>(List<JsonConverter> converters)
         {
-            return jsonSaver.DeserializeObjectToJsonFile<T>(_folderName + "/" + _playerTag + "/" + _fileName + _actualIndex + _fileType, converters);
+            return jsonSaver.DeserializeObjectToJsonFile<T>(_folderName + "/" + UserTag + "/" + _fileName + _actualIndex + _fileType, converters);
         }
 
         public T ReadTestSave<T>(int indexSave, List<JsonConverter> converters)
@@ -83,16 +76,22 @@ namespace NSave
             {
                 _actualIndex = ((indexSave - 1) % 3) + 1;
             }    
-            return jsonSaver.DeserializeObjectToJsonFile<T>(_folderName + "/" + _playerTag + "/" + _fileName + _actualIndex + _fileType, converters);
+            return jsonSaver.DeserializeObjectToJsonFile<T>(_folderName + "/" + UserTag + "/" + _fileName + _actualIndex + _fileType, converters);
+        }
+        
+        public T ReadSaveFromFile<T>(string saveFile, List<JsonConverter> converters)
+        {
+            return jsonSaver.DeserializeObjectToJsonFile<T>(saveFile, converters);
         }
 
         public void WriteSave(object data, int indexSave, List<JsonConverter> converters)
         {
+            CreateFolders();
             if (_actualIndex != indexSave)
             {
                 _actualIndex = ((indexSave - 1) % 3) + 1;
             }
-            jsonSaver.SerializeObjectToJsonFile(data, _folderName + "/" + _playerTag + "/" + _fileName +  _actualIndex + _fileType, converters);
+            jsonSaver.SerializeObjectToJsonFile(data, _folderName + "/" + UserTag + "/" + _fileName +  _actualIndex + _fileType, converters);
         }
     }
 

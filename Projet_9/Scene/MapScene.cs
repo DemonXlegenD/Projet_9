@@ -228,6 +228,7 @@ namespace NScene
                             {
                                 if (GetPlayer().Position.GetX() == enemy.Value.GetX() && GetPlayer().Position.GetY() == enemy.Value.GetY())
                                 {
+                                    // Changer les enemyPokemons avant
                                     enemyFound = true;
                                     Global.IsWildFight = false;
                                     Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);

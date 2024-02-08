@@ -117,7 +117,7 @@ namespace NDatas
             string jsonString = File.ReadAllText("Data/pokemons.json");
             List<IPokemon> pokemons = JsonConvert.DeserializeObject<List<IPokemon>>(jsonString);
             IPokemon pokemon = pokemons.FirstOrDefault(p => p.Id == idPokemon);
-            Pokemon result = new Pokemon();
+            Pokemon result = new Pokemon(pokemon);
             result.Id = idPokemon;
             result.Name = pokemon.Name;
             result.Hp = pokemon.Hp;

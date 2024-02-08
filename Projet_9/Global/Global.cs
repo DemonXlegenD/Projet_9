@@ -14,8 +14,15 @@ namespace NGlobal
     {
         public static bool IsInBattle = false;
         public static bool IsWildFight = true;
-		public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { new Pokemon("0", "JSP", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5) };
-        public static List<Pokemon> EnemyPokemons = new List<Pokemon>();
+
+        public static int Pokeballs = 100;
+
+        public static Attack DefaultAttack = new Attack("Def","Normal","Physical",10,100,999);
+		public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { 
+            new Pokemon("0", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5), 
+            new Pokemon("0", "Jarod", new List<string> { "Water" }, 20, 20, 20, 20, 20, 20, 10) 
+        };
+        public static List<Pokemon> EnemyPokemons = new List<Pokemon>() { new Pokemon("0", "Maurad", new List<string> { "Grass" }, 20, 20, 20, 20, 20, 20, 10) };
 
         /// <summary> Paths to look for the assets </summary>
         public static string TXTArtCollectionPath = "./Assets/__ASCII Text-Art Collection/";
@@ -254,6 +261,9 @@ namespace NGlobal
 		{
 			Pokemon X = PokemonList[x];
 			Pokemon Y = PokemonList[y];
+
+            PokemonList[x] = Y;
+            PokemonList[y] = X;
         }
 
 		/// <summary> Heals all the pokemons of the player </summary> <param name="PokemonList"></param>
@@ -339,8 +349,8 @@ namespace NGlobal
                         topPosition = Console.CursorTop;
                         break;
 
-                    case 2:
-                        if ((int)Math.Ceiling((decimal)(Console.WindowWidth / 2)) - sprite.Max().Length < 0)
+                    case 2: // Center
+                        if ((int)Math.Ceiling((decimal)(Console.WindowWidth / 2)) - sprite.Max().Length/2 < 0)
                         {
                             leftPosition = 0;
                             topPosition = Console.CursorTop;
@@ -352,7 +362,7 @@ namespace NGlobal
                         }
                         break;
 
-                    case 3:
+                    case 3: // Right (normalement)
                         if ((int)Math.Ceiling((decimal)(Console.WindowWidth / 2)) - (sprite.Max().Length / 2) < 0)
                         {
                             leftPosition = 0;

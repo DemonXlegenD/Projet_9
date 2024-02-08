@@ -1,4 +1,4 @@
-﻿using Map;
+using Map;
 using NGlobal;
 using NModules;
 using NPokemon;
@@ -39,7 +39,7 @@ namespace NScene
         private bool P1Used = false;
         private bool P2Used = false;
 
-        List<Pokemon> List1;
+        private List<Pokemon> List1;
         private List<Pokemon> List2;
 
         private Pokemon P1;
@@ -59,7 +59,7 @@ namespace NScene
         private List<ConsoleKey> Inputs3 = new List<ConsoleKey>() { ConsoleKey.Z, ConsoleKey.W, ConsoleKey.UpArrow };
         private List<ConsoleKey> Inputs4 = new List<ConsoleKey>() { ConsoleKey.S, ConsoleKey.DownArrow };
 
-        private string[] List_Actions_Select = { "1: Move ","2: Items ","3: Pokemons ","4: Escape " };
+        private string[] List_Actions_Select = { "1: Move ","2: Items ","3: Pokemons ","4: Catch ","5: Escape " };
 
         private QuestManager questManager;
 
@@ -67,15 +67,33 @@ namespace NScene
         // TO START A FIGHT : CHANGE ( IsWildFight,EnemyPokemons,PlayerPokemons )
         public FightScene() : base("FightScene")
         {
+            // à retirer si mit enemy pokemon ajouté etc
+            List1 = Global.PlayerPokemons;
+            List2 = Global.EnemyPokemons;
 
             List1 = new List<Pokemon>() { new Pokemon("1","jarod", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5), new Pokemon("3", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5) };
             List1[0].Moves.Add(new Attack("Charge", "Normal", "Physical", 20, 100, 25));
             List1[1].Moves.Add(new Attack("Brule", "Fire", "Special", 20, 100, 25));
             List2 = new List<Pokemon>() { new Pokemon("2", "maurad", new List<string> { "Grass" }, 10, 10, 10, 10, 10, 10, 5), new Pokemon("4", "hamid", new List<string> { "Grass" }, 10, 10, 10, 10, 10, 10, 5) };
             List2[0].Moves.Add(new Attack("Charge", "Normal", "Physical", 20, 100, 25));
+            List2[1].Moves.Add(new Attack("Charge", "Normal", "Physical", 20, 100, 25));
 
             P1 = List1[0];
             P2 = List2[0];
+            foreach(Pokemon p in List1)
+            {
+                if (p.IsAlive())
+                {
+                    P1 = p;
+                }
+            }
+            foreach(Pokemon p in List2)
+            {
+                if(p.IsAlive())
+                {
+                    P2 = p;
+                }
+            }
 
             questManager = new QuestManager();
 
@@ -147,8 +165,34 @@ namespace NScene
                                 STATE = States.CHANGE;
                                 PSelectIndex = 0;
                                 break;
-                            
+
                             case 4:
+                                if (Global.IsWildFight && Pokeballs > 0)
+                                {
+                                    if (Cath(P2))
+                                    {
+                                        AfterFightTeamPokemon(PlayerPokemons);
+                                        PlayerPokemons.Add(P2);
+                                        // Go to map scene
+                                    }
+                                    else
+                                    {
+                                        TextQueue.Add("Rahh, the pokemon was not catched !");
+                                        P1Used = true;
+                                        STATE = States.TURN;
+                                    }
+                                }
+                                else
+                                {
+                                    TextQueue.Add("Trying to catch the pokemon of a trainer ?");
+                                }
+                                if (Global.IsWildFight && Pokeballs <= 0)
+                                {
+                                    TextQueue.Add("No more pokeballs");
+                                }
+                                break;
+
+                            case 5:
                                 if (Global.IsWildFight)
                                 {
                                     if (OddsEscape(P1.Speed, P2.Speed))
@@ -166,7 +210,7 @@ namespace NScene
                         }
 
                     }
-                    if (key.Key == ConsoleKey.Enter)
+                    if (key.Key == ConsoleKey.Enter || key.Key == ConsoleKey.Spacebar)
                     {
                         switch (PSelectIndex)
                         {
@@ -185,6 +229,33 @@ namespace NScene
                                 break;
 
                             case 3:
+                                if (Global.IsWildFight && Pokeballs > 0)
+                                {
+                                    if (Cath(P2))
+                                    {
+                                        AfterFightTeamPokemon(PlayerPokemons);
+                                        PlayerPokemons.Add(P2);
+                                        // Go to map scene
+                                    }
+                                    else
+                                    {
+                                        TextQueue.Add("Rahh, the pokemon was not catched !");
+                                        P1Used = true;
+                                        STATE = States.TURN;
+                                    }
+                                }
+                                else
+                                {
+                                    TextQueue.Add("Trying to catch the pokemon of a trainer ?");
+                                }
+
+                                if (IsWildFight && Pokeballs <= 0)
+                                {
+                                    TextQueue.Add("No more pokeballs");
+                                }
+                                break;
+
+                            case 4:
                                 if (Global.IsWildFight)
                                 {
                                     if (OddsEscape(P1.Speed, P2.Speed))
@@ -230,7 +301,7 @@ namespace NScene
                         }
 
                     }
-                    if (key.Key == ConsoleKey.Enter)
+                    if (key.Key == ConsoleKey.Enter || key.Key == ConsoleKey.Spacebar)
                     {
                         if (PSelectIndex >= BackChoice-1)
                         {
@@ -295,7 +366,7 @@ namespace NScene
                             else { TextQueue.Add("Pokemon selected is either in battle or dead"); }
                         }
                     }
-                    if (key.Key == ConsoleKey.Enter)
+                    if (key.Key == ConsoleKey.Enter || key.Key == ConsoleKey.Spacebar)
                     {
                         SelectedIndex = PSelectIndex;
                         if (PSelectIndex >= BackChoice-1 && P1.IsAlive())
@@ -413,10 +484,20 @@ namespace NScene
             Console.SetCursorPosition(leftPosition, topPosition);
 
             PokemonInfo(P2,right:true);
-            List<string> sprite = ReadFilesText(GetFileAtIndex(TXTCharactersPath, 1)); // Nombre impaire pour les faces
+            int Art1 = int.Parse(P2.Id); 
+            if (int.Parse(P2.Id) % 2 == 0)
+            {
+                Art1 = int.Parse(P2.Id) + 1;
+            }
+            List<string> sprite = ReadFilesText(GetFileAtIndex(TXTCharactersPath, Art1)); // Nombre impaire pour les faces
             WriteSprites(sprite,2);
             // Mettre des pokemons si on veut 
-            List<string> sprite1 = ReadFilesText(GetFileAtIndex(TXTCharactersPath, 5)); // Nombre impaire pour les faces
+            int Art2 = int.Parse(P1.Id);
+            if (int.Parse(P1.Id) % 2 == 0)
+            {
+                Art2 = int.Parse(P1.Id) + 1;
+            }
+            List<string> sprite1 = ReadFilesText(GetFileAtIndex(TXTCharactersPath, Art2)); // Nombre impaire pour les faces
             WriteSprites(sprite1);
             PokemonInfo(P1,true);
             SauterLignes(2);

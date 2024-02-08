@@ -28,9 +28,7 @@ namespace NModules
                 {
                     Console.WriteLine("Je suis Jarooooooooooooooooooooooooooooooooooooooooooooooooooooood");
                 }
-
             }
-
         }
     }
 }

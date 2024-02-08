@@ -42,7 +42,7 @@ namespace NPokemon
                         int y = 0;
                         foreach (Pokemon p in PokemonListSelf)
                         {
-                            if (Global.Chart[(int)Global.TypeToIndex(a.GetType()), (int)Global.TypeToIndex(p.GetTypes()[0])] < 1)
+                            if (Global.Chart[(int)Global.TypeToIndex(a.GetType()), (int)Global.TypeToIndex(p.GetTypes()[0])] < 1 && p != PokemonInBattleSelf)
                             { 
                                 return -1-y;
                             }

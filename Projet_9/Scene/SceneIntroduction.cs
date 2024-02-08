@@ -178,7 +178,7 @@ namespace NScene
 
             Pokemon pokemon = PokemonToChoose();
 
-            playerManager.NewPlayer(firstname, lastname, userManager.ActualUser.Id, ageNumber, description, pokemon);
+            playerManager.NewPlayer(firstname, lastname, userManager.ActualUser.PlayerId, ageNumber, description, pokemon, userManager.ActualUser.Username + "_" + userManager.ActualUser.Id);
 
             WaitForPressing("Bon, ce n'est pas que je suis pressé...");
             WaitForPressing("Mais j'ai aqua poney, tu me comprends surement.");

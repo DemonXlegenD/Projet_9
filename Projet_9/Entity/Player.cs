@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using NPokemon;
 using NSecurity;
-using NQuest;
+using NGlobal;
 
 namespace NEntity
 {
@@ -49,6 +49,7 @@ namespace NEntity
             Description = description;
             TeamPokemons = new List<Pokemon>();
             TeamPokemons.Add(pokemon);
+            Global.PlayerPokemons = TeamPokemons;
             PCPokemons = new List<Pokemon>();
             Position = Vector2i.Zero;
             Inventory = new Dictionary<string, ItemAbstract>();
@@ -65,6 +66,7 @@ namespace NEntity
             PCPokemons = pCPokemons;
             Position = position;
             Inventory = inventory;
+            Global.PlayerPokemons = TeamPokemons;
         }
         public Player(Player player)
         {
@@ -77,33 +79,6 @@ namespace NEntity
             PCPokemons = player.PCPokemons;
             Position = player.Position;
             Inventory = player.Inventory;
-<<<<<<< HEAD
-=======
-
-            questManager = new QuestManager();
-            questEventHandler = new QuestEventHandler();
-        }
-
-        public void DefeatTrainer()
-        {
-            // Faut implémenter ca quelque part
-            /*questEventHandler.TrainerDefeatedEvent?.Invoke(this, new TrainerDefeatedEventArgs());*/
-            questEventHandler.TrainerDefeatedEvent += new PokemonCapturedEventHandler(this, new TrainerDefeatedEventArgs());
-        }
-
-        public void CapturePokemon(string pokemon)
-        {
-            // La pareil
-            /*questEventHandler.PokemonCapturedEvent?.Invoke(this, new PokemonCapturedEventArgs());*/
-            questEventHandler.PokemonCapturedEvent += new PokemonCapturedEventHandler(this, new PokemonCapturedEventArgs());
-        }
-
-        public void CollectPokemon()
-        {
-            // La aussi
-            questEventHandler.PokemonCollectedEvent += new PokemonCollectedEventHandler(this, new PokemonCollectedEventArgs());
-            /*questEventHandler.PokemonCollectedEvent?.Invoke(this, new PokemonCollectedEventArgs());*/
->>>>>>> 0c87498cf7b1f07d8d04220266f2f715715daa1c
         }
 
         public override string ToString()
@@ -116,6 +91,7 @@ namespace NEntity
             if (TeamPokemons.Count < 6)
             {
                 TeamPokemons.Add(pokemon);
+                Global.PlayerPokemons = TeamPokemons;
             }
             else
             {
