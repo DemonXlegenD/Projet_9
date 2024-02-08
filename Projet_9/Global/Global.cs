@@ -291,7 +291,7 @@ namespace NGlobal
 			int Attempts = 1;
 			int OddEscape = ( SpeedP*32/(SpeedW/4 % 256 ) ) + 30 * Attempts;
 			if (OddEscape < 255){
-				if (rnd.Next() < OddEscape){return true;}
+				if (rnd.Next(1,255) < OddEscape){return true;}
 				else{ return false;}
 			}
 			else{return true;}

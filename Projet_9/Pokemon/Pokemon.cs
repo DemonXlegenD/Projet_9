@@ -258,7 +258,7 @@ namespace NPokemon
 
         public void LoadPokemonFromFile(string idPokemon)
         {
-            PokemonsData.GetIPokemonWithId(idPokemon);
+            ApplyStats(PokemonsData.GetIPokemonWithId(idPokemon));
         }
         public Pokemon(Pokemon pokemon)
         {

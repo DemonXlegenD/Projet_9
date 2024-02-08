@@ -11,6 +11,7 @@ using NGlobal;
 using System.Linq;
 using System.Windows.Documents;
 using NTrainer;
+using System.Xml.Linq;
 
 
 namespace NScene
@@ -219,6 +220,7 @@ namespace NScene
                                 stop = true;
                                 Console.Clear();
                                 Console.BackgroundColor = ConsoleColor.Black;
+                                Global.IsWildFight = false;
                                 Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
                             }
                         }
@@ -233,7 +235,10 @@ namespace NScene
                             Console.Clear();
                             Console.BackgroundColor = ConsoleColor.Black;
                             Global.IsWildFight = true;
-                            Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
+                            Global.EnemyPokemons.Clear();
+                            List<string> PokemonsList = new List<string>() { "Maurad","Jarod","Francois" };
+                            Global.EnemyPokemons.Add(Global.ReadPokemonDatas(PokemonsList[rnd.Next(0, PokemonsList.Count-1)], rnd.Next(1,5)));
+                            Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
                         }
                     }
                     if (key.Key == ConsoleKey.Escape)
