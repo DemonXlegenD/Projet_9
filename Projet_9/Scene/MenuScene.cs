@@ -73,7 +73,6 @@ namespace NScene
             bool validUsername = false;
             bool validPassword = false;
             Guid uniqueId = Guid.NewGuid();
-            string playerUid = uniqueId.ToString();
 
             Global.WriteSprites(new List<string> { "CREER UN NOUVEL UTILISATEUR" }, 3);
 
@@ -164,8 +163,8 @@ namespace NScene
                 } while (!validPassword);
             }
 
-
             System.Threading.Thread.Sleep(2000);
+
             Console.WriteLine($"Bienvenue {userName}, content de vous revoir");
 
             System.Threading.Thread.Sleep(2000);
@@ -191,7 +190,7 @@ namespace NScene
                 Console.Clear();
             } while (playerManager.GetActualPlayer() == null);
 
-            Console.WriteLine(playerManager.GetActualPlayer().FirstName);
+            Console.WriteLine("Chargement ...");
             System.Threading.Thread.Sleep(2000);
 
             Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
