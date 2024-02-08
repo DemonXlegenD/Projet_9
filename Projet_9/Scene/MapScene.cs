@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using NGlobal;
 
 namespace NScene
 {
@@ -228,6 +229,7 @@ namespace NScene
                                 if (GetPlayer().Position.GetX() == enemy.Value.GetX() && GetPlayer().Position.GetY() == enemy.Value.GetY())
                                 {
                                     enemyFound = true;
+                                    Global.IsWildFight = false;
                                     Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
                                 }
                                 else
@@ -252,6 +254,7 @@ namespace NScene
                                 if (chance == 1)
                                 {
                                     enemyFound = true;
+                                    Global.IsWildFight = true;
                                     Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
                                 }
                             }

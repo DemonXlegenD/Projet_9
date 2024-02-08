@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NQuest
 {
-    public delegate void TrainerDefeatedEventHandler(object sender, TrainerDefeatedEventArgs e);
+    public delegate void TrainerDefeatedEventHandler(object sender, TrainerDefeatedEventArgs e, string trainerName);
     public delegate void PokemonCapturedEventHandler(object sender, PokemonCapturedEventArgs e);
     public delegate void PokemonCollectedEventHandler(object sender, PokemonCollectedEventArgs e);
 
@@ -14,6 +14,10 @@ namespace NQuest
 
     public class QuestManager
     {
+        public event TrainerDefeatedEventHandler TrainerDefeatedEvent;
+        public event PokemonCapturedEventHandler PokemonCapturedEvent;
+        public event PokemonCollectedEventHandler PokemonCollectedEvent;
+
         List<Quest> availableQuests;
         List<Quest> activeQuests;
         List<Quest> completedQuests;
@@ -23,6 +27,24 @@ namespace NQuest
             activeQuests.Add(quest);
         }
 
+        public void TriggerTrainerDefeatedEvent(string trainerName)
+        {
+            if (TrainerDefeatedEvent != null)
+            {
+                TrainerDefeatedEvent(this, new TrainerDefeatedEventArgs(), trainerName);
+            }
+        }
+
+        private void OnTrainerDefeated(object sender, TrainerDefeatedEventArgs e, string trainerName)
+        {
+            Console.WriteLine(trainerName + " Trainer has been defeated!");
+            System.Threading.Thread.Sleep(10000);
+        }
+
+        public void SubscribeToTrainerDefeatedEvent()
+        {
+            TrainerDefeatedEvent += OnTrainerDefeated;
+        }
     }
 
     public class Quest
@@ -37,6 +59,7 @@ namespace NQuest
             Description = description;
             IsCompleted = false;
         }
+
     }
 
     public class DefeatTrainerQuest : Quest
@@ -52,13 +75,6 @@ namespace NQuest
         {
             PokemonToCapture = pokemonToCapture;
         }
-    }
-
-    public class QuestEventHandler
-    {
-        public event TrainerDefeatedEventHandler TrainerDefeatedEvent;
-        public event PokemonCapturedEventHandler PokemonCapturedEvent;
-        public event PokemonCollectedEventHandler PokemonCollectedEvent;
     }
 
 }
