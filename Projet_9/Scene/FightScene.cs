@@ -1,4 +1,4 @@
-using Map;
+﻿using Map;
 using NGlobal;
 using NModules;
 using NPokemon;
@@ -11,10 +11,6 @@ using System.Windows.Media;
 using static NGlobal.Global;
 using System.Security.Cryptography;
 using System.Security.Policy;
-using NEntity;
-using System.Windows;
-using NQuest;
-using NEngine;
 
 
 namespace NScene
@@ -61,8 +57,6 @@ namespace NScene
 
         private string[] List_Actions_Select = { "1: Move ","2: Items ","3: Pokemons ","4: Catch ","5: Escape " };
 
-        private QuestManager questManager;
-
 
         // TO START A FIGHT : CHANGE ( IsWildFight,EnemyPokemons,PlayerPokemons )
         public FightScene() : base("FightScene")
@@ -71,15 +65,6 @@ namespace NScene
             List1 = Global.PlayerPokemons;
             List2 = Global.EnemyPokemons;
 
-            List1 = new List<Pokemon>() { new Pokemon("1","jarod", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5), new Pokemon("3", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5) };
-            List1[0].Moves.Add(new Attack("Charge", "Normal", "Physical", 20, 100, 25));
-            List1[1].Moves.Add(new Attack("Brule", "Fire", "Special", 20, 100, 25));
-            List2 = new List<Pokemon>() { new Pokemon("2", "maurad", new List<string> { "Grass" }, 10, 10, 10, 10, 10, 10, 5), new Pokemon("4", "hamid", new List<string> { "Grass" }, 10, 10, 10, 10, 10, 10, 5) };
-            List2[0].Moves.Add(new Attack("Charge", "Normal", "Physical", 20, 100, 25));
-            List2[1].Moves.Add(new Attack("Charge", "Normal", "Physical", 20, 100, 25));
-
-            P1 = List1[0];
-            P2 = List2[0];
             foreach(Pokemon p in List1)
             {
                 if (p.IsAlive())
@@ -94,15 +79,8 @@ namespace NScene
                     P2 = p;
                 }
             }
+            
 
-            questManager = new QuestManager();
-
-            questManager.SubscribeToTrainerDefeatedEvent();
-        }
-
-        static void OnTrainerDefeated(object sender, TrainerDefeatedEventArgs e)
-        {
-            Console.WriteLine("Trainer has been defeated!");
         }
 
 
@@ -197,7 +175,6 @@ namespace NScene
                                 {
                                     if (OddsEscape(P1.Speed, P2.Speed))
                                     {
-                                        Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
                                         // GO TO MAP SCENE
                                     }
                                     else
@@ -731,12 +708,6 @@ namespace NScene
                 {
                     AfterFightTeamPokemon(List1);
                     // Change to main scene
-                    if (!IsWildFight)
-                    {
-                        questManager.TriggerTrainerDefeatedEvent("Ash");
-                    }
-
-                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
                 }
                 else
                 {
