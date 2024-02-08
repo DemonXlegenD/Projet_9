@@ -14,7 +14,7 @@ namespace NPokemon
             ChoiceAttack = MakeChoice(PokemonInBattle, PokemonEnemy);
         }
 
-        private int MakeChoice(Pokemon pokemon, Pokemon pokemonEnemy)
+        public static int MakeChoice(Pokemon pokemon, Pokemon pokemonEnemy)
         {
             List<float> typesMul = new List<float>();
             foreach (Attack i in pokemon.Moves)

@@ -273,6 +273,12 @@ namespace NPokemon
             this.pokemon = pokemon;
         }
 
+        public void HpChange(int x)
+        {
+            Hp += x;
+            if (Hp > MaxHp) { Hp = MaxHp; }
+        }
+
 
         // func Restore() -> void: ## To restore the pokemon Hp and restore all the Pp of all his moves
         // 	Hp = MaxHp

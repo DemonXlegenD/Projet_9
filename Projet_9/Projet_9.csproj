@@ -127,6 +127,7 @@
     <Compile Include="Entity\Trainer.cs" />
     <Compile Include="Entity\Player.cs" />
     <Compile Include="Entity\PlayerManager.cs" />
+    <Compile Include="GameObject\Components\TileMap.cs" />
     <Compile Include="Global\Global.cs" />
     <Compile Include="Global\GlobalString.cs" />
     <Compile Include="JSON\JsonDeveloper.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Maths\Vector2i.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quest\Quest.cs" />
     <Compile Include="Scene\FightScene.cs" />
     <Compile Include="Save\SavePlayer.cs" />
     <Compile Include="Save\SaveUser.cs" />

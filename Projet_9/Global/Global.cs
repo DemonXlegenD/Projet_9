@@ -1,6 +1,8 @@
 using Maths;
 using NDatas;
+using NInventory;
 using NPokemon;
+using NScene;
 using NTrainer;
 using System;
 using System.Collections.Generic;
@@ -27,7 +29,11 @@ namespace NGlobal
 
         };
 
+
         private string map { get; set; } = "Map1";
+
+
+        public static Dictionary<string, ItemAbstract> PlayerItems = new Dictionary<string, ItemAbstract>();
 
         /// <summary> List of trainers available </summary>
         public static Dictionary<string, List<Trainer>> AllTrainers = new Dictionary<string, List<Trainer>>();
@@ -357,17 +363,18 @@ namespace NGlobal
 
         /// <summary> Odd of a pokemon to escape </summary>
 		public static bool OddsEscape(int SpeedP, int SpeedW)
-        {
-            Random rnd = new Random();
-            int Attempts = 1;
-            int OddEscape = (SpeedP * 32 / (SpeedW / 4 % 256)) + (30 * Attempts);
-            if (OddEscape < 255)
-            {
-                if (rnd.Next() < OddEscape) { return true; }
-                else { return false; }
-            }
-            else { return true; }
-        }
+
+		{
+			Random rnd = new Random();
+			int Attempts = 1;
+			int OddEscape = ( SpeedP*32/(SpeedW/4 % 256 ) ) + 30 * Attempts;
+			if (OddEscape < 255){
+				if (rnd.Next(1,255) < OddEscape){return true;}
+				else{ return false;}
+			}
+			else{return true;}
+		}
+
 
         /// <summary> Change the order of 2 pokemons in a team </summary>
 		public static void ChangePokemonOrder(List<Pokemon> PokemonList, int x, int y)

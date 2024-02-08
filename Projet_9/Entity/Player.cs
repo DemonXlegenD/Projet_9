@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using NPokemon;
 using NSecurity;
 using NGlobal;
+using NPotionType;
 
 namespace NEntity
 {
@@ -53,6 +54,7 @@ namespace NEntity
             PCPokemons = new List<Pokemon>();
             Position = Vector2i.Zero;
             Inventory = new Dictionary<string, ItemAbstract>();
+            Global.PlayerItems = Inventory;
         }
 
             public Player(string id, string firstName, string lastName, int age, string description, List<Pokemon> teamPokemons, List<Pokemon> pCPokemons, Vector2i position, Dictionary<string, ItemAbstract> inventory)

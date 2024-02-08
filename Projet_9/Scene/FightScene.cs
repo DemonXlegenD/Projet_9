@@ -12,6 +12,11 @@ using static NGlobal.Global;
 using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Drawing.Printing;
+using NInventory;
+using NPotionType;
+using System.Reflection;
+using NHealing;
+using NEngine;
 
 namespace NScene
 {
@@ -63,11 +68,13 @@ namespace NScene
         // TO START A FIGHT : CHANGE ( IsWildFight,EnemyPokemons,PlayerPokemons )
         public FightScene() : base("FightScene")
         {
-            // à retirer si mit enemy pokemon ajouté etc
             List1 = Global.PlayerPokemons;
             List2 = Global.EnemyPokemons;
 
-            foreach(Pokemon p in List1)
+            Potion potion = new Potion();
+            PlayerItems.Add(potion.Id, potion);
+
+            foreach (Pokemon p in List1)
             {
                 if (p.IsAlive())
                 {
@@ -142,7 +149,8 @@ namespace NScene
                                 break;
                             
                             case 2:
-                                // Items
+                                STATE = States.ITEMS;
+                                PSelectIndex = 0;
                                 break;
                             
                             case 3:
@@ -157,6 +165,7 @@ namespace NScene
                                     {
                                         AfterFightTeamPokemon(PlayerPokemons);
                                         PlayerPokemons.Add(P2);
+                                        Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
                                         // Go to map scene
                                     }
                                     else
@@ -181,11 +190,13 @@ namespace NScene
                                 {
                                     if (OddsEscape(P1.Speed, P2.Speed))
                                     {
+                                        Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
                                         // GO TO MAP SCENE
                                     }
                                     else
                                     {
-                                        // Doesnt escape and take damage
+                                        STATE = States.TURN;
+                                        P1Used = true;
                                     }
                                 }
                                 else { TextQueue.Add("You can't escape from a trainer !"); }
@@ -203,7 +214,8 @@ namespace NScene
                                 break;
 
                             case 1:
-                                // Items
+                                STATE = States.ITEMS;
+                                PSelectIndex = 0;
                                 break;
 
                             case 2:
@@ -218,6 +230,7 @@ namespace NScene
                                     {
                                         AfterFightTeamPokemon(PlayerPokemons);
                                         PlayerPokemons.Add(P2);
+                                        Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
                                         // Go to map scene
                                     }
                                     else
@@ -243,6 +256,7 @@ namespace NScene
                                 {
                                     if (OddsEscape(P1.Speed, P2.Speed))
                                     {
+                                        Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
                                         // GO TO MAP SCENE
                                     }
                                     else
@@ -270,15 +284,23 @@ namespace NScene
                         else
                         {
                             DoMove();
-                            int choice = Magnus.MakeChoice(List2, List1, P2, P1);
-                            if (choice > 0)
+                            if (!IsWildFight)
                             {
-                                SelectedAI = choice - 1;
+                                int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                                if (choice > 0)
+                                {
+                                    SelectedAI = choice - 1;
+                                }
+                                else
+                                {
+                                    P2 = List2[choice + 1];
+                                    P2Used = false;
+                                }
                             }
                             else
                             {
-                                P2 = List2[choice + 1];
-                                P2Used = false;
+                                int choice = Newbie.MakeChoice(P2, P1);
+                                SelectedAI = choice;
                             }
                             STATE = States.TURN;
                         }
@@ -295,15 +317,23 @@ namespace NScene
                         {
                             SelectedIndex = PSelectIndex+1;
                             DoMove();
-                            int choice = Magnus.MakeChoice(List2, List1, P2, P1);
-                            if (choice > 0)
+                            if (!IsWildFight)
                             {
-                                SelectedAI = choice - 1;
+                                int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                                if (choice > 0)
+                                {
+                                    SelectedAI = choice - 1;
+                                }
+                                else
+                                {
+                                    P2 = List2[choice + 1];
+                                    P2Used = false;
+                                }
                             }
                             else
                             {
-                                P2 = List2[Math.Abs(choice + 1)];
-                                P2Used = false;
+                                int choice = Newbie.MakeChoice(P2, P1);
+                                SelectedAI = choice;
                             }
                             STATE = States.TURN;
                             PSelectIndex = 0;
@@ -329,15 +359,23 @@ namespace NScene
                                     P1 = List1[SelectedIndex];
                                     P1Used = true;
                                     STATE = States.TURN;
-                                    int choice = Magnus.MakeChoice(List2, List1, P2, P1);
-                                    if (choice > 0)
+                                    if (!IsWildFight)
                                     {
-                                        SelectedAI = choice-1;
+                                        int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                                        if (choice > 0)
+                                        {
+                                            SelectedAI = choice - 1;
+                                        }
+                                        else
+                                        {
+                                            P2 = List2[choice + 1];
+                                            P2Used = false;
+                                        }
                                     }
                                     else
                                     {
-                                        P2 = List2[choice+1];
-                                        P2Used = false;
+                                        int choice = Newbie.MakeChoice(P2, P1);
+                                        SelectedAI = choice;
                                     }
                                 }
                                 else
@@ -373,15 +411,23 @@ namespace NScene
                                     P1 = List1[SelectedIndex];
                                     P1Used = true;
                                     STATE = States.TURN;
-                                    int choice = Magnus.MakeChoice(List2, List1, P2, P1);
-                                    if (choice > 0)
+                                    if (!IsWildFight)
                                     {
-                                        SelectedAI = choice - 1;
+                                        int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                                        if (choice > 0)
+                                        {
+                                            SelectedAI = choice - 1;
+                                        }
+                                        else
+                                        {
+                                            P2 = List2[choice + 1];
+                                            P2Used = false;
+                                        }
                                     }
                                     else
                                     {
-                                        P2 = List2[choice + 1];
-                                        P2Used = false;
+                                        int choice = Newbie.MakeChoice(P2, P1);
+                                        SelectedAI = choice;
                                     }
                                 }
                                 else
@@ -442,8 +488,100 @@ namespace NScene
                 case States.TURN:
                     // Continue de faire des turns pour le pokemon ennemie
                     DoMove();
-
                     break;
+
+                case States.ITEMS:
+                    if (key.Key == ConsoleKey.Enter || key.Key == ConsoleKey.Spacebar)
+                    {
+                        SelectedIndex = PSelectIndex;
+                        if (PSelectIndex >= BackChoice - 1)
+                        {
+                            STATE = States.SELECT;
+                        }
+                        else
+                        {
+                            List<int> listIDSHeal = new List<int>() {0,1,2,3,4};
+                            string key1 = PlayerItems.Keys.ElementAtOrDefault(SelectedIndex);
+                            if (key1 != null)
+                            {
+                                PotionAbstract item = (PotionAbstract)PlayerItems[key1];
+                                P1.HpChange(item.Heal);
+                                P1Used = true;
+                                STATE = States.TURN;
+                                if (!IsWildFight)
+                                {
+                                    int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                                    if (choice > 0)
+                                    {
+                                        SelectedAI = choice - 1;
+                                    }
+                                    else
+                                    {
+                                        P2 = List2[choice + 1];
+                                        P2Used = false;
+                                    }
+                                }
+                                else
+                                {
+                                    int choice = Newbie.MakeChoice(P2, P1);
+                                    SelectedAI = choice;
+                                }
+                                item.Quantity -= 1;
+                                if (item.Quantity <= 0)
+                                {
+                                    PlayerItems.Remove(key1);
+                                }
+                            }
+                        }
+                    }
+
+                    if (char.IsDigit(key.KeyChar))
+                    {
+                        int selectedNumber = int.Parse(key.KeyChar.ToString());
+                        SelectedIndex = selectedNumber -1 ;
+                        if (SelectedIndex >= BackChoice -1)
+                        {
+                            STATE = States.SELECT;
+                        }
+                        else
+                        {
+                            List<int> listIDSHeal = new List<int>() { 0, 1, 2, 3, 4 };
+                            string key1 = PlayerItems.Keys.ElementAtOrDefault(SelectedIndex);
+                            if (key1 != null)
+                            {
+                                PotionAbstract item = (PotionAbstract)PlayerItems[key1];
+                                P1.HpChange(item.Heal);
+                                P1Used = true;
+                                STATE = States.TURN;
+                                if (!IsWildFight)
+                                {
+                                    int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                                    if (choice > 0)
+                                    {
+                                        SelectedAI = choice - 1;
+                                    }
+                                    else
+                                    {
+                                        P2 = List2[choice + 1];
+                                        P2Used = false;
+                                    }
+                                }
+                                else
+                                {
+                                    int choice = Newbie.MakeChoice(P2, P1);
+                                    SelectedAI = choice;
+                                }
+                                item.Quantity -= 1;
+                                if (item.Quantity <= 0)
+                                {
+                                    PlayerItems.Remove(key1);
+                                }
+                            }
+                        }
+                    }
+                    break;
+
+                    
             }
         }
 
@@ -683,10 +821,44 @@ namespace NScene
                     
                     Console.WriteLine(" Appuyez sur une touche pour continuer");
                     SauterLignes(2);
-
-
-
                     break;
+
+                case States.ITEMS:
+                    int p = 1;
+                    foreach (KeyValuePair<string, ItemAbstract> kvp in PlayerItems)
+                    {
+                        string itemName = kvp.Value.Name;
+                        if (p == PSelectIndex+1)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write(">"+ p + ":" + itemName+"< ");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else
+                        {
+                            Console.Write(p+":"+itemName+" ");
+                        }
+                        p++;
+                    }
+                    BackChoice = p;
+                    if (BackChoice - 1 == PSelectIndex)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(">" + p + ": Back" + "<");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.Write(p + ": Back");
+                    }
+                    if (p == 0)
+                    {
+                        STATE = States.SELECT;
+                    }
+                    break;
+
+
+                    
             }
             
             foreach(string i in TextQueue)
@@ -765,6 +937,7 @@ namespace NScene
                 {
                     AfterFightTeamPokemon(List1);
                     HealTeamPokemon(List1);
+                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
                     // Go to main scene
                 }
                 P1.DeathHp();
@@ -788,6 +961,7 @@ namespace NScene
                 if (o <= 0) 
                 {
                     AfterFightTeamPokemon(List1);
+                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
                     // Change to main scene
                 }
                 else
