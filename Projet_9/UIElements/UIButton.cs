@@ -22,7 +22,7 @@ namespace NUIElements
         {
             if (IsHovered)
             {
-                Console.BackgroundColor = ConsoleColor.Gray;
+                Console.BackgroundColor = ConsoleColor.DarkGray;
                 Global.WriteSprites(new List<string> { "> " + Name + " <" }, 3);
                 Console.BackgroundColor = ConsoleColor.Black;
             }

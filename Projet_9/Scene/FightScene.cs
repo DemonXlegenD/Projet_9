@@ -35,7 +35,7 @@ namespace NScene
         private bool P1Used = false;
         private bool P2Used = false;
 
-        List<Pokemon> List1;
+        private List<Pokemon> List1;
         private List<Pokemon> List2;
 
         private Pokemon P1;

@@ -111,31 +111,6 @@ namespace Projet_9
 
             engine.Run();
 
-            Player player = new Player();
- /*           List<string> list = new List<string>
-            {
-                "Water"
-            };
-            List<JsonConverter> listConverter = new List<JsonConverter>
-            {
-                new PlayerJsonConverter(),
-                new PokemonJsonConverter()
-            };
-
-
-            player.AddItem(new Potion());
-            player.AddPokemon(new Pokemon("1", "Jarod", list, 40, 50, 70, 50, 50, 70));
-            player.AddPokemon(new Pokemon("1", "Jarod", list, 40, 50, 70, 50, 50, 70));*/
-
-            SavePlayer.GetInstance(player.Id);
-
-            PlayerManager playerManager = PlayerManager.GetInstance();
-            playerManager.LoadPlayer();
-
-            Console.WriteLine($"Votre nom : {playerManager.GetActualPlayer().TeamPokemons[0].Name}");
-            Console.WriteLine($"Max attack : {playerManager.GetActualPlayer().TeamPokemons[0].MaxAttack}");
-            Console.WriteLine($"Attack : {playerManager.GetActualPlayer().TeamPokemons[0].Attack}");
-
             Environment.Exit(0);
         }
     }

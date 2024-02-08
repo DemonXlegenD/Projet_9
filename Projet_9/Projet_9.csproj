@@ -95,7 +95,7 @@
     <Compile Include="Entity\PlayerManager.cs" />
     <Compile Include="Global\Global.cs" />
     <Compile Include="Global\GlobalString.cs" />
-    <Compile Include="JSON\JsonDevelopper.cs" />
+    <Compile Include="JSON\JsonDeveloper.cs" />
     <Compile Include="PokemonTeam\WindowPokemonTeam.cs" />
     <Compile Include="Pokemon\Attack.cs" />
     <Compile Include="Pokemon\Pokemon.cs" />
@@ -116,7 +116,6 @@
     <Compile Include="Save\SaveUser.cs" />
     <Compile Include="Scene\MapScene.cs" />
     <Compile Include="Scene\MenuScene.cs" />
-    <Compile Include="Scene\Scene.cs" />
     <Compile Include="Scene\SceneAbstract.cs" />
     <Compile Include="Scene\SceneCredit.cs" />
     <Compile Include="Scene\SceneIntroduction.cs" />

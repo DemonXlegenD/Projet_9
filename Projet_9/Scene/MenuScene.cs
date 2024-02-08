@@ -2,7 +2,6 @@
 using NEntity;
 using NGlobal;
 using NModules;
-using NSave;
 using NSecurity;
 using NUIElements;
 using System;
@@ -86,7 +85,16 @@ namespace NScene
                 Console.Clear();
                 Console.Write("Créez votre nom d'utilisateur : ");
                 userName = Console.ReadLine();
-                validUsername = userManager.IsUserAlreadyExistingByName(userName) || Security.ValidationPseudo(userName);
+                if (userManager.IsUserAlreadyExistingByName(userName))
+                {
+                    Console.WriteLine($"Utilisateur {userName} déjà existant");
+                    validUsername = false;
+                }
+                else
+                {
+                    validUsername = Security.ValidationPseudo(userName);
+                }
+
             } while (!validUsername);
 
             do
@@ -117,7 +125,6 @@ namespace NScene
             string password;
             bool validUsername = false;
             bool validPassword = false;
-            string playerUid;
 
             Global.WriteSprites(new List<string> { "SE CONNECTER" }, 3);
 
@@ -156,15 +163,37 @@ namespace NScene
                     }
                 } while (!validPassword);
             }
-            System.Threading.Thread.Sleep(2000); 
+
+
+            System.Threading.Thread.Sleep(2000);
             Console.WriteLine($"Bienvenue {userName}, content de vous revoir");
 
             System.Threading.Thread.Sleep(2000);
 
             PlayerManager playerManager = PlayerManager.GetInstance();
-            playerManager.LoadPlayer();
+            playerManager.SetUserUid(userManager.ActualUser.Username + "_" + userManager.ActualUser.Id);
 
-            SavePlayer savePlayer = SavePlayer.GetInstance(playerManager.GetActualPlayer().Id, false);
+            List<string> files = userManager.GetSavesOfUser();
+            UIPanel panel = new UIPanel();
+
+            foreach (string file in files)
+            {
+                string nameFile = file.Substring(file.LastIndexOf("\\") + 1, 5);
+                UIButton saveButton = new UIButton(nameFile);
+                saveButton.AddEvent(() => { playerManager.LoadPlayerFromSaveFile(file); });
+                panel.AddButton(saveButton);
+            }
+
+            do
+            {
+                Console.WriteLine("Choisissez une sauvegarde");
+                panel.SelectButton();
+                Console.Clear();
+            } while (playerManager.GetActualPlayer() == null);
+
+            Console.WriteLine(playerManager.GetActualPlayer().FirstName);
+            System.Threading.Thread.Sleep(2000);
+
             Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
         }
 

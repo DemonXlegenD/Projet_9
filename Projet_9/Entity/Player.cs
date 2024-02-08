@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using NPokemon;
 using NSecurity;
+using NGlobal;
 
 namespace NEntity
 {
@@ -48,6 +49,7 @@ namespace NEntity
             Description = description;
             TeamPokemons = new List<Pokemon>();
             TeamPokemons.Add(pokemon);
+            Global.PlayerPokemons = TeamPokemons;
             PCPokemons = new List<Pokemon>();
             Position = Vector2i.Zero;
             Inventory = new Dictionary<string, ItemAbstract>();
@@ -64,6 +66,7 @@ namespace NEntity
             PCPokemons = pCPokemons;
             Position = position;
             Inventory = inventory;
+            Global.PlayerPokemons = TeamPokemons;
         }
         public Player(Player player)
         {
@@ -76,6 +79,7 @@ namespace NEntity
             PCPokemons = player.PCPokemons;
             Position = player.Position;
             Inventory = player.Inventory;
+            Global.PlayerPokemons = TeamPokemons;
         }
 
         public override string ToString()
@@ -88,6 +92,7 @@ namespace NEntity
             if (TeamPokemons.Count < 6)
             {
                 TeamPokemons.Add(pokemon);
+                Global.PlayerPokemons = TeamPokemons;
             }
             else
             {

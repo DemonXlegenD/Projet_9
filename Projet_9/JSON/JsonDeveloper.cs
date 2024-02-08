@@ -1,9 +1,6 @@
-﻿using NPokemon;
-using NEntity;
-using Newtonsoft.Json;
-using System.IO;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System;
+using System.IO;
 
 namespace NJSON
 {
@@ -13,11 +10,11 @@ namespace NJSON
 
         public static JsonDeveloper GetInstance()
         {
-            if(instance == null)
+            if (instance == null)
             {
                 instance = new JsonDeveloper();
             }
-               return instance;
+            return instance;
         }
 
         public string SerializeObjectToJson(object data)
@@ -29,11 +26,11 @@ namespace NJSON
         public void SerializeObjectToJsonFile(object obj, string filePath, List<Newtonsoft.Json.JsonConverter> converters)
         {
             JsonSerializer serializer = new JsonSerializer();
-            foreach(Newtonsoft.Json.JsonConverter converter in converters)
+            foreach (Newtonsoft.Json.JsonConverter converter in converters)
             {
                 serializer.Converters.Add(converter);
             }
-         
+
 
             using (StreamWriter sw = new StreamWriter(filePath))
             using (JsonWriter writer = new JsonTextWriter(sw))
@@ -73,7 +70,15 @@ namespace NJSON
             }
             return false;
         }
-
+        public bool CreateFile(string pathFile)
+        {
+            if (!File.Exists(pathFile))
+            {
+                File.Create(pathFile).Close();
+                return true;
+            }
+            return false;
+        }
         public bool CreateFile(object data, string pathFile)
         {
 
@@ -85,7 +90,7 @@ namespace NJSON
                     File.Create(pathFile).Close();
                 }
 
-                File.WriteAllText(pathFile, jsonData);  
+                File.WriteAllText(pathFile, jsonData);
                 return true;
             }
             return false;

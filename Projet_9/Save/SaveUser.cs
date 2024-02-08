@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NJSON;
 using NSecurity;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -30,9 +31,19 @@ namespace Projet_9.Save
         public SaveUser()
         {
             jsonSaver = JsonDeveloper.GetInstance();
-            jsonSaver.CreateFolder(_folderName);
-            jsonSaver.CreateFolder(_folderName + "/" + _folderUserName);
             _filePath = _folderName + "/" + _folderUserName + "/" + _fileName + _fileType;
+            CreateFolders();
+        }
+
+        public void UserTag(string userName, string userUid)
+        {
+            _userTag = userName + "_" + userUid;
+            CreateFolders();
+        }
+
+        public string GetUserTag()
+        {
+            return _userTag;
         }
 
         public SaveUser(string userName, string userUid, bool needFolders = true)
@@ -40,12 +51,15 @@ namespace Projet_9.Save
             jsonSaver = JsonDeveloper.GetInstance();
             _userTag = userName + "_" + userUid;
             _filePath = _folderName + "/" + _folderUserName + "/" + _fileName + _fileType;
-            if (needFolders)
-            {
-                jsonSaver.CreateFolder(_folderName);
-                jsonSaver.CreateFolder(_folderName + "/" + _folderUserName);
-                jsonSaver.CreateFolder(_folderName + "/" + _folderUserName + "/" + _userTag);
-            }
+            CreateFolders();
+        }
+
+        public void CreateFolders()
+        {
+            jsonSaver.CreateFolder(_folderName);
+            jsonSaver.CreateFolder(_folderName + "/" + _folderUserName);
+            jsonSaver.CreateFile(_filePath);
+            jsonSaver.CreateFolder(_folderName + "/" + _folderUserName + "/" + _userTag);
         }
 
         public static SaveUser GetInstance(string userName, string userUid)
@@ -97,11 +111,22 @@ namespace Projet_9.Save
                     users = new List<User>();
                 }
             }
-            else
-            {
-                /*Console.WriteLine($"Path non trouvé : {_filePath}");*/
-            }
             return users;
+        }
+        public List<string> ListSaveFiles()
+        {
+            List<string> files = new List<string>();
+            if (Directory.Exists(_folderName + "/" + _folderUserName + "/" + _userTag))
+            {
+                // Récupérez les noms de fichiers dans le dossier spécifié
+                string[] nomsFichiers = Directory.GetFiles(_folderName + "/" + _folderUserName + "/" + _userTag);
+                
+                foreach (string file in nomsFichiers)
+                {
+                    files.Add(file);
+                }
+            }
+            return files;
         }
     }
 }
