@@ -124,6 +124,7 @@
     <Compile Include="Engine\Modules\InputModule.cs" />
     <Compile Include="Engine\Modules\SoundModule.cs" />
     <Compile Include="Engine\Modules\TimeModule.cs" />
+    <Compile Include="Entity\Trainer.cs" />
     <Compile Include="Entity\Player.cs" />
     <Compile Include="Entity\PlayerManager.cs" />
     <Compile Include="Global\Global.cs" />
