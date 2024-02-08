@@ -35,6 +35,7 @@ namespace NScene
 
         public User GetUser()
         {
+            UserManager = UserManager   .GetInstance();
             return UserManager.ActualUser;
         }
 

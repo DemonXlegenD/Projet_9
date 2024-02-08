@@ -79,6 +79,7 @@ namespace NEntity
             PCPokemons = player.PCPokemons;
             Position = player.Position;
             Inventory = player.Inventory;
+            Global.PlayerPokemons = TeamPokemons;
         }
 
         public override string ToString()
