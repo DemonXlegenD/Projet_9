@@ -18,11 +18,12 @@ namespace NScene
             base.Launch();
             System.Threading.Thread.Sleep(3000);
             Global.WriteSprites(new List<string> { "███████╗██╗   ██╗ ██████╗  █████╗ ███████╗ ██████╗██╗██╗","██╔════╝██║   ██║██╔═══██╗██╔══██╗██╔════╝██╔════╝██║██║","█████╗  ██║   ██║██║   ██║███████║███████╗██║     ██║██║","██╔══╝  ╚██╗ ██╔╝██║   ██║██╔══██║╚════██║██║     ██║██║","███████╗ ╚████╔╝ ╚██████╔╝██║  ██║███████║╚██████╗██║██║","╚══════╝  ╚═══╝   ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝","                                                        " }, 3,2);
+            Global.WriteSprites(Global.ReadFilesText(Global.TXTGeneralPath + "\\Pokeball.txt"), 3);
             System.Threading.Thread.Sleep(3000);
             Console.Clear();
 
             Global.WriteSprites(new List<string> { "██╗  ██╗███████╗██╗     ██╗         ███████╗███╗   ██╗ ██████╗ ██╗███╗   ██╗███████╗","██║  ██║██╔════╝██║     ██║         ██╔════╝████╗  ██║██╔════╝ ██║████╗  ██║██╔════╝","███████║█████╗  ██║     ██║         █████╗  ██╔██╗ ██║██║  ███╗██║██╔██╗ ██║█████╗  ","██╔══██║██╔══╝  ██║     ██║         ██╔══╝  ██║╚██╗██║██║   ██║██║██║╚██╗██║██╔══╝  ","██║  ██║███████╗███████╗███████╗    ███████╗██║ ╚████║╚██████╔╝██║██║ ╚████║███████╗","╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝    ╚══════╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝╚══════╝","                                                                                    " }, 3);
-            Global.WriteSprites(Global.ReadFilesText(Global.TXTGeneralPath + "\\Pokeball.txt"),3);
+            Global.WriteSprites(Global.ReadFilesText(Global.TXTGeneralPath + "\\Dracaufeu.txt"), 3);
             System.Threading.Thread.Sleep(3000);
             Console.Clear();
 
