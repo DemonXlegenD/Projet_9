@@ -17,6 +17,7 @@ namespace Projet_9.Datas
                     { 5, new List<string> { "Bulle" } },
                     { 7, new List<string> { "Rest" } },
                     { 8, new List<string> { "Ez" } },
+                    { 11, new List<string> { "DragonBreath" } },
                 }
             },
             {

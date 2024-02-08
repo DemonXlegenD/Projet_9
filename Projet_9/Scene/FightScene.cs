@@ -11,7 +11,7 @@ using System.Windows.Media;
 using static NGlobal.Global;
 using System.Security.Cryptography;
 using System.Security.Policy;
-
+using System.Drawing.Printing;
 
 namespace NScene
 {
@@ -55,7 +55,9 @@ namespace NScene
         private List<ConsoleKey> Inputs3 = new List<ConsoleKey>() { ConsoleKey.Z, ConsoleKey.W, ConsoleKey.UpArrow };
         private List<ConsoleKey> Inputs4 = new List<ConsoleKey>() { ConsoleKey.S, ConsoleKey.DownArrow };
 
-        private string[] List_Actions_Select = { "1: Move ","2: Items ","3: Pokemons ","4: Catch ","5: Escape " };
+        // faire de la décoration pour les bouttons etc
+
+        private string[] List_Actions_Select = { "1: Move","2: Items","3: Pokemons","4: Catch","5: Escape" };
 
 
         // TO START A FIGHT : CHANGE ( IsWildFight,EnemyPokemons,PlayerPokemons )
@@ -70,13 +72,15 @@ namespace NScene
                 if (p.IsAlive())
                 {
                     P1 = p;
+                    break;
                 }
             }
-            foreach(Pokemon p in List2)
+            foreach(Pokemon a in List2)
             {
-                if(p.IsAlive())
+                if(a.IsAlive())
                 {
-                    P2 = p;
+                    P2 = a;
+                    break;
                 }
             }
             
@@ -90,6 +94,7 @@ namespace NScene
             //System.Drawing.FontFamily fontFamily = new System.Drawing.FontFamily(@"");
             Console.Clear();
             //Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.WriteLine("SelectedIndex:" + SelectedIndex);
             ToWrite();
             TextQueue.Clear();
             // Peut read le truc pour l'attaque
@@ -102,6 +107,7 @@ namespace NScene
 
         private void Input(ConsoleKeyInfo key)
         {
+            // Play sound of input
             if (Inputs1.Contains(key.Key) || Inputs3.Contains(key.Key))
             {
                 PSelectIndex--;
@@ -316,7 +322,7 @@ namespace NScene
                         }
                         else
                         {
-                            if(List1[SelectedIndex].IsAlive() && List1[SelectedIndex] != P1 && !P1Used)
+                            if(List1[SelectedIndex].IsAlive() && List1[SelectedIndex] != P1)
                             {
                                 if (P1.IsAlive())
                                 {
@@ -340,7 +346,14 @@ namespace NScene
                                     STATE = States.SELECT;
                                 }
                             }
-                            else { TextQueue.Add("Pokemon selected is either in battle or dead"); }
+                            else if (!List1[SelectedIndex].IsAlive())
+                            {
+                                TextQueue.Add(List1[SelectedIndex].Name + " is dead");
+                            }
+                            else if (List1[SelectedIndex] == P1)
+                            {
+                                TextQueue.Add(List1[SelectedIndex].Name + " is in battle");
+                            }
                         }
                     }
                     if (key.Key == ConsoleKey.Enter || key.Key == ConsoleKey.Spacebar)
@@ -352,7 +365,8 @@ namespace NScene
                         }
                         else
                         {
-                            if (List1[SelectedIndex].IsAlive() && List1[SelectedIndex] != P1 && !P1Used)
+                            
+                            if (List1[SelectedIndex].IsAlive() && List1[SelectedIndex] != P1)
                             {
                                 if (P1.IsAlive())
                                 {
@@ -376,14 +390,54 @@ namespace NScene
                                     STATE = States.SELECT;
                                 }
                             }
-                            else { TextQueue.Add("Pokemon selected is either in battle or dead"); }
+                            else if (!List1[SelectedIndex].IsAlive())
+                            {
+                                TextQueue.Add(List1[SelectedIndex].Name + " is dead");
+                            }
+                            else if (List1[SelectedIndex] == P1)
+                            {
+                                TextQueue.Add(List1[SelectedIndex].Name + " is in battle");
+                            }
+                            else if (P1Used)
+                            {
+                                TextQueue.Add("Used");
+                            }
+                            else
+                            {
+                                TextQueue.Add("JSp ça marche pas");
+                            }
                         }
                     }
                     break;
 
-                case States.LEARN: 
-                    
-                    break;
+                case States.LEARN:
+                    if (key.Key == ConsoleKey.Enter || key.Key == ConsoleKey.Spacebar)
+                    {
+                        SelectedIndex = PSelectIndex;
+                        if (SelectedIndex <= P1.Moves.Count)
+                        {
+                            P1.Moves[SelectedIndex] = Global.ReadAttacksDatas(P1.GetMoveToLearn());
+                            STATE = States.SELECT;
+                        }
+                    }
+                    if (char.IsDigit(key.KeyChar))
+                    {
+                        int selectedNumber = int.Parse(key.KeyChar.ToString());
+                        SelectedIndex = selectedNumber;
+                        if (SelectedIndex <= P1.Moves.Count)
+                        {
+                            P1.Moves[SelectedIndex] = Global.ReadAttacksDatas(P1.GetMoveToLearn());
+                            STATE = States.SELECT;
+                        }
+                    }
+
+                        /*
+                                    if SelectedIndex <= PokemonP1.Moves.size():
+                    # Mettre ça en for i pour le faire pour chaque capa si plusieurs
+                    PokemonP1.Moves[SelectedIndex] = Global.ReadAttacksDatas(PokemonP1.GetMoveToLearn()[0])
+                    TextUI.scale = Vector2(1,1)
+                    ReturnState()*/
+                        break;
 
                 case States.TURN:
                     // Continue de faire des turns pour le pokemon ennemie
@@ -489,12 +543,12 @@ namespace NScene
                         if(i == PSelectIndex)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write(List_Actions_Select[i]);
+                            Console.Write(">"+List_Actions_Select[i]+"< ");
                             Console.ForegroundColor = ConsoleColor.White;
                         }
                         else
                         {
-                            Console.Write(List_Actions_Select[i]);
+                            Console.Write(List_Actions_Select[i]+" ");
                         }
                         BackChoice = i+1;
                     }
@@ -510,7 +564,7 @@ namespace NScene
                         if (x == PSelectIndex+1)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write(x + ": " + i.GetName() + "  ");
+                            Console.Write(">"+x + ": " + i.GetName() + "<  ");
                             Console.ForegroundColor = ConsoleColor.White;
 
                         }
@@ -524,7 +578,7 @@ namespace NScene
                     if (PSelectIndex == BackChoice - 1)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write(x + ": Back");
+                        Console.Write(">"+x + ": Back"+"<");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
                     else
@@ -541,7 +595,7 @@ namespace NScene
                         if (y == PSelectIndex+1)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write(y + ": " + i.Name + " " + i.Hp+"/"+i.MaxHp+" ");
+                            Console.Write(">"+y + ": " + i.Name + " " + i.Hp+"/"+i.MaxHp+"< ");
                             Console.ForegroundColor = ConsoleColor.White;
                         }
                         else
@@ -556,7 +610,7 @@ namespace NScene
                         if (BackChoice-1 == PSelectIndex)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write(y + ": Back");
+                            Console.Write(">" + y + ": Back"+"<");
                             Console.ForegroundColor = ConsoleColor.White;
                         }
                         else
@@ -568,7 +622,30 @@ namespace NScene
                     break;
 
                 case States.LEARN:
+                    int o = 1;
+                    foreach (Attack move in P1.Moves)
+                    {
+                        
+                        if (o == PSelectIndex + 1)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write(">" + o + ": " + move.GetName()+ " Type:"+move.GetType()+ " Cat:" + move.GetCat() + " Power:" + move.GetPower() + " Acc:" + move.GetAcc() + " Uses:" + move.GetMaxPp()+ "< ");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else
+                        {
+                            Console.Write(o + ": " + move.GetName()+ " ");
+                        }
+                        o++;
 
+                    }
+                    SauterLignes(2);
+                    Attack att = ReadAttacksDatas(P1.GetMoveToLearn());
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine(" Move To Learn: " + att.GetName() + " Type:"+ att.GetType() + " Cat:"+att.GetCat() +" Power:"+att.GetPower()+ " Acc:"+att.GetAcc() + " Uses:"+att.GetPp());
+                    Console.ForegroundColor = ConsoleColor.White;
+                    BackChoice = o-1;
+                    SauterLignes(2);
                     break;
 
                 case States.TURN:
@@ -611,7 +688,7 @@ namespace NScene
 
                     break;
             }
-
+            
             foreach(string i in TextQueue)
             {
                 Console.WriteLine(i);
@@ -692,11 +769,15 @@ namespace NScene
                 }
                 P1.DeathHp();
                 P1Used = true;
+                PSelectIndex = 0;
                 STATE = States.CHANGE;
             }
             if (!P2.IsAlive())
             {
-                P1.ChangeXp(P2.Level * 2 + 1);
+                int Level = P1.Level;
+                //P1.ChangeXp(P2.Level * 2 + 1);
+                P1.ChangeXp(300);
+                int Level2 = P1.Level;
                 P2.DeathHp();
                 int o = 0;
                 foreach (Pokemon p in List2)
@@ -718,7 +799,19 @@ namespace NScene
                     P1Used = false;
                     P2Used = false;
                     STATE = States.SELECT;
-                    return;
+                }
+                if (Level < Level2)
+                {
+                    if (P1.Moves.Count < 4)
+                    {
+                        P1.Moves.Add(Global.ReadAttacksDatas(P1.GetMoveToLearn()));
+                    }
+                    else
+                    {
+                        STATE = States.LEARN;
+                        BackChoice = 5;
+                        return;
+                    }
                 }
             }
 
@@ -726,6 +819,7 @@ namespace NScene
 
         public void AttackMove(Pokemon Attacker,Pokemon Defenser ,Attack a)
         {
+            // Play sound of the pokemon attacking
             TextQueue.Add(Attacker.Name+" attacks !");
             if (Global.SuccessAcc(a.GetAcc()))
             {

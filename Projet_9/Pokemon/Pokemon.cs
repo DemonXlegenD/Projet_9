@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using NGlobal;
 using Projet_9.Datas;
+using System.Windows.Input;
 
 namespace NPokemon
 {
@@ -30,7 +31,7 @@ namespace NPokemon
     public class Pokemon
     {
         // VALUES DEFAULT
-
+        string MoveToLearn;
         public string Id { get; set; }
         public string Name { get; set; }
         public List<string> Types { get; set; }
@@ -108,6 +109,23 @@ namespace NPokemon
             MaxSpeed = StatCalculationOtherGen3(BaseSpeed, IVSpeed);
         }
 
+        public void SetMoveToLearn()
+        {
+            Dictionary<string, Dictionary<int, object>> DicLearnSets = PokemonsLearnSet.LearnSets;
+
+            Dictionary<int, object> learnset = DicLearnSets.TryGetValue(OriginalName + "_LearnSet", out var value) ? value : null;
+            if (learnset.ContainsKey(Level))
+            {
+                if (learnset[Level] is List<string> moveList)
+                {
+                    foreach (string move in moveList)
+                    {
+                        MoveToLearn = move;
+                        break;
+                    }
+                }
+            }
+        }
 
         public void LearnMoves()
         {
@@ -282,14 +300,14 @@ namespace NPokemon
                 Xp = LeftOverXp;
                 Level += 1;
                 LevelUp();
-                XpNext = Level * 20 / 4;
+                XpNext = Xp +500;
             }
         }
 
         public void LevelUp()
         {
             RedoStats();
-            //SetMoveToLearn();
+            SetMoveToLearn();
         }
 
         public void TakeDamage(int x) { Hp -= x; }
@@ -375,6 +393,10 @@ namespace NPokemon
         //     return MoveToLearn;
         // }
 
+        public string GetMoveToLearn()
+        {
+            return MoveToLearn;
+        }
 
     }
     public class PokemonJsonConverter : JsonConverter<Pokemon>
