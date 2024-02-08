@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using NGlobal;
 
 namespace NScene
 {
@@ -30,7 +31,6 @@ namespace NScene
         private MenuActions selectedMenuAction = MenuActions.INVENTORY;
 
         private string playerCharacter = "☺";
-        private Vector2i playerPosition = new Vector2i(1, 1);
         bool enemyFound = false;
 
         private Dictionary<string, Vector2i> enemy1 = new Dictionary<string, Vector2i>();
@@ -40,7 +40,7 @@ namespace NScene
         private string[,] map;
         private int height = 0;
         private int width = 0;
-private List<string> collidable = new List<string>() { "C", "T", "W" };
+
         public MapScene() : base("MapScene") { }
 
         public override void Init()
@@ -54,7 +54,7 @@ private List<string> collidable = new List<string>() { "C", "T", "W" };
             enemies.Add(enemy1);
         }
 
-        
+        private List<string> collidable = new List<string>() { "C", "T", "W" };
         private void GetTiles(string tile, bool display)
         {
             string character = "   ";
@@ -79,6 +79,12 @@ private List<string> collidable = new List<string>() { "C", "T", "W" };
             {
                 Console.BackgroundColor = ConsoleColor.Green;
                 character = "   ";
+            }
+            else if (tile == "#")
+            {
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                character = " # ";
             }
 
             if (display)
@@ -110,30 +116,30 @@ private List<string> collidable = new List<string>() { "C", "T", "W" };
                 case Actions.MOVING:
                     if (key.Key == ConsoleKey.DownArrow)
                     {
-                        if (!collidable.Contains(map[playerPosition.GetY() + 1, (playerPosition.GetX())]))
+                        if (!collidable.Contains(map[GetPlayer().Position.GetY() + 1, (GetPlayer().Position.GetX())]))
                         {
-                            playerPosition.SetY(playerPosition.GetY() + 1);
+                            GetPlayer().Position.SetY(GetPlayer().Position.GetY() + 1);
                         }
                     }
                     else if (key.Key == ConsoleKey.UpArrow)
                     {
-                        if (!collidable.Contains(map[playerPosition.GetY() - 1, playerPosition.GetX()]))
+                        if (!collidable.Contains(map[GetPlayer().Position.GetY() - 1, GetPlayer().Position.GetX()]))
                         {
-                            playerPosition.SetY(playerPosition.GetY() - 1);
+                            GetPlayer().Position.SetY(GetPlayer().Position.GetY() - 1);
                         }
                     }
                     else if (key.Key == ConsoleKey.LeftArrow)
                     {
-                        if (!collidable.Contains(map[playerPosition.GetY(), playerPosition.GetX() - 1]))
+                        if (!collidable.Contains(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX() - 1]))
                         {
-                            playerPosition.SetX(playerPosition.GetX() - 1);
+                            GetPlayer().Position.SetX(GetPlayer().Position.GetX() - 1);
                         }
                     }
                     else if (key.Key == ConsoleKey.RightArrow)
                     {
-                        if (!collidable.Contains(map[playerPosition.GetY(), playerPosition.GetX() + 1]))
+                        if (!collidable.Contains(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX() + 1]))
                         {
-                            playerPosition.SetX(playerPosition.GetX() + 1);
+                            GetPlayer().Position.SetX(GetPlayer().Position.GetX() + 1);
                         }
                     }
 
@@ -220,10 +226,11 @@ private List<string> collidable = new List<string>() { "C", "T", "W" };
                         {
                             if (enemy.Value.GetX() == j && enemy.Value.GetY() == i)
                             {
-                                if (playerPosition.GetX() == enemy.Value.GetX() && playerPosition.GetY() == enemy.Value.GetY())
+                                if (GetPlayer().Position.GetX() == enemy.Value.GetX() && GetPlayer().Position.GetY() == enemy.Value.GetY())
                                 {
                                     // Changer les enemyPokemons avant
                                     enemyFound = true;
+                                    Global.IsWildFight = false;
                                     Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
                                 }
                                 else
@@ -238,9 +245,20 @@ private List<string> collidable = new List<string>() { "C", "T", "W" };
 
                     if (!enemyTile)
                     {
-                        if (playerPosition.GetX() == j && playerPosition.GetY() == i)
+                        if (GetPlayer().Position.GetX() == j && GetPlayer().Position.GetY() == i)
                         {
                             GetTiles(map[i, j], false);
+                            if (map[i, j] == "#")
+                            {
+                                Random rnd = new Random();
+                                int chance = rnd.Next(1, 10);
+                                if (chance == 1)
+                                {
+                                    enemyFound = true;
+                                    Global.IsWildFight = true;
+                                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
+                                }
+                            }
                             Console.Write(" " + playerCharacter + " ");
                         }
                         else
@@ -306,7 +324,7 @@ private List<string> collidable = new List<string>() { "C", "T", "W" };
 
         private void LoadMap(string _map)
         {
-            string jsonContent = System.IO.File.ReadAllText("Data/Maps/" + _map + ".json");
+            string jsonContent = System.IO.File.ReadAllText("Maps/" + _map + ".json");
             var deserializedObject = JsonConvert.DeserializeAnonymousType(jsonContent, new { Tiles = new string[0], Size = new int[0] });
 
             Console.WriteLine(deserializedObject.Size[0]);
