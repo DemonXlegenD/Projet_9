@@ -34,6 +34,14 @@ namespace NUIElements
             Buttons.Add(button);
         }
 
+        public void AddEventToAll(Action action)
+        {
+            foreach(UIButton uIButton in Buttons)
+            {
+                uIButton.AddEvent(action);
+            }
+        }
+
         public void SelectButton()
         {
             foreach (UIButton button in Buttons)

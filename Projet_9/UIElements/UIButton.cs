@@ -15,7 +15,7 @@ namespace NUIElements
         public UIButton(string name)
         {
             Name = name;
-            OnClear += () => { Console.Clear(); };
+            OnClear += () => { Global.ClearLine(); };
         }
 
         public void Display()
@@ -26,7 +26,7 @@ namespace NUIElements
                 Global.WriteSprites(new List<string> { "> " + Name + " <" }, 3);
                 Console.BackgroundColor = ConsoleColor.Black;
             }
-            else { 
+            else {
                 Console.BackgroundColor = ConsoleColor.Black;
                 Global.WriteSprites(new List<string> { "  " + Name + "  " }, 3);
             }

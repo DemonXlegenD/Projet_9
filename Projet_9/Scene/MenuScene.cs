@@ -14,7 +14,8 @@ namespace NScene
         public MenuScene() : base("Menu Scene") { }
 
         private int selected = 0;
-        private List<UIButton> selections = new List<UIButton>();
+        private UIPanel panel = new UIPanel();
+        private bool stop = false;
 
         public override void Init()
         {
@@ -45,11 +46,13 @@ namespace NScene
             {
                 Engine.GetInstance().Quit();
             });
+            
+            panel.AddButton(loadGameButton);
+            panel.AddButton(newGameButton);
+            panel.AddButton(optionsButton);
+            panel.AddButton(leaveButton);
 
-            selections.Add(loadGameButton);
-            selections.Add(newGameButton);
-            selections.Add(optionsButton);
-            selections.Add(leaveButton);
+            panel.AddEventToAll(() => stop = true);
 
         }
 
@@ -66,15 +69,13 @@ namespace NScene
 
         public void CreateNewGame()
         {
-            Global.WriteSprites(new List<string> { "██████  ██ ███████ ███    ██ ██    ██ ███████ ███    ██ ██    ██ ███████     ███████ ██    ██ ██████ ", "██   ██ ██ ██      ████   ██ ██    ██ ██      ████   ██ ██    ██ ██          ██      ██    ██ ██   ██", "██████  ██ █████   ██ ██  ██ ██    ██ █████   ██ ██  ██ ██    ██ █████       ███████ ██    ██ ██████ ", "██   ██ ██ ██      ██  ██ ██  ██  ██  ██      ██  ██ ██ ██    ██ ██               ██ ██    ██ ██   ██", "██████  ██ ███████ ██   ████   ████   ███████ ██   ████  ██████  ███████     ███████  ██████  ██   ██", "                                                                                                     " }, 3);
-            Global.WriteSprites(new List<string> { "███████╗██╗   ██╗ ██████╗  █████╗ ███████╗ ██████╗██╗██╗", "██╔════╝██║   ██║██╔═══██╗██╔══██╗██╔════╝██╔════╝██║██║", "█████╗  ██║   ██║██║   ██║███████║███████╗██║     ██║██║", "██╔══╝  ╚██╗ ██╔╝██║   ██║██╔══██║╚════██║██║     ██║██║", "███████╗ ╚████╔╝ ╚██████╔╝██║  ██║███████║╚██████╗██║██║", "╚══════╝  ╚═══╝   ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝", "                                                        " }, 3, 2);
             string userName;
             string password;
-            bool validUsername = false;
+            bool validUsername = false; 
             bool validPassword = false;
             Guid uniqueId = Guid.NewGuid();
 
-            Global.WriteSprites(new List<string> { "CREER UN NOUVEL UTILISATEUR" }, 3);
+            Global.WriteSprites(new List<string> { "", "", "CREER UN NOUVEL UTILISATEUR" }, 3);
 
             UserManager userManager = UserManager.GetInstance();
 
@@ -118,14 +119,12 @@ namespace NScene
 
         public void LoadGame()
         {
-            Global.WriteSprites(new List<string> { "██████  ██ ███████ ███    ██ ██    ██ ███████ ███    ██ ██    ██ ███████     ███████ ██    ██ ██████ ", "██   ██ ██ ██      ████   ██ ██    ██ ██      ████   ██ ██    ██ ██          ██      ██    ██ ██   ██", "██████  ██ █████   ██ ██  ██ ██    ██ █████   ██ ██  ██ ██    ██ █████       ███████ ██    ██ ██████ ", "██   ██ ██ ██      ██  ██ ██  ██  ██  ██      ██  ██ ██ ██    ██ ██               ██ ██    ██ ██   ██", "██████  ██ ███████ ██   ████   ████   ███████ ██   ████  ██████  ███████     ███████  ██████  ██   ██", "                                                                                                     " }, 3);
-            Global.WriteSprites(new List<string> { "███████╗██╗   ██╗ ██████╗  █████╗ ███████╗ ██████╗██╗██╗", "██╔════╝██║   ██║██╔═══██╗██╔══██╗██╔════╝██╔════╝██║██║", "█████╗  ██║   ██║██║   ██║███████║███████╗██║     ██║██║", "██╔══╝  ╚██╗ ██╔╝██║   ██║██╔══██║╚════██║██║     ██║██║", "███████╗ ╚████╔╝ ╚██████╔╝██║  ██║███████║╚██████╗██║██║", "╚══════╝  ╚═══╝   ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝", "                                                        " }, 3, 2);
             string userName;
             string password;
             bool validUsername = false;
             bool validPassword = false;
 
-            Global.WriteSprites(new List<string> { "SE CONNECTER" }, 3);
+            Global.WriteSprites(new List<string> { "","","SE CONNECTER" }, 3);
 
             UserManager userManager = UserManager.GetInstance();
 
@@ -187,10 +186,9 @@ namespace NScene
             {
                 Console.WriteLine("Choisissez une sauvegarde");
                 panel.SelectButton();
-                Console.Clear();
             } while (playerManager.GetActualPlayer() == null);
 
-            Console.WriteLine("Chargement ...");
+            Console.WriteLine("Chargement ..." + playerManager.GetActualPlayer().FirstName);
             System.Threading.Thread.Sleep(2000);
 
             Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
@@ -200,43 +198,10 @@ namespace NScene
         {
             Global.WriteSprites(new List<string> { "██████  ██ ███████ ███    ██ ██    ██ ███████ ███    ██ ██    ██ ███████     ███████ ██    ██ ██████ ", "██   ██ ██ ██      ████   ██ ██    ██ ██      ████   ██ ██    ██ ██          ██      ██    ██ ██   ██", "██████  ██ █████   ██ ██  ██ ██    ██ █████   ██ ██  ██ ██    ██ █████       ███████ ██    ██ ██████ ", "██   ██ ██ ██      ██  ██ ██  ██  ██  ██      ██  ██ ██ ██    ██ ██               ██ ██    ██ ██   ██", "██████  ██ ███████ ██   ████   ████   ███████ ██   ████  ██████  ███████     ███████  ██████  ██   ██", "                                                                                                     " }, 3);
             Global.WriteSprites(new List<string> { "███████╗██╗   ██╗ ██████╗  █████╗ ███████╗ ██████╗██╗██╗", "██╔════╝██║   ██║██╔═══██╗██╔══██╗██╔════╝██╔════╝██║██║", "█████╗  ██║   ██║██║   ██║███████║███████╗██║     ██║██║", "██╔══╝  ╚██╗ ██╔╝██║   ██║██╔══██║╚════██║██║     ██║██║", "███████╗ ╚████╔╝ ╚██████╔╝██║  ██║███████║╚██████╗██║██║", "╚══════╝  ╚═══╝   ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝", "                                                        " }, 3, 2);
-            foreach (UIButton button in selections)
+            do
             {
-                button.Display();
-            }
-
-            ConsoleKeyInfo key = Console.ReadKey();
-            if (key.Key == ConsoleKey.DownArrow)
-            {
-                selected++;
-                if (selected == selections.Count)
-                {
-                    selected = 0;
-                }
-                foreach (UIButton button in selections)
-                {
-                    button.IsHovered = false;
-                }
-                selections[selected].IsHovered = true;
-            }
-            else if (key.Key == ConsoleKey.UpArrow)
-            {
-                selected--;
-                if (selected < 0)
-                {
-                    selected = selections.Count - 1;
-                }
-                foreach (UIButton button in selections)
-                {
-                    button.IsHovered = false;
-                }
-                selections[selected].IsHovered = true;
-            }
-            else if (key.Key == ConsoleKey.Spacebar)
-            {
-                selections[selected].Clear();
-                selections[selected].Click();
-            }
+                panel.SelectButton();
+            } while (!stop);
         }
     }
 }
