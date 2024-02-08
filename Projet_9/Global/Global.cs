@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 using System.Windows.Media;
 
 namespace NGlobal
@@ -20,43 +19,113 @@ namespace NGlobal
 
         public static int Pokeballs = 100;
 
-        public static Attack DefaultAttack = new Attack("Def","Normal","Physical",10,100,999);
+        public static Attack DefaultAttack = new Attack("Def", "Normal", "Physical", 10, 100, 999);
         /// <summary> List of the pokemons of the player </summary>
-        public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { 
+        public static List<Pokemon> PlayerPokemons = new List<Pokemon>() {
             new Pokemon("1", "Jarod", new List<string> { "Water" }, 20, 20, 20, 20, 20, 20, 10),
             new Pokemon("5", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5)
 
         };
+
+        private string map { get; set; } = "Map1";
 
         /// <summary> List of trainers available </summary>
         public static Dictionary<string, List<Trainer>> AllTrainers = new Dictionary<string, List<Trainer>>();
 
         public static List<Trainer> Map1Trainers = new List<Trainer>()
         {
-            new Trainer("Maximilien premier le frero", new Vector2i(10, 4), new List<Pokemon>()
+            new Trainer("D","Maximilien premier le frero", new Vector2i(10, 4), new List<Pokemon>()
             {
-                new Pokemon("0", "Jarod", new List<string> { "Water" }, 20, 20, 20, 20, 20, 20, 10)
+                new Pokemon("0", "Jarod", new List<string> { "Water" }, 40, 20, 20, 20, 20, 20, 10)
             }),
 
-            new Trainer("Maximilien second le frero", new Vector2i(10, 6), new List<Pokemon>()
+            new Trainer("D","Maximilien second le frero", new Vector2i(10, 6), new List<Pokemon>()
             {
-                new Pokemon("0", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5),
+                new Pokemon("2", "Francois", new List<string> { "Fire" }, 50, 10, 10, 10, 10, 10, 5),
+            })
+        };
+
+        public static List<Trainer> Map2Trainers = new List<Trainer>()
+        {
+            new Trainer("D","Jean Baptout le fragil", new Vector2i(36, 21), new List<Pokemon>()
+            {
+                new Pokemon("0", "Jarod", new List<string> { "Water" }, 60, 20, 20, 20, 20, 20, 10),
+                new Pokemon("0", "Francois", new List<string> { "Fire" }, 100, 10, 10, 10, 10, 10, 5),
+            }),
+
+            new Trainer("D","Shanky le disparu", new Vector2i(36, 22), new List<Pokemon>()
+            {
+                new Pokemon("0", "Francois", new List<string> { "Fire" }, 30, 10, 10, 10, 10, 10, 5),
+            }),
+
+            new Trainer("D", "Maurad le dormeur", new Vector2i(36, 23), new List<Pokemon>()
+            {
+                new Pokemon("0", "Francois", new List<string> { "Fire" }, 30, 10, 10, 10, 10, 10, 5),
+                new Pokemon("0", "Francois", new List<string> { "Fire" }, 30, 10, 10, 10, 10, 10, 5),
+                new Pokemon("0", "Francois", new List<string> { "Fire" }, 30, 10, 10, 10, 10, 10, 5),
             })
         };
 
         public static List<Trainer> League1Trainer = new List<Trainer>()
         {
-            new Trainer("Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
+            new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
             {
-                new Pokemon("0", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5),
-                new Pokemon("0", "Jarod", new List<string> { "Water" }, 20, 20, 20, 20, 20, 20, 10)
+                new Pokemon("0", "Francois", new List<string> { "Fire" }, 70, 10, 10, 10, 10, 10, 5),
+                new Pokemon("0", "Jarod", new List<string> { "Water" }, 45, 20, 20, 20, 20, 20, 10)
             })
         };
 
+        public static List<Trainer> League2Trainer = new List<Trainer>()
+        {
+            new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
+            {
+                new Pokemon("0", "Francois", new List<string> { "Fire" }, 70, 10, 10, 10, 10, 10, 5),
+                new Pokemon("0", "Jarod", new List<string> { "Water" }, 45, 20, 20, 20, 20, 20, 10)
+            })
+        };
+
+        public static List<Trainer> League3Trainer = new List<Trainer>()
+        {
+            new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
+            {
+                new Pokemon("0", "Francois", new List<string> { "Fire" }, 70, 10, 10, 10, 10, 10, 5),
+                new Pokemon("0", "Jarod", new List<string> { "Water" }, 45, 20, 20, 20, 20, 20, 10)
+            })
+        };
+
+        public static List<Trainer> League4Trainer = new List<Trainer>()
+        {
+            new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
+            {
+                new Pokemon("0", "Francois", new List<string> { "Fire" }, 70, 10, 10, 10, 10, 10, 5),
+                new Pokemon("0", "Jarod", new List<string> { "Water" }, 45, 20, 20, 20, 20, 20, 10)
+            })
+        };
+
+        public static List<Trainer> League5Trainer = new List<Trainer>()
+        {
+            new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
+            {
+                new Pokemon("0", "Francois", new List<string> { "Fire" }, 70, 10, 10, 10, 10, 10, 5),
+                new Pokemon("0", "Jarod", new List<string> { "Water" }, 45, 20, 20, 20, 20, 20, 10)
+            })
+        };
+
+        public static bool isLoadedTrainers = false;
         public static void LoadTrainers()
         {
-            AllTrainers.Add("Map1", Map1Trainers);
-            AllTrainers.Add("League1", League1Trainer);
+            if (!isLoadedTrainers)
+            {
+                AllTrainers.Add("Map1", Map1Trainers);
+                AllTrainers.Add("Map2", Map2Trainers);
+                AllTrainers.Add("League1", League1Trainer);
+                AllTrainers.Add("League2", League2Trainer);
+                AllTrainers.Add("League3", League3Trainer);
+                AllTrainers.Add("League4", League4Trainer);
+                AllTrainers.Add("League5", League5Trainer);
+                isLoadedTrainers = true;
+            }
+
         }
 
         /// <summary> List of the pokemons of the enemy </summary>
@@ -75,13 +144,14 @@ namespace NGlobal
         // public List<Pokemon_Class> EnemyPokemons
 
         /// <summary> Enum of all the pokemontypes </summary>
-        public enum PokemonType {	
-			Normal, Fire, Water, Grass, Electric, Ice, Fighting, Poison, Ground, Flying, Psychic, Bug, Rock, Ghost, Steel, Dark, Fairy, Dragon, Unknown
-		}
+        public enum PokemonType
+        {
+            Normal, Fire, Water, Grass, Electric, Ice, Fighting, Poison, Ground, Flying, Psychic, Bug, Rock, Ghost, Steel, Dark, Fairy, Dragon, Unknown
+        }
 
         /// <summary> Chart containing all the types things </summary>
     	public static float[,] Chart { get; } = new float[18, 19]
-    	{
+        {
     	    //               Normal  Fire  Water  Grass  Electric Ice   Fighting  Poison  Ground  Flying  Psychic  Bug   Rock   Ghost  Steel  Dark  Fairy  Dragon Unknown
     	    /* Normal */    {1.0f,  1.0f, 1.0f,  1.0f,  1.0f,    1.0f,  1.0f,    1.0f,   1.0f,   1.0f,   1.0f,    1.0f, 1.0f,  0.0f,  0.5f,  1.0f, 1.0f,  1.0f,  0.0f },
     	    /* Fire */      {1.0f,  0.5f, 0.5f,  2.0f,  1.0f,    2.0f,  1.0f,    1.0f,   1.0f,   1.0f,   1.0f,    2.0f, 0.5f,  1.0f,  2.0f,  1.0f, 1.0f,  0.5f,  0.0f },
@@ -104,18 +174,19 @@ namespace NGlobal
         };
 
         /// <summary> For the calculation of the type </summary>
-		public static PokemonType TypeToIndex(string typeName) {
+		public static PokemonType TypeToIndex(string typeName)
+        {
             if (Enum.TryParse(typeName, out PokemonType pokemonType))
             {
                 return pokemonType;
             }
-            else {return PokemonType.Unknown;}
-		}
+            else { return PokemonType.Unknown; }
+        }
 
         /// <summary> For the window text color, to return the color based on the type </summary>
 		public static SolidColorBrush TypeToColor(string typeName)
-		{
-			if (typeName == "Water") { return Brushes.Blue; }
+        {
+            if (typeName == "Water") { return Brushes.Blue; }
             else if (typeName == "Fire") { return Brushes.Red; }
             else if (typeName == "Grass") { return Brushes.Green; }
             else if (typeName == "Electric") { return Brushes.Yellow; }
@@ -138,7 +209,7 @@ namespace NGlobal
 
         /// <summary> Gives the color the console should be based on the type </summary>
 		public static ConsoleColor TypeToConsoleColor(string typeName)
-		{
+        {
             if (typeName == "Water") { return ConsoleColor.Blue; }
             else if (typeName == "Fire") { return ConsoleColor.Red; }
             else if (typeName == "Grass") { return ConsoleColor.Green; }
@@ -195,9 +266,10 @@ namespace NGlobal
         };
 
         /// <summary> Return if the attack failed or not </summary>
-        public static bool SuccessAcc(int Acc) {
-			Random rnd = new Random();
-			int Num = rnd.Next(1,100);
+        public static bool SuccessAcc(int Acc)
+        {
+            Random rnd = new Random();
+            int Num = rnd.Next(1, 100);
 
             if (Num > Acc)
             {
@@ -207,21 +279,23 @@ namespace NGlobal
             {
                 return true;
             }
-		}
+        }
 
         /// <summary> Returns the int of the critical </summary>
-		public static int SuccessCritical(int Speed) {
-			Random rnd = new Random();
-			int random = rnd.Next(1,100);
-			int Chance = Speed / 512;
-			if (random > Chance * 100) {return 1;}
-            else {return 2;}
+		public static int SuccessCritical(int Speed)
+        {
+            Random rnd = new Random();
+            int random = rnd.Next(1, 100);
+            int Chance = Speed / 512;
+            if (random > Chance * 100) { return 1; }
+            else { return 2; }
         }
 
         /// <summary> calculates the stab of the pokemon </summary>
-		public static float StabCalculator(string[] PokemonTypes, string AttackType){
-			if (PokemonTypes.Contains(AttackType)) { return 1.5f; }
-			else { return 1.0f; }
+		public static float StabCalculator(string[] PokemonTypes, string AttackType)
+        {
+            if (PokemonTypes.Contains(AttackType)) { return 1.5f; }
+            else { return 1.0f; }
         }
 
         /// <summary> The damage calculation  </summary>
@@ -277,76 +351,77 @@ namespace NGlobal
             int rate = 1;
             int BonusBall = 1;
             int BonusStatus = 1;
-            int a = (3 * PokemonToCatch.GetMaxHp() - 2 * PokemonToCatch.GetHp()) / 3 * PokemonToCatch.GetMaxHp() * rate * BonusBall * BonusStatus;
+            int a = ((3 * PokemonToCatch.GetMaxHp()) - (2 * PokemonToCatch.GetHp())) / 3 * PokemonToCatch.GetMaxHp() * rate * BonusBall * BonusStatus;
             return rnd.Next() > a;
         }
 
         /// <summary> Odd of a pokemon to escape </summary>
 		public static bool OddsEscape(int SpeedP, int SpeedW)
-		{
-			Random rnd = new Random();
-			int Attempts = 1;
-			int OddEscape = ( SpeedP*32/(SpeedW/4 % 256 ) ) + 30 * Attempts;
-			if (OddEscape < 255){
-				if (rnd.Next() < OddEscape){return true;}
-				else{ return false;}
-			}
-			else{return true;}
-		}
+        {
+            Random rnd = new Random();
+            int Attempts = 1;
+            int OddEscape = (SpeedP * 32 / (SpeedW / 4 % 256)) + (30 * Attempts);
+            if (OddEscape < 255)
+            {
+                if (rnd.Next() < OddEscape) { return true; }
+                else { return false; }
+            }
+            else { return true; }
+        }
 
         /// <summary> Change the order of 2 pokemons in a team </summary>
-		public static void ChangePokemonOrder(List<Pokemon> PokemonList,int x, int y)
-		{
-			Pokemon X = PokemonList[x];
-			Pokemon Y = PokemonList[y];
+		public static void ChangePokemonOrder(List<Pokemon> PokemonList, int x, int y)
+        {
+            Pokemon X = PokemonList[x];
+            Pokemon Y = PokemonList[y];
 
             PokemonList[x] = Y;
             PokemonList[y] = X;
         }
 
-		/// <summary> Heals all the pokemons of the player </summary> <param name="PokemonList"></param>
-		public static void HealTeamPokemon(List<Pokemon> PokemonList)
-		{
-			foreach (Pokemon i in PokemonList){i.Restore();}
-		}
+        /// <summary> Heals all the pokemons of the player </summary> <param name="PokemonList"></param>
+        public static void HealTeamPokemon(List<Pokemon> PokemonList)
+        {
+            foreach (Pokemon i in PokemonList) { i.Restore(); }
+        }
 
         /// <summary> After a fight it make all the stats go to normal, expect the hp </summary>
         public static void AfterFightTeamPokemon(List<Pokemon> PokemonList)
         {
-            foreach(Pokemon i in PokemonList) { i.AfterFight();}
+            foreach (Pokemon i in PokemonList) { i.AfterFight(); }
         }
 
 
         /// <summary> Read the pokemon in the dictionary datas </summary>
     	public static Pokemon ReadPokemonDatas(string nameP, int level = 1)
-    	{
-    	    Console.WriteLine("Name: " + nameP);
-	
-    	    Dictionary<string, object> P = PokemonsData.pokemons[nameP];
-    	    List<string> PTypes = new List<string>();
-    	    foreach (string type in (List<object>)P["Types"])
-    	    {
-    	        PTypes.Add(type);
-    	    }
-	
-    	    return new Pokemon("0",(string)P["Name"], PTypes, (int)P["Hp"], (int)P["Att"], (int)P["AttSpe"], (int)P["Def"], (int)P["DefSpe"], (int)P["Speed"], level);
-    	}
+        {
+            Console.WriteLine("Name: " + nameP);
+
+            Dictionary<string, object> P = PokemonsData.pokemons[nameP];
+            List<string> PTypes = new List<string>();
+            foreach (string type in (List<object>)P["Types"])
+            {
+                PTypes.Add(type);
+            }
+
+            return new Pokemon("0", (string)P["Name"], PTypes, (int)P["Hp"], (int)P["Att"], (int)P["AttSpe"], (int)P["Def"], (int)P["DefSpe"], (int)P["Speed"], level);
+        }
 
         /// <summary> Read the datas of the attacks </summary>
     	public static Attack ReadAttacksDatas(string nameA)
-    	{
-    	    Dictionary<string, object> A = AttacksDic.attacks[nameA] as Dictionary<string, object>;
-    	    return new Attack((string)A["Name"], (string)A["Type"], (string)A["Cat"], (int)A["Power"], (int)A["Acc"], (int)A["Pp"]);
-    	}
+        {
+            Dictionary<string, object> A = AttacksDic.attacks[nameA];
+            return new Attack((string)A["Name"], (string)A["Type"], (string)A["Cat"], (int)A["Power"], (int)A["Acc"], (int)A["Pp"]);
+        }
 
         /// <summary> Read the file and returns it as a list of string containing all the lines of the file </summary>
 		public static List<string> ReadFilesText(string filepath)
-		{
-			List<string> lines = new List<string>();
-			FileStream file = File.OpenRead(filepath);
-			StreamReader reader = new StreamReader(filepath);
-			while (!reader.EndOfStream)
-			{
+        {
+            List<string> lines = new List<string>();
+            FileStream file = File.OpenRead(filepath);
+            StreamReader reader = new StreamReader(filepath);
+            while (!reader.EndOfStream)
+            {
                 string line = reader.ReadLine();
                 if (line == null)
                 {
@@ -388,7 +463,7 @@ namespace NGlobal
                         break;
 
                     case 2: // Center
-                        if ((int)Math.Ceiling((decimal)(Console.WindowWidth / 2)) - sprite.Max().Length/2 < 0)
+                        if ((int)Math.Ceiling((decimal)(Console.WindowWidth / 2)) - (sprite.Max().Length / 2) < 0)
                         {
                             leftPosition = 0;
                             topPosition = Console.CursorTop;
@@ -463,7 +538,7 @@ namespace NGlobal
                     x++;
                 }
                 Console.WriteLine();
-                Console.ForegroundColor= ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 

@@ -10,11 +10,14 @@ namespace NTrainer
 {
     public class Trainer
     {
+
+        public string Id { get; set; }
         public string Name;
         public Vector2i Position { get; set; }
         public List<Pokemon> Pokemons { get; set; } = new List<Pokemon>();
-        public Trainer(string name, Vector2i position, List<Pokemon> pokemons)
+        public Trainer(string id, string name, Vector2i position, List<Pokemon> pokemons)
         {
+            Id = id;
             Name = name;
             Position = position;
             Pokemons = pokemons;
