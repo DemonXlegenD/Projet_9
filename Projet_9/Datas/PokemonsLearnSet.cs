@@ -53,7 +53,6 @@ namespace Projet_9.Datas
                     { 1, new List<string> { "Nothing" } },
                 }
             },
-            // Ajout des ensembles d'apprentissage pour les autres Pokémon
             {
                 "Sylvia_LearnSet", new Dictionary<int, object>()
                 {
@@ -116,7 +115,114 @@ namespace Projet_9.Datas
                     { 1, new List<string> { "Charge" } },
                     { 5, new List<string> { "Capitalism" } },
                 }
-            }
+            },
+            {
+                "DogeVine_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                }
+            },
+            {
+                "TrollFlame_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                }
+            },
+
+
+            {
+                "Minecraftian_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                }
+            },
+            {
+                "FlappyFeather_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                }
+            },
+            {
+                "GlitchByte_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                }
+            },
+            {
+                "RoboSpark_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                }
+            },
+            {
+                "PsychoPuzzle_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                }
+            },
+            {
+                "FrostyDream_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                    { 10, new List<string> { "ThunderPunch" } },
+                    { 15, new List<string> { "FlameWheel" } },
+                }
+            },
+            {
+                "PikaFairy_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                    { 15, new List<string> { "FlameWheel" } },
+                }
+            },
+            {
+                "SonicBolt_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                    { 15, new List<string> { "FlameWheel" } },
+                }
+            },
+            {
+                "MemeDragon_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                }
+            },
+            {
+                "SpiritJester_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                    { 20, new List<string> { "CriticalError" } },
+                }
+            },
+            {
+                "MetalMage_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                    { 15, new List<string> { "FlameWheel" } },
+                }
+            },
+            {
+                "PixelPaladin_LearnSet", new Dictionary<int, object>()
+                {
+                    { 1, new List<string> { "Charge" } },
+                    { 5, new List<string> { "Capitalism" } },
+                    { 20, new List<string> { "CriticalError" } },
+                }
+            },
         };
     }
 }

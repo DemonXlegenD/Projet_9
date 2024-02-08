@@ -19,10 +19,10 @@ namespace NGlobal
 
         public static Attack DefaultAttack = new Attack("Def","Normal","Physical",10,100,999);
 		public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { 
-            new Pokemon("0", "Francois", new List<string> { "Water" }, 10, 10, 10, 10, 10, 10, 5), 
-            new Pokemon("0", "Jaja", new List<string> { "Grass" }, 20, 20, 20, 20, 20, 20, 10) 
+            new Pokemon("0", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5), 
+            new Pokemon("0", "Jarod", new List<string> { "Water" }, 20, 20, 20, 20, 20, 20, 10) 
         };
-        public static List<Pokemon> EnemyPokemons = new List<Pokemon>();
+        public static List<Pokemon> EnemyPokemons = new List<Pokemon>() { new Pokemon("0", "Maurad", new List<string> { "Grass" }, 20, 20, 20, 20, 20, 20, 10) };
 
         /// <summary> Paths to look for the assets </summary>
         public static string TXTArtCollectionPath = "./Assets/__ASCII Text-Art Collection/";

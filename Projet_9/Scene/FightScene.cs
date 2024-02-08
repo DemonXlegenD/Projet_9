@@ -63,10 +63,22 @@ namespace NScene
         {
             // à retirer si mit enemy pokemon ajouté etc
             List1 = Global.PlayerPokemons;
-            List2 = new List<Pokemon>() { new Pokemon("2", "Maurad", new List<string> { "Grass" }, 10, 10, 10, 10, 10, 10, 5) };
+            List2 = Global.EnemyPokemons;
 
-            P1 = List1[0];
-            P2 = List2[0];
+            foreach(Pokemon p in List1)
+            {
+                if (p.IsAlive())
+                {
+                    P1 = p;
+                }
+            }
+            foreach(Pokemon p in List2)
+            {
+                if(p.IsAlive())
+                {
+                    P2 = p;
+                }
+            }
             
 
         }
