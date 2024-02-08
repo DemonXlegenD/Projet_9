@@ -8,9 +8,18 @@ namespace NQuest
     public delegate void PokemonCollectedEventHandler(object sender, PokemonCollectedEventArgs e);
 
 
-    public class TrainerDefeatedEventArgs : EventArgs { }
-    public class PokemonCapturedEventArgs : EventArgs { }
-    public class PokemonCollectedEventArgs : EventArgs { }
+    public class TrainerDefeatedEventArgs : EventArgs 
+    {
+        public TrainerDefeatedEventArgs() { }
+    }
+    public class PokemonCapturedEventArgs : EventArgs 
+    {
+        public PokemonCapturedEventArgs() { }
+    }
+    public class PokemonCollectedEventArgs : EventArgs 
+    {
+        public PokemonCollectedEventArgs() { }
+    }
 
     public class QuestManager
     {
@@ -22,11 +31,25 @@ namespace NQuest
         List<Quest> activeQuests;
         List<Quest> completedQuests;
 
+        public QuestManager()
+        {
+            availableQuests = new List<Quest>();
+            activeQuests = new List<Quest>();
+            completedQuests = new List<Quest>();
+        }
+
+       public void AddAvailableQuest(Quest quest)
+        {
+            availableQuests.Add(quest);
+        }
+
         public void StartQuest(Quest quest)
         {
+            availableQuests.Remove(quest);
             activeQuests.Add(quest);
         }
 
+<<<<<<< HEAD
         public void TriggerTrainerDefeatedEvent(string trainerName)
         {
             if (TrainerDefeatedEvent != null)
@@ -45,6 +68,15 @@ namespace NQuest
         {
             TrainerDefeatedEvent += OnTrainerDefeated;
         }
+=======
+        public void CompleteQuest(Quest quest)
+        {
+            activeQuests.Remove(quest);
+            completedQuests.Add(quest);
+            quest.IsCompleted = true;
+        }
+
+>>>>>>> 0c87498cf7b1f07d8d04220266f2f715715daa1c
     }
 
     public class Quest
@@ -77,4 +109,15 @@ namespace NQuest
         }
     }
 
+<<<<<<< HEAD
+=======
+    public class QuestEventHandler
+    {
+        public event TrainerDefeatedEventHandler TrainerDefeatedEvent;
+        public event PokemonCapturedEventHandler PokemonCapturedEvent;
+        public event PokemonCollectedEventHandler PokemonCollectedEvent;
+
+    }
+
+>>>>>>> 0c87498cf7b1f07d8d04220266f2f715715daa1c
 }

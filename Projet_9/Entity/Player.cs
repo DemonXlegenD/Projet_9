@@ -77,6 +77,33 @@ namespace NEntity
             PCPokemons = player.PCPokemons;
             Position = player.Position;
             Inventory = player.Inventory;
+<<<<<<< HEAD
+=======
+
+            questManager = new QuestManager();
+            questEventHandler = new QuestEventHandler();
+        }
+
+        public void DefeatTrainer()
+        {
+            // Faut implémenter ca quelque part
+            /*questEventHandler.TrainerDefeatedEvent?.Invoke(this, new TrainerDefeatedEventArgs());*/
+            questEventHandler.TrainerDefeatedEvent += new PokemonCapturedEventHandler(this, new TrainerDefeatedEventArgs());
+        }
+
+        public void CapturePokemon(string pokemon)
+        {
+            // La pareil
+            /*questEventHandler.PokemonCapturedEvent?.Invoke(this, new PokemonCapturedEventArgs());*/
+            questEventHandler.PokemonCapturedEvent += new PokemonCapturedEventHandler(this, new PokemonCapturedEventArgs());
+        }
+
+        public void CollectPokemon()
+        {
+            // La aussi
+            questEventHandler.PokemonCollectedEvent += new PokemonCollectedEventHandler(this, new PokemonCollectedEventArgs());
+            /*questEventHandler.PokemonCollectedEvent?.Invoke(this, new PokemonCollectedEventArgs());*/
+>>>>>>> 0c87498cf7b1f07d8d04220266f2f715715daa1c
         }
 
         public override string ToString()
