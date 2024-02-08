@@ -173,6 +173,24 @@ namespace NScene
                                         TextQueue.Add("Rahh, the pokemon was not catched !");
                                         P1Used = true;
                                         STATE = States.TURN;
+                                        if (!IsWildFight)
+                                        {
+                                            int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                                            if (choice > 0)
+                                            {
+                                                SelectedAI = choice - 1;
+                                            }
+                                            else
+                                            {
+                                                P2 = List2[choice + 1];
+                                                P2Used = false;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            int choice = Child.MakeChoice(P2);
+                                            SelectedAI = choice;
+                                        }
                                     }
                                 }
                                 else
@@ -197,6 +215,24 @@ namespace NScene
                                     {
                                         STATE = States.TURN;
                                         P1Used = true;
+                                        if (!IsWildFight)
+                                        {
+                                            int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                                            if (choice > 0)
+                                            {
+                                                SelectedAI = choice - 1;
+                                            }
+                                            else
+                                            {
+                                                P2 = List2[choice + 1];
+                                                P2Used = false;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            int choice = Child.MakeChoice(P2);
+                                            SelectedAI = choice;
+                                        }
                                     }
                                 }
                                 else { TextQueue.Add("You can't escape from a trainer !"); }
@@ -238,6 +274,24 @@ namespace NScene
                                         TextQueue.Add("Rahh, the pokemon was not catched !");
                                         P1Used = true;
                                         STATE = States.TURN;
+                                        if (!IsWildFight)
+                                        {
+                                            int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                                            if (choice > 0)
+                                            {
+                                                SelectedAI = choice - 1;
+                                            }
+                                            else
+                                            {
+                                                P2 = List2[choice + 1];
+                                                P2Used = false;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            int choice = Child.MakeChoice(P2);
+                                            SelectedAI = choice;
+                                        }
                                     }
                                 }
                                 else
@@ -264,6 +318,24 @@ namespace NScene
                                         TextQueue.Add("The escape failed !");
                                         P1Used = true;
                                         STATE = States.TURN;
+                                        if (!IsWildFight)
+                                        {
+                                            int choice = Magnus.MakeChoice(List2, List1, P2, P1);
+                                            if (choice > 0)
+                                            {
+                                                SelectedAI = choice - 1;
+                                            }
+                                            else
+                                            {
+                                                P2 = List2[choice + 1];
+                                                P2Used = false;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            int choice = Child.MakeChoice(P2);
+                                            SelectedAI = choice;
+                                        }
                                     }
                                 }
                                 else { TextQueue.Add("You can't escape from a trainer !"); }
@@ -299,7 +371,7 @@ namespace NScene
                             }
                             else
                             {
-                                int choice = Newbie.MakeChoice(P2, P1);
+                                int choice = Child.MakeChoice(P2);
                                 SelectedAI = choice;
                             }
                             STATE = States.TURN;
@@ -332,7 +404,7 @@ namespace NScene
                             }
                             else
                             {
-                                int choice = Newbie.MakeChoice(P2, P1);
+                                int choice = Child.MakeChoice(P2);
                                 SelectedAI = choice;
                             }
                             STATE = States.TURN;
@@ -374,7 +446,7 @@ namespace NScene
                                     }
                                     else
                                     {
-                                        int choice = Newbie.MakeChoice(P2, P1);
+                                        int choice = Child.MakeChoice(P2);
                                         SelectedAI = choice;
                                     }
                                 }
@@ -426,7 +498,7 @@ namespace NScene
                                     }
                                     else
                                     {
-                                        int choice = Newbie.MakeChoice(P2, P1);
+                                        int choice = Child.MakeChoice(P2);
                                         SelectedAI = choice;
                                     }
                                 }
@@ -523,7 +595,7 @@ namespace NScene
                                 }
                                 else
                                 {
-                                    int choice = Newbie.MakeChoice(P2, P1);
+                                    int choice = Child.MakeChoice(P2);
                                     SelectedAI = choice;
                                 }
                                 item.Quantity -= 1;
@@ -568,7 +640,7 @@ namespace NScene
                                 }
                                 else
                                 {
-                                    int choice = Newbie.MakeChoice(P2, P1);
+                                    int choice = Child.MakeChoice(P2);
                                     SelectedAI = choice;
                                 }
                                 item.Quantity -= 1;

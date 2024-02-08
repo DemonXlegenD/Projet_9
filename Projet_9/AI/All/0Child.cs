@@ -11,7 +11,7 @@ namespace NPokemon
 
         public Child(Pokemon PokemonInBattle) {ChoiceAttack = MakeChoice(PokemonInBattle);}
 
-        private int  MakeChoice(Pokemon PokemonInBattle)
+        public static int  MakeChoice(Pokemon PokemonInBattle)
         {
             Random random = new Random();
             return random.Next(0,PokemonInBattle.Moves.Count-1);

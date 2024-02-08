@@ -175,8 +175,8 @@ namespace Projet_9.Datas
                 {
                     { 1, new List<string> { "Charge" } },
                     { 5, new List<string> { "Capitalism" } },
-                    { 10, new List<string> { "ThunderPunch" } },
-                    { 15, new List<string> { "FlameWheel" } },
+                    { 6, new List<string> { "ThunderPunch" } },
+                    { 9, new List<string> { "FlameWheel" } },
                 }
             },
             {
@@ -184,7 +184,7 @@ namespace Projet_9.Datas
                 {
                     { 1, new List<string> { "Charge" } },
                     { 5, new List<string> { "Capitalism" } },
-                    { 15, new List<string> { "FlameWheel" } },
+                    { 9, new List<string> { "FlameWheel" } },
                 }
             },
             {

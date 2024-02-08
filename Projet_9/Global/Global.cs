@@ -76,8 +76,8 @@ namespace NGlobal
         {
             new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
             {
-                new Pokemon("0", "Francois", new List<string> { "Fire" }, 70, 10, 10, 10, 10, 10, 5),
-                new Pokemon("0", "Jarod", new List<string> { "Water" }, 45, 20, 20, 20, 20, 20, 10)
+                new Pokemon("10", "FrostyDream", new List<string> { "Dragon" }, 70, 10, 10, 10, 10, 10, 10),
+                new Pokemon("7", "PikaFairy", new List<string> { "Water" }, 45, 20, 20, 20, 20, 20, 10)
             })
         };
 
