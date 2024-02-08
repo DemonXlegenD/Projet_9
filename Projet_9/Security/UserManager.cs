@@ -148,6 +148,11 @@ namespace NSecurity
                 if (motDePasseHacheAVerifier == _user.Password)
                 {
                     ActualUser = _user;
+                    foreach (var _userOld in users)
+                    {
+                        _userOld.IsConnected = false;
+                    }
+                    ActualUser.IsConnected = true;
                     _saveUser.UserTag(_user.Username, _user.Id);
                     return true;
                 }

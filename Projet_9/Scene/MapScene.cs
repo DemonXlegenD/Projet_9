@@ -31,7 +31,7 @@ namespace NScene
 
         private string playerCharacter = "☺";
         private Vector2i playerPosition = new Vector2i(1, 1);
-        bool enemyFound = false;
+        private bool stop = false;
 
         private Dictionary<string, Vector2i> enemy1 = new Dictionary<string, Vector2i>();
 
@@ -40,7 +40,8 @@ namespace NScene
         private string[,] map;
         private int height = 0;
         private int width = 0;
-private List<string> collidable = new List<string>() { "C", "T", "W" };
+        private List<string> collidable = new List<string>() { "C", "T", "W" };
+        private List<string> trainer = new List<string>() { "D" };
         public MapScene() : base("MapScene") { }
 
         public override void Init()
@@ -90,14 +91,14 @@ private List<string> collidable = new List<string>() { "C", "T", "W" };
         }
 
         public override void Launch() {
-            enemyFound = false;
+            stop = false;
             DisplayMap();
-            if (enemyFound) {
-                Console.Clear();
-                return;
-            }
             DisplaySelection();
-            HandleInput();
+            do
+            {
+                HandleInput();
+            } while (!stop);
+            
 
             Console.Clear();
         }
@@ -112,31 +113,66 @@ private List<string> collidable = new List<string>() { "C", "T", "W" };
                     {
                         if (!collidable.Contains(map[playerPosition.GetY() + 1, (playerPosition.GetX())]))
                         {
+                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
+                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
                             playerPosition.SetY(playerPosition.GetY() + 1);
+                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
+                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
+                            Console.Write(" " + playerCharacter + " ");
                         }
                     }
                     else if (key.Key == ConsoleKey.UpArrow)
                     {
                         if (!collidable.Contains(map[playerPosition.GetY() - 1, playerPosition.GetX()]))
                         {
+                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
+                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
                             playerPosition.SetY(playerPosition.GetY() - 1);
+                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
+                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
+                            Console.Write(" " + playerCharacter + " ");
                         }
                     }
                     else if (key.Key == ConsoleKey.LeftArrow)
                     {
                         if (!collidable.Contains(map[playerPosition.GetY(), playerPosition.GetX() - 1]))
                         {
+                            
+                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
+                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
                             playerPosition.SetX(playerPosition.GetX() - 1);
+                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
+                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
+                            Console.Write(" " + playerCharacter + " ");
                         }
                     }
                     else if (key.Key == ConsoleKey.RightArrow)
                     {
                         if (!collidable.Contains(map[playerPosition.GetY(), playerPosition.GetX() + 1]))
                         {
+                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
+                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
                             playerPosition.SetX(playerPosition.GetX() + 1);
+                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
+                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
+                            Console.Write(" " + playerCharacter + " ");
+
                         }
                     }
-
+                    foreach (var entry in enemies)
+                    {
+                        foreach (KeyValuePair<string, Vector2i> enemy in entry)
+                        {
+                            if (enemy.Value.GetX() == playerPosition.GetX() && enemy.Value.GetY() == playerPosition.GetY())
+                            {
+                                stop = true;
+                                Console.Clear();
+                                Console.BackgroundColor = ConsoleColor.Black;
+                                Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
+                            }
+                            
+                        }
+                    }
                     if (key.Key == ConsoleKey.Escape)
                     {
                         currentAction = Actions.MENU;
@@ -219,19 +255,10 @@ private List<string> collidable = new List<string>() { "C", "T", "W" };
                         foreach (KeyValuePair<string, Vector2i> enemy in entry)
                         {
                             if (enemy.Value.GetX() == j && enemy.Value.GetY() == i)
-                            {
-                                if (playerPosition.GetX() == enemy.Value.GetX() && playerPosition.GetY() == enemy.Value.GetY())
-                                {
-                                    // Changer les enemyPokemons avant
-                                    enemyFound = true;
-                                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
-                                }
-                                else
-                                {
-                                    GetTiles(map[i, j], false);
-                                    Console.Write(" " + enemy.Key + " ");
-                                    enemyTile = true;
-                                }
+                            {  
+                                GetTiles(map[i, j], false);
+                                Console.Write(" " + enemy.Key + " ");
+                                enemyTile = true;
                             }
                         }
                     }
