@@ -58,24 +58,13 @@ namespace NScene
         public override void Init()
         {
             Console.OutputEncoding = Encoding.UTF8;
-            string mapperso = "Map2";
-            LoadMap(mapperso, false);
-
+            mapName = "Map2";
+            LoadMap(mapName, false);
+            Global.LoadTrainers();
             if (collidable.Contains(map[GetPlayer().Position.GetX(), GetPlayer().Position.GetY()]))
             {
                 GetPlayer().Position = spawn;
             }
-
-            if (mapperso == "Map1") enemy1.Add("D", new Vector2i(10, 2));
-            if (mapperso == "Map2")
-            {
-                enemy1.Add("A", new Vector2i(36, 21));
-                enemy1.Add("B", new Vector2i(36, 22));
-                enemy1.Add("C", new Vector2i(36, 23));
-            }
-
-
-            enemies.Add(enemy1);
         }
         //T : Tree ; C : Mur; G : Sol vert; 
         private void GetTiles(string tile, bool display)
@@ -211,17 +200,21 @@ namespace NScene
                             Console.Write(" " + playerCharacter + " ");
                         }
                     }
-                    foreach (var entry in enemies)
+                    foreach (var entry in Global.AllTrainers)
                     {
-                        foreach (KeyValuePair<string, Vector2i> enemy in entry)
+                        if (entry.Key == mapName && entry.Value != null)
                         {
-                            if (enemy.Value.GetX() == playerPosition.GetX() && enemy.Value.GetY() == playerPosition.GetY())
+                            foreach (Trainer enemy in entry.Value)
                             {
-                                stop = true;
-                                Console.Clear();
-                                Console.BackgroundColor = ConsoleColor.Black;
-                                Global.IsWildFight = false;
-                                Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
+                                if (enemy.Position.GetX() == playerPosition.GetX() && enemy.Position.GetY() == playerPosition.GetY())
+                                {
+                                    stop = true;
+                                    GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
+                                    Global.IsWildFight = false;
+                                    Global.EnemyPokemons = enemy.Pokemons;
+                                    Console.BackgroundColor = ConsoleColor.Black;
+                                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
+                                }
                             }
                         }
                     }
@@ -317,7 +310,6 @@ namespace NScene
                     Console.ForegroundColor = ConsoleColor.White;
 
                     var enemyTile = false;
-
                     foreach (var entry in Global.AllTrainers)
                     {
                         if (entry.Key == mapName && entry.Value != null)
@@ -326,11 +318,10 @@ namespace NScene
                             {
                                 if (enemy.Position.GetX() == j && enemy.Position.GetY() == i)
                                 {
-                                    GetTiles(map[i, j], false);
-                                    Console.Write(" " + enemy.Name + " ");
+                                    GetTiles(map[i, j], true);
+                                    Console.Write(" " + enemy.Id + " ");
                                     enemyTile = true;
                                 }
-
                             }
                         }
                     }

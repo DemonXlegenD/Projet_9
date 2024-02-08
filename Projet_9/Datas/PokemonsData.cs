@@ -13,6 +13,7 @@ namespace NDatas
         public string Id { get; set; }
         public string Name { get; set; }
         public List<string> Types { get; set; }
+        public List<Attack> Moves { get; set; }
         public int Hp { get; set; }
         public int Att { get; set; }
         public int AttSpe { get; set; }
@@ -119,6 +120,7 @@ namespace NDatas
             IPokemon pokemon = pokemons.FirstOrDefault(p => p.Id == idPokemon);
             Pokemon result = new Pokemon(pokemon);
             result.Id = idPokemon;
+            result.Moves = pokemon.Moves;
             result.Name = pokemon.Name;
             result.Hp = pokemon.Hp;
             result.Types = pokemon.Types;

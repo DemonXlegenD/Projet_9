@@ -166,6 +166,13 @@ namespace NPokemon
             Level = 1;
             Xp = 0;
             XpNext = Level * 20 / 4;
+
+            IVHp = new Random().Next(0, 32);
+            IVAttack = new Random().Next(0, 32);
+            IVAttackSpe = new Random().Next(0, 32);
+            IVDefense = new Random().Next(0, 32);
+            IVDefenseSpe = new Random().Next(0, 32);
+            IVSpeed = new Random().Next(0, 32);
         }
 
         public Pokemon(IPokemon ipokemon)
@@ -245,7 +252,7 @@ namespace NPokemon
             Id = ipokemon.Id;
             Name = ipokemon.Name;
             Types = ipokemon.Types;
-
+            Moves = ipokemon.Moves;
             BaseHp = ipokemon.Hp;
             BaseAttack = ipokemon.Att;
             BaseAttackSpe = ipokemon.AttSpe;
@@ -260,6 +267,7 @@ namespace NPokemon
         {
             ApplyStats(PokemonsData.GetIPokemonWithId(idPokemon));
         }
+
         public Pokemon(Pokemon pokemon)
         {
             this.pokemon = pokemon;
