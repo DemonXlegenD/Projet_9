@@ -1,7 +1,9 @@
+using Maths;
 using NDatas;
 using NInventory;
 using NPokemon;
 using NScene;
+using NTrainer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,6 +31,36 @@ namespace NGlobal
         };
 
         public static Dictionary<string, ItemAbstract> PlayerItems = new Dictionary<string, ItemAbstract>();
+        /// <summary> List of trainers available </summary>
+        public static Dictionary<string, List<Trainer>> AllTrainers = new Dictionary<string, List<Trainer>>();
+
+        public static List<Trainer> Map1Trainers = new List<Trainer>()
+        {
+            new Trainer("Maximilien premier le frero", new Vector2i(10, 4), new List<Pokemon>()
+            {
+                new Pokemon("0", "Jarod", new List<string> { "Water" }, 20, 20, 20, 20, 20, 20, 10)
+            }),
+
+            new Trainer("Maximilien second le frero", new Vector2i(10, 6), new List<Pokemon>()
+            {
+                new Pokemon("0", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5),
+            })
+        };
+
+        public static List<Trainer> League1Trainer = new List<Trainer>()
+        {
+            new Trainer("Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
+            {
+                new Pokemon("0", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5),
+                new Pokemon("0", "Jarod", new List<string> { "Water" }, 20, 20, 20, 20, 20, 20, 10)
+            })
+        };
+
+        public static void LoadTrainers()
+        {
+            AllTrainers.Add("Map1", Map1Trainers);
+            AllTrainers.Add("League1", League1Trainer);
+        }
 
         /// <summary> List of the pokemons of the enemy </summary>
         public static List<Pokemon> EnemyPokemons = new List<Pokemon>() { new Pokemon("3", "Maurad", new List<string> { "Grass" }, 20, 20, 20, 20, 20, 20, 10) };

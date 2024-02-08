@@ -1,0 +1,28 @@
+{
+    "Tiles": [
+        "C", "C", "C", "C", "C", "C", "C", "C", "C", "League5", "C", "C", "C", "C", "C", "C", "C", "C", "C",
+        "C", "DM", "DM", "DM", "DM", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "DM", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "C", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "C", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "DM", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "DM", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "C", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "C", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "DM", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "DM", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "C", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "C", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "DM", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "DM", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "C", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "C", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "DM", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "DM", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "C", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "C", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "DM", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "DM", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "C", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "C", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "DM", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "DM", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "C", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "C", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "DM", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "DM", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "C", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "C", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "DM", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "DM", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "C", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "C", "DM", "DM", "DM", "C",
+        "C", "DM", "DM", "DM", "DM", "DM", "DM", "W", "R", "R", "R", "W", "DM", "DM", "DM", "DM", "DM", "DM", "C",
+        "C", "C", "C", "C", "C", "C", "C", "C", "C", "League3", "C", "C", "C", "C", "C", "C", "C", "C", "C"
+    ],
+    "Size": [19, 21],
+    "Spawn1": [10, 20],
+    "Spawn2": [10, 20]
+}
