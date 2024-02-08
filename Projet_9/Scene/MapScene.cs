@@ -1,7 +1,7 @@
 ﻿using Maths;
 using NEngine;
-using NEntity;
 using Newtonsoft.Json;
+using NGlobal;
 using NModules;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ using NGlobal;
 using System.Linq;
 using System.Windows.Documents;
 using NTrainer;
+
 
 namespace NScene
 {
@@ -40,13 +41,15 @@ namespace NScene
         private Dictionary<string, Vector2i> enemy1 = new Dictionary<string, Vector2i>();
 
         List<Dictionary<string, Vector2i>> enemies = new List<Dictionary<string, Vector2i>>();
-        
+
         private string[,] map;
         private string mapName;
         private int height = 0;
         private int width = 0;
         private List<string> collidable = new List<string>() { "C", "T" };
-        //private List<string> trainer = new List<string>() { "D" };
+
+        private List<string> trainer = new List<string>() { "A", "B", "C", "D", };
+
         private Vector2i spawn = Vector2i.Zero;
 
         public MapScene() : base("MapScene") { }
@@ -54,19 +57,26 @@ namespace NScene
         public override void Init()
         {
             Console.OutputEncoding = Encoding.UTF8;
-
-            LoadMap("League1", false);
+            string mapperso = "Map2";
+            LoadMap(mapperso, false);
 
             if (collidable.Contains(map[GetPlayer().Position.GetX(), GetPlayer().Position.GetY()]))
             {
                 GetPlayer().Position = spawn;
             }
 
-            enemy1.Add("D", new Vector2i(10, 2));
+            if (mapperso == "Map1") enemy1.Add("D", new Vector2i(10, 2));
+            if (mapperso == "Map2")
+            {
+                enemy1.Add("A", new Vector2i(36, 21));
+                enemy1.Add("B", new Vector2i(36, 22));
+                enemy1.Add("C", new Vector2i(36, 23));
+            }
+
 
             enemies.Add(enemy1);
         }
-
+        //T : Tree ; C : Mur; G : Sol vert; 
         private void GetTiles(string tile, bool display)
         {
             string character = " ";
@@ -111,6 +121,10 @@ namespace NScene
             {
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
             }
+            else if (tile == "DY")
+            {
+                Console.BackgroundColor = ConsoleColor.DarkYellow;
+            }
             else if (tile == "#")
             {
                 Console.BackgroundColor = ConsoleColor.Green;
@@ -126,12 +140,17 @@ namespace NScene
             return;
         }
 
-        public override void Launch() {
+        public override void Launch()
+        {
             stop = false;
             DisplayMap();
             DisplaySelection();
-            HandleInput();
-            HandleTeleport();
+            do
+            {
+                HandleInput();
+            } while (!stop);
+
+            /*HandleTeleport();*/
 
             Console.Clear();
         }
@@ -144,7 +163,7 @@ namespace NScene
                 case Actions.MOVING:
                     if (key.Key == ConsoleKey.DownArrow)
                     {
-                        if (!collidable.Contains(map[playerPosition.GetY() + 1, (playerPosition.GetX())]))
+                        if (!collidable.Contains(map[playerPosition.GetY() + 1, playerPosition.GetX()]))
                         {
                             Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
                             GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
@@ -170,7 +189,7 @@ namespace NScene
                     {
                         if (!collidable.Contains(map[playerPosition.GetY(), playerPosition.GetX() - 1]))
                         {
-                            
+
                             Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
                             GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
                             playerPosition.SetX(playerPosition.GetX() - 1);
@@ -189,7 +208,6 @@ namespace NScene
                             Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
                             GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
                             Console.Write(" " + playerCharacter + " ");
-
                         }
                     }
                     foreach (var entry in enemies)
@@ -203,7 +221,19 @@ namespace NScene
                                 Console.BackgroundColor = ConsoleColor.Black;
                                 Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
                             }
-                            
+                        }
+                    }
+                    if (map[playerPosition.GetY(), playerPosition.GetX()] == "#")
+                    {
+                        Random rnd = new Random();
+                        int chance = rnd.Next(1, 10);
+                        if (chance == 1)
+                        {
+                            stop = true;
+                            Console.Clear();
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Global.IsWildFight = true;
+                            Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
                         }
                     }
                     if (key.Key == ConsoleKey.Escape)
@@ -258,13 +288,13 @@ namespace NScene
 
                     if (key.Key == ConsoleKey.Spacebar)
                     {
-                        switch(selectedMenuAction)
+                        switch (selectedMenuAction)
                         {
                             case MenuActions.LEAVE:
-                            {
-                                Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MenuScene>(true);
-                                break;
-                            }
+                                {
+                                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MenuScene>(true);
+                                    break;
+                                }
                         }
                     }
 
@@ -295,6 +325,7 @@ namespace NScene
                                     Console.Write(" " + enemy.Name + " ");
                                     enemyTile = true;
                                 }
+
                             }
                         }
                     }
@@ -366,7 +397,8 @@ namespace NScene
                 {
                     Console.WriteLine("║ STATS                      QUITTER ║");
                 }
-            } else
+            }
+            else
             {
                 Console.WriteLine("║ INVENTAIRE               SE BATTRE ║");
                 Console.WriteLine("║                                    ║");
@@ -388,7 +420,7 @@ namespace NScene
 
         private void LoadMap(string _map, bool teleportToSpawn)
         {
-            string jsonContent = System.IO.File.ReadAllText("Maps/" + _map + ".json");
+            string jsonContent = System.IO.File.ReadAllText("Data/Maps/" + _map + ".json");
             var deserializedObject = JsonConvert.DeserializeAnonymousType(jsonContent, new { Tiles = new string[0], Size = new int[0], Spawn1 = new int[0], Spawn2 = new int[0] });
 
             Console.WriteLine(deserializedObject.Size[0]);
@@ -404,7 +436,7 @@ namespace NScene
             {
                 for (int j = 0; j < width; j++)
                 {
-                    map[i, j] = deserializedObject.Tiles[i * width + j];
+                    map[i, j] = deserializedObject.Tiles[(i * width) + j];
                     if (map[i, j] == mapName)
                     {
                         spawn = new Vector2i(deserializedObject.Spawn2[0], deserializedObject.Spawn2[1]);
