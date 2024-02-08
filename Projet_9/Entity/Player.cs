@@ -97,19 +97,22 @@ namespace NEntity
         public void DefeatTrainer()
         {
             // Faut implémenter ca quelque part
-            questEventHandler.TrainerDefeatedEvent?.Invoke(this, new TrainerDefeatedEventArgs());
+            /*questEventHandler.TrainerDefeatedEvent?.Invoke(this, new TrainerDefeatedEventArgs());*/
+            questEventHandler.TrainerDefeatedEvent += new PokemonCapturedEventHandler(this, new TrainerDefeatedEventArgs());
         }
 
         public void CapturePokemon(string pokemon)
         {
             // La pareil
-            questEventHandler.PokemonCapturedEvent?.Invoke(this, new PokemonCapturedEventArgs());
+            /*questEventHandler.PokemonCapturedEvent?.Invoke(this, new PokemonCapturedEventArgs());*/
+            questEventHandler.PokemonCapturedEvent += new PokemonCapturedEventHandler(this, new PokemonCapturedEventArgs());
         }
 
         public void CollectPokemon()
         {
             // La aussi
-            questEventHandler.PokemonCollectedEvent?.Invoke(this, new PokemonCollectedEventArgs());
+            questEventHandler.PokemonCollectedEvent += new PokemonCollectedEventHandler(this, new PokemonCollectedEventArgs());
+            /*questEventHandler.PokemonCollectedEvent?.Invoke(this, new PokemonCollectedEventArgs());*/
         }
 
         public override string ToString()

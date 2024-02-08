@@ -8,9 +8,18 @@ namespace NQuest
     public delegate void PokemonCollectedEventHandler(object sender, PokemonCollectedEventArgs e);
 
 
-    public class TrainerDefeatedEventArgs : EventArgs { }
-    public class PokemonCapturedEventArgs : EventArgs { }
-    public class PokemonCollectedEventArgs : EventArgs { }
+    public class TrainerDefeatedEventArgs : EventArgs 
+    {
+        public TrainerDefeatedEventArgs() { }
+    }
+    public class PokemonCapturedEventArgs : EventArgs 
+    {
+        public PokemonCapturedEventArgs() { }
+    }
+    public class PokemonCollectedEventArgs : EventArgs 
+    {
+        public PokemonCollectedEventArgs() { }
+    }
 
     public class QuestManager
     {
@@ -18,9 +27,29 @@ namespace NQuest
         List<Quest> activeQuests;
         List<Quest> completedQuests;
 
+        public QuestManager()
+        {
+            availableQuests = new List<Quest>();
+            activeQuests = new List<Quest>();
+            completedQuests = new List<Quest>();
+        }
+
+       public void AddAvailableQuest(Quest quest)
+        {
+            availableQuests.Add(quest);
+        }
+
         public void StartQuest(Quest quest)
         {
+            availableQuests.Remove(quest);
             activeQuests.Add(quest);
+        }
+
+        public void CompleteQuest(Quest quest)
+        {
+            activeQuests.Remove(quest);
+            completedQuests.Add(quest);
+            quest.IsCompleted = true;
         }
 
     }
@@ -59,6 +88,7 @@ namespace NQuest
         public event TrainerDefeatedEventHandler TrainerDefeatedEvent;
         public event PokemonCapturedEventHandler PokemonCapturedEvent;
         public event PokemonCollectedEventHandler PokemonCollectedEvent;
+
     }
 
 }
