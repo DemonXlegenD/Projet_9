@@ -13,7 +13,7 @@ using System.Windows.Documents;
 
 namespace NScene
 {
-    public class MapScene : SceneAbstract
+    public class MapScene2 : SceneAbstract
     {
         private enum Actions
         {
@@ -33,19 +33,16 @@ namespace NScene
         private MenuActions selectedMenuAction = MenuActions.INVENTORY;
 
         private string playerCharacter = "☺";
-        private Vector2i playerPosition = new Vector2i(1, 1);
-        private bool stop = false;
+        bool enemyFound = false;
 
         private Dictionary<string, Vector2i> enemy1 = new Dictionary<string, Vector2i>();
 
         List<Dictionary<string, Vector2i>> enemies = new List<Dictionary<string, Vector2i>>();
-        
+
         private string[,] map;
         private string mapName;
         private int height = 0;
         private int width = 0;
-        private List<string> collidable = new List<string>() { "C", "T" };
-        private List<string> trainer = new List<string>() { "D" };
         private Vector2i spawn = Vector2i.Zero;
 
         public MapScene() : base("MapScene") { }
@@ -66,6 +63,7 @@ namespace NScene
             enemies.Add(enemy1);
         }
 
+        private List<string> collidable = new List<string>() { "C", "T" };
         private void GetTiles(string tile, bool display)
         {
             string character = " ";
@@ -125,9 +123,15 @@ namespace NScene
             return;
         }
 
-        public override void Launch() {
-            stop = false;
+        public override void Launch()
+        {
+            enemyFound = false;
             DisplayMap();
+            if (enemyFound)
+            {
+                Console.Clear();
+                return;
+            }
             DisplaySelection();
             HandleInput();
             HandleTeleport();
@@ -143,68 +147,33 @@ namespace NScene
                 case Actions.MOVING:
                     if (key.Key == ConsoleKey.DownArrow)
                     {
-                        if (!collidable.Contains(map[playerPosition.GetY() + 1, (playerPosition.GetX())]))
+                        if (!collidable.Contains(map[GetPlayer().Position.GetY() + 1, (GetPlayer().Position.GetX())]))
                         {
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
-                            playerPosition.SetY(playerPosition.GetY() + 1);
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
-                            Console.Write(" " + playerCharacter + " ");
+                            GetPlayer().Position.SetY(GetPlayer().Position.GetY() + 1);
                         }
                     }
                     else if (key.Key == ConsoleKey.UpArrow)
                     {
-                        if (!collidable.Contains(map[playerPosition.GetY() - 1, playerPosition.GetX()]))
+                        if (!collidable.Contains(map[GetPlayer().Position.GetY() - 1, GetPlayer().Position.GetX()]))
                         {
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
-                            playerPosition.SetY(playerPosition.GetY() - 1);
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
-                            Console.Write(" " + playerCharacter + " ");
+                            GetPlayer().Position.SetY(GetPlayer().Position.GetY() - 1);
                         }
                     }
                     else if (key.Key == ConsoleKey.LeftArrow)
                     {
-                        if (!collidable.Contains(map[playerPosition.GetY(), playerPosition.GetX() - 1]))
+                        if (!collidable.Contains(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX() - 1]))
                         {
-                            
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
-                            playerPosition.SetX(playerPosition.GetX() - 1);
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
-                            Console.Write(" " + playerCharacter + " ");
+                            GetPlayer().Position.SetX(GetPlayer().Position.GetX() - 1);
                         }
                     }
                     else if (key.Key == ConsoleKey.RightArrow)
                     {
-                        if (!collidable.Contains(map[playerPosition.GetY(), playerPosition.GetX() + 1]))
+                        if (!collidable.Contains(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX() + 1]))
                         {
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
-                            playerPosition.SetX(playerPosition.GetX() + 1);
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
-                            Console.Write(" " + playerCharacter + " ");
+                            GetPlayer().Position.SetX(GetPlayer().Position.GetX() + 1);
+                        }
+                    }
 
-                        }
-                    }
-                    foreach (var entry in enemies)
-                    {
-                        foreach (KeyValuePair<string, Vector2i> enemy in entry)
-                        {
-                            if (enemy.Value.GetX() == playerPosition.GetX() && enemy.Value.GetY() == playerPosition.GetY())
-                            {
-                                stop = true;
-                                Console.Clear();
-                                Console.BackgroundColor = ConsoleColor.Black;
-                                Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
-                            }
-                            
-                        }
-                    }
                     if (key.Key == ConsoleKey.Escape)
                     {
                         currentAction = Actions.MENU;
@@ -257,13 +226,13 @@ namespace NScene
 
                     if (key.Key == ConsoleKey.Spacebar)
                     {
-                        switch(selectedMenuAction)
+                        switch (selectedMenuAction)
                         {
                             case MenuActions.LEAVE:
-                            {
-                                Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MenuScene>(true);
-                                break;
-                            }
+                                {
+                                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MenuScene>(true);
+                                    break;
+                                }
                         }
                     }
 
@@ -287,19 +256,40 @@ namespace NScene
                         foreach (KeyValuePair<string, Vector2i> enemy in entry)
                         {
                             if (enemy.Value.GetX() == j && enemy.Value.GetY() == i)
-                            {  
-                                GetTiles(map[i, j], false);
-                                Console.Write(" " + enemy.Key + " ");
-                                enemyTile = true;
+                            {
+                                if (GetPlayer().Position.GetX() == enemy.Value.GetX() && GetPlayer().Position.GetY() == enemy.Value.GetY())
+                                {
+                                    // Changer les enemyPokemons avant
+                                    enemyFound = true;
+                                    Global.IsWildFight = false;
+                                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
+                                }
+                                else
+                                {
+                                    GetTiles(map[i, j], false);
+                                    Console.Write(" " + enemy.Key + " ");
+                                    enemyTile = true;
+                                }
                             }
                         }
                     }
 
                     if (!enemyTile)
                     {
-                        if (playerPosition.GetX() == j && playerPosition.GetY() == i)
+                        if (GetPlayer().Position.GetX() == j && GetPlayer().Position.GetY() == i)
                         {
                             GetTiles(map[i, j], false);
+                            if (map[i, j] == "#")
+                            {
+                                Random rnd = new Random();
+                                int chance = rnd.Next(1, 10);
+                                if (chance == 1)
+                                {
+                                    enemyFound = true;
+                                    Global.IsWildFight = true;
+                                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
+                                }
+                            }
                             Console.Write(" " + playerCharacter + " ");
                         }
                         else
@@ -351,7 +341,8 @@ namespace NScene
                 {
                     Console.WriteLine("║ STATS                      QUITTER ║");
                 }
-            } else
+            }
+            else
             {
                 Console.WriteLine("║ INVENTAIRE               SE BATTRE ║");
                 Console.WriteLine("║                                    ║");
