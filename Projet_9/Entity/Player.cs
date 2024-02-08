@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using NPokemon;
 using NSecurity;
+using NQuest;
 
 namespace NEntity
 {
@@ -27,6 +28,9 @@ namespace NEntity
         public Vector2i Position { get; set; }
         public Dictionary<string, ItemAbstract> Inventory { get; set; }
 
+        private QuestManager questManager;
+        private QuestEventHandler questEventHandler;
+
         public Player()
         {
             FirstName = "Sacha";
@@ -37,6 +41,9 @@ namespace NEntity
             PCPokemons = new List<Pokemon>();
             Position = Vector2i.Zero;
             Inventory = new Dictionary<string, ItemAbstract>();
+
+            questManager = new QuestManager();
+            questEventHandler = new QuestEventHandler();
         }
 
         public Player(string id, string firstName, string lastName, int age, string description, Pokemon pokemon)
@@ -51,6 +58,9 @@ namespace NEntity
             PCPokemons = new List<Pokemon>();
             Position = Vector2i.Zero;
             Inventory = new Dictionary<string, ItemAbstract>();
+
+            questManager = new QuestManager();
+            questEventHandler = new QuestEventHandler();
         }
 
             public Player(string id, string firstName, string lastName, int age, string description, List<Pokemon> teamPokemons, List<Pokemon> pCPokemons, Vector2i position, Dictionary<string, ItemAbstract> inventory)
@@ -64,6 +74,9 @@ namespace NEntity
             PCPokemons = pCPokemons;
             Position = position;
             Inventory = inventory;
+
+            questManager = new QuestManager();
+            questEventHandler = new QuestEventHandler();
         }
         public Player(Player player)
         {
@@ -76,6 +89,27 @@ namespace NEntity
             PCPokemons = player.PCPokemons;
             Position = player.Position;
             Inventory = player.Inventory;
+
+            questManager = new QuestManager();
+            questEventHandler = new QuestEventHandler();
+        }
+
+        public void DefeatTrainer()
+        {
+            // Faut implémenter ca quelque part
+            questEventHandler.TrainerDefeatedEvent?.Invoke(this, new TrainerDefeatedEventArgs());
+        }
+
+        public void CapturePokemon(string pokemon)
+        {
+            // La pareil
+            questEventHandler.PokemonCapturedEvent?.Invoke(this, new PokemonCapturedEventArgs());
+        }
+
+        public void CollectPokemon()
+        {
+            // La aussi
+            questEventHandler.PokemonCollectedEvent?.Invoke(this, new PokemonCollectedEventArgs());
         }
 
         public override string ToString()
