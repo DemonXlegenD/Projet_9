@@ -161,6 +161,7 @@
     <Compile Include="Types\CharacterObject.cs" />
     <Compile Include="UIElements\UIButton.cs" />
     <Compile Include="UIElements\UIPanel.cs" />
+    <Compile Include="UIElements\UISlider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
