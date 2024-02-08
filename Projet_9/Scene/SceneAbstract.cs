@@ -29,6 +29,7 @@ namespace NScene
 
         public Player GetPlayer()
         {
+            PlayerManager = PlayerManager.GetInstance();
             return PlayerManager.GetActualPlayer();
         }
 

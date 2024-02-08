@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using NGlobal;
+using System.Linq;
+using System.Windows.Documents;
 
 namespace NScene
 {
@@ -38,8 +40,10 @@ namespace NScene
         List<Dictionary<string, Vector2i>> enemies = new List<Dictionary<string, Vector2i>>();
         
         private string[,] map;
+        private string mapName;
         private int height = 0;
         private int width = 0;
+        private Vector2i spawn = Vector2i.Zero;
 
         public MapScene() : base("MapScene") { }
 
@@ -47,7 +51,12 @@ namespace NScene
         {
             Console.OutputEncoding = Encoding.UTF8;
 
-            LoadMap("Map1");
+            LoadMap("League1", false);
+
+            if (collidable.Contains(map[GetPlayer().Position.GetX(), GetPlayer().Position.GetY()]))
+            {
+                GetPlayer().Position = spawn;
+            }
 
             enemy1.Add("D", new Vector2i(10, 2));
 
@@ -57,39 +66,58 @@ namespace NScene
         private List<string> collidable = new List<string>() { "C", "T", "W" };
         private void GetTiles(string tile, bool display)
         {
-            string character = "   ";
+            string character = " ";
 
             if (tile == "T")
             {
                 Console.BackgroundColor = ConsoleColor.Green;
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
-                if (display)
-                {
-
-                }
-                character = " ♣ ";
+                character = "♣";
             }
             else if (tile == "C")
             {
                 Console.BackgroundColor = ConsoleColor.DarkGray;
                 Console.ForegroundColor = ConsoleColor.Gray;
-                character = " ■ ";
+                character = "■";
             }
             else if (tile == "G")
             {
                 Console.BackgroundColor = ConsoleColor.Green;
-                character = "   ";
+            }
+            else if (tile == "Y")
+            {
+                Console.BackgroundColor = ConsoleColor.DarkYellow;
+            }
+            else if (tile == "R")
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+            }
+            else if (tile == "W")
+            {
+                Console.BackgroundColor = ConsoleColor.White;
+            }
+            else if (tile == "DR")
+            {
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+            }
+            else if (tile == "DM")
+            {
+                Console.BackgroundColor = ConsoleColor.DarkMagenta;
+            }
+            else if (tile == "DB")
+            {
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
             }
             else if (tile == "#")
             {
                 Console.BackgroundColor = ConsoleColor.Green;
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
-                character = " # ";
+                character = "#";
             }
 
             if (display)
             {
-                Console.Write(character);
+                Console.Write(" " + character + " ");
             }
 
             return;
@@ -104,6 +132,7 @@ namespace NScene
             }
             DisplaySelection();
             HandleInput();
+            HandleTeleport();
 
             Console.Clear();
         }
@@ -322,25 +351,46 @@ namespace NScene
             Console.Write("\n");
         }
 
-        private void LoadMap(string _map)
+        private void HandleTeleport()
+        {
+            if (File.Exists("Maps/" + map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX()] + ".json"))
+            {
+                LoadMap(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX()], true);
+            }
+        }
+
+        private void LoadMap(string _map, bool teleportToSpawn)
         {
             string jsonContent = System.IO.File.ReadAllText("Maps/" + _map + ".json");
-            var deserializedObject = JsonConvert.DeserializeAnonymousType(jsonContent, new { Tiles = new string[0], Size = new int[0] });
+            var deserializedObject = JsonConvert.DeserializeAnonymousType(jsonContent, new { Tiles = new string[0], Size = new int[0], Spawn1 = new int[0], Spawn2 = new int[0] });
 
             Console.WriteLine(deserializedObject.Size[0]);
             //System.Threading.Thread.Sleep(10000);
             width = deserializedObject.Size[0];
             height = deserializedObject.Size[1];
 
-            map = new string[width, height];
+            spawn = new Vector2i(deserializedObject.Spawn1[0], deserializedObject.Spawn1[1]);
 
-            for (int i = 0; i < deserializedObject.Size[0]; i++)
+            map = new string[height, width];
+
+            for (int i = 0; i < height; i++)
             {
-                for (int j = 0; j < deserializedObject.Size[1]; j++)
+                for (int j = 0; j < width; j++)
                 {
-                    map[i, j] = deserializedObject.Tiles[i * deserializedObject.Size[1] + j];
+                    map[i, j] = deserializedObject.Tiles[i * width + j];
+                    if (map[i, j] == mapName)
+                    {
+                        spawn = new Vector2i(deserializedObject.Spawn2[0], deserializedObject.Spawn2[1]);
+                    }
                 }
             }
+
+            if (teleportToSpawn)
+            {
+                GetPlayer().Position = spawn;
+            }
+
+            mapName = _map;
 
             return;
         }

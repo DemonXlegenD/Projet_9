@@ -190,7 +190,7 @@ namespace NScene
                 Console.Clear();
             } while (playerManager.GetActualPlayer() == null);
 
-            Console.WriteLine("Chargement ...");
+            Console.WriteLine("Chargement ..." + playerManager.GetActualPlayer().FirstName);
             System.Threading.Thread.Sleep(2000);
 
             Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
