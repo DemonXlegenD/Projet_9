@@ -12,24 +12,28 @@ namespace NGlobal
 {
     public class Global
     {
-        public static bool IsInBattle = false;
-        public static bool IsWildFight = true;
+
+        public static bool IsInBattle = false; /// <summary> If the player is in battle </summary>
+        public static bool IsWildFight = true; /// <summary> If the battle is battle with a wild pokemon </summary>
 
         public static int Pokeballs = 100;
 
         public static Attack DefaultAttack = new Attack("Def","Normal","Physical",10,100,999);
-		public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { 
-            new Pokemon("0", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5), 
-            new Pokemon("0", "Jarod", new List<string> { "Water" }, 20, 20, 20, 20, 20, 20, 10) 
-        };
-        public static List<Pokemon> EnemyPokemons = new List<Pokemon>() { new Pokemon("0", "Maurad", new List<string> { "Grass" }, 20, 20, 20, 20, 20, 20, 10) };
+        /// <summary> List of the pokemons of the player </summary>
+        public static List<Pokemon> PlayerPokemons = new List<Pokemon>() { 
+            new Pokemon("1", "Jarod", new List<string> { "Water" }, 20, 20, 20, 20, 20, 20, 10),
+            new Pokemon("5", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5)
 
-        /// <summary> Paths to look for the assets </summary>
-        public static string TXTArtCollectionPath = "./Assets/__ASCII Text-Art Collection/";
-        public static string TXTAttacksPath = "./Assets/TXT_files_Attacks/";
-        public static string TXTCharactersPath = "./Assets/TXT_files_Characters/";
-        public static string TXTDressersPath = "./Assets/TXT_files_Dressers/";
-        public static string TXTGeneralPath = "./Assets/TXT_fikes_General/";
+        };
+        /// <summary> List of the pokemons of the enemy </summary>
+        public static List<Pokemon> EnemyPokemons = new List<Pokemon>() { new Pokemon("3", "Maurad", new List<string> { "Grass" }, 20, 20, 20, 20, 20, 20, 10) };
+
+        public static string TXTArtCollectionPath = "./Assets/__ASCII Text-Art Collection/";/// <summary> Paths to look for the assets </summary>
+        public static string TXTAttacksPath = "./Assets/TXT_files_Attacks/";/// <summary> Paths to look for the assets </summary>
+        public static string TXTCharactersPath = "./Assets/TXT_files_Characters/";/// <summary> Paths to look for the assets </summary>
+        public static string TXTDressersPath = "./Assets/TXT_files_Dressers/";/// <summary> Paths to look for the assets </summary>
+        public static string TXTGeneralPath = "./Assets/TXT_fikes_General/";/// <summary> Paths to look for the assets </summary>
+
 
         // public Dictionary PlayerItems = { "Pokeball":{"Num":100} }
         // public List<Pokemon_Class> PC
