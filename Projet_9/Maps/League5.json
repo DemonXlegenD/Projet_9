@@ -1,0 +1,28 @@
+{
+    "Tiles": [
+        "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C",
+        "C", "DB", "DB", "DB", "DB", "DB", "DB", "W", "W", "W", "W", "W", "DB", "DB", "DB", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "C", "DB", "W", "W", "R", "R", "R", "W", "W", "DB", "C", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "DB", "W", "W", "R", "R", "R", "R", "R", "W", "W", "DB", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "C", "W", "R", "R", "R", "R", "R", "R", "R", "W", "C", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "DB", "W", "W", "R", "R", "R", "R", "R", "W", "W", "DB", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "C", "DB", "W", "W", "R", "R", "R", "W", "W", "DB", "C", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "DB", "DB", "DB", "W", "R", "R", "R", "W", "DB", "DB", "DB", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "C", "DB", "DB", "W", "R", "R", "R", "W", "DB", "DB", "C", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "DB", "DB", "DB", "W", "R", "R", "R", "W", "DB", "DB", "DB", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "C", "DB", "DB", "W", "R", "R", "R", "W", "DB", "DB", "C", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "DB", "DB", "DB", "W", "R", "R", "R", "W", "DB", "DB", "DB", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "C", "DB", "DB", "W", "R", "R", "R", "W", "DB", "DB", "C", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "DB", "DB", "DB", "W", "R", "R", "R", "W", "DB", "DB", "DB", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "C", "DB", "DB", "W", "R", "R", "R", "W", "DB", "DB", "C", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "DB", "DB", "DB", "W", "R", "R", "R", "W", "DB", "DB", "DB", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "C", "DB", "DB", "W", "R", "R", "R", "W", "DB", "DB", "C", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "DB", "DB", "DB", "W", "R", "R", "R", "W", "DB", "DB", "DB", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "C", "DB", "DB", "W", "R", "R", "R", "W", "DB", "DB", "C", "DB", "DB", "DB", "C",
+        "C", "DB", "DB", "DB", "DB", "DB", "DB", "W", "R", "R", "R", "W", "DB", "DB", "DB", "DB", "DB", "DB", "C",
+        "C", "C", "C", "C", "C", "C", "C", "C", "C", "League4", "C", "C", "C", "C", "C", "C", "C", "C", "C"
+    ],
+    "Size": [19, 21],
+    "Spawn1": [10, 20],
+    "Spawn2": [10, 20]
+}
