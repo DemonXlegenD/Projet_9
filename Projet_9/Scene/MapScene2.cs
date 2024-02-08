@@ -13,7 +13,7 @@ using System.Windows.Documents;
 
 namespace NScene
 {
-    public class MapScene : SceneAbstract
+    public class MapScene2 : SceneAbstract
     {
         private enum Actions
         {
@@ -38,7 +38,7 @@ namespace NScene
         private Dictionary<string, Vector2i> enemy1 = new Dictionary<string, Vector2i>();
 
         List<Dictionary<string, Vector2i>> enemies = new List<Dictionary<string, Vector2i>>();
-        
+
         private string[,] map;
         private string mapName;
         private int height = 0;
@@ -123,10 +123,12 @@ namespace NScene
             return;
         }
 
-        public override void Launch() {
+        public override void Launch()
+        {
             enemyFound = false;
             DisplayMap();
-            if (enemyFound) {
+            if (enemyFound)
+            {
                 Console.Clear();
                 return;
             }
@@ -224,13 +226,13 @@ namespace NScene
 
                     if (key.Key == ConsoleKey.Spacebar)
                     {
-                        switch(selectedMenuAction)
+                        switch (selectedMenuAction)
                         {
                             case MenuActions.LEAVE:
-                            {
-                                Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MenuScene>(true);
-                                break;
-                            }
+                                {
+                                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MenuScene>(true);
+                                    break;
+                                }
                         }
                     }
 
@@ -339,7 +341,8 @@ namespace NScene
                 {
                     Console.WriteLine("║ STATS                      QUITTER ║");
                 }
-            } else
+            }
+            else
             {
                 Console.WriteLine("║ INVENTAIRE               SE BATTRE ║");
                 Console.WriteLine("║                                    ║");
