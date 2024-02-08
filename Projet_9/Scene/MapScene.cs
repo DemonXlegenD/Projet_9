@@ -297,9 +297,20 @@ namespace NScene
 
                     if (!enemyTile)
                     {
-                        if (playerPosition.GetX() == j && playerPosition.GetY() == i)
+                        if (GetPlayer().Position.GetX() == j && GetPlayer().Position.GetY() == i)
                         {
                             GetTiles(map[i, j], false);
+                            if (map[i, j] == "#")
+                            {
+                                Random rnd = new Random();
+                                int chance = rnd.Next(1, 10);
+                                if (chance == 1)
+                                {
+                                    stop = true;
+                                    Global.IsWildFight = true;
+                                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
+                                }
+                            }
                             Console.Write(" " + playerCharacter + " ");
                         }
                         else
