@@ -2,6 +2,7 @@ using NDatas;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using NGlobal;
 using Projet_9.Datas;
 
@@ -107,6 +108,7 @@ namespace NPokemon
             MaxSpeed = StatCalculationOtherGen3(BaseSpeed, IVSpeed);
         }
 
+
         public void LearnMoves()
         {
             Dictionary<string, Dictionary<int, object>> DicLearnSets = PokemonsLearnSet.LearnSets;
@@ -140,14 +142,47 @@ namespace NPokemon
         }
 
         // Constructor
+
         public Pokemon()
         {
             Level = 1;
             Xp = 0;
             XpNext = Level * 20 / 4;
         }
+
+        public Pokemon(IPokemon ipokemon)
+        {
+            Id = ipokemon.Id;
+            Name = ipokemon.Name;
+            Types = ipokemon.Types;
+
+
+            BaseHp = ipokemon.Hp;
+            BaseAttack = ipokemon.Att;
+            BaseAttackSpe = ipokemon.AttSpe;
+            BaseDefense = ipokemon.Def;
+            BaseDefenseSpe = ipokemon.DefSpe;
+            BaseSpeed = ipokemon.Speed;
+
+            IVHp = new Random().Next(0, 32);
+            IVAttack = new Random().Next(0, 32);
+            IVAttackSpe = new Random().Next(0, 32);
+            IVDefense = new Random().Next(0, 32);
+            IVDefenseSpe = new Random().Next(0, 32);
+            IVSpeed = new Random().Next(0, 32);
+
+            RedoStats();
+
+            Hp = MaxHp;
+            Attack = MaxAttack;
+            AttackSpe = MaxAttackSpe;
+            Defense = MaxDefense;
+            DefenseSpe = MaxDefenseSpe;
+            Speed = MaxSpeed;
+        }
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public Pokemon(string id, string name_, List<string> types, int hp, int attack, int attackspe, int defense, int defensespe, int speed, int level = 1)
+        public Pokemon(string id, string name_, List<string> types, int hp, int attack, int attackspe, int defense, int defensespe, int speed, int level = 1, bool ActiveIVH = true)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             Id = id;
@@ -162,12 +197,15 @@ namespace NPokemon
             Level = level;
             XpNext = Level * 20 / 4;
 
-            IVHp = new Random().Next(0, 32);
-            IVAttack = new Random().Next(0, 32);
-            IVAttackSpe = new Random().Next(0, 32);
-            IVDefense = new Random().Next(0, 32);
-            IVDefenseSpe = new Random().Next(0, 32);
-            IVSpeed = new Random().Next(0, 32);
+            if (ActiveIVH)
+            {
+                IVHp = new Random().Next(0, 32);
+                IVAttack = new Random().Next(0, 32);
+                IVAttackSpe = new Random().Next(0, 32);
+                IVDefense = new Random().Next(0, 32);
+                IVDefenseSpe = new Random().Next(0, 32);
+                IVSpeed = new Random().Next(0, 32);
+            }
 
             RedoStats();
 
@@ -182,6 +220,22 @@ namespace NPokemon
             Speed = MaxSpeed;
             //GiveMoves();
             LearnMoves();
+        }
+
+        public void ApplyStats(IPokemon ipokemon)
+        {
+            Id = ipokemon.Id;
+            Name = ipokemon.Name;
+            Types = ipokemon.Types;
+
+            BaseHp = ipokemon.Hp;
+            BaseAttack = ipokemon.Att;
+            BaseAttackSpe = ipokemon.AttSpe;
+            BaseDefense = ipokemon.Def;
+            BaseDefenseSpe = ipokemon.DefSpe;
+            BaseSpeed = ipokemon.Speed;
+
+            RedoStats();
         }
 
         public void LoadPokemonFromFile(string idPokemon)
@@ -451,15 +505,7 @@ namespace NPokemon
 
             if (pokemonsData != null)
             {
-                pokemon.Name = pokemonsData.Name;
-                pokemon.Types = pokemonsData.Types;
-                pokemon.Attack = pokemonsData.Att;
-                pokemon.AttackSpe = pokemonsData.AttSpe;
-                pokemon.Defense = pokemonsData.Def;
-                pokemon.DefenseSpe = pokemonsData.DefSpe;
-                pokemon.Speed = pokemonsData.Speed;
-
-                pokemon.RedoStats();
+                pokemon.ApplyStats(pokemonsData);
             }
 
 

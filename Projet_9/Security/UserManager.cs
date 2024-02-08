@@ -10,7 +10,14 @@ namespace NSecurity
 
         private List<User> users = new List<User>();
 
+        private SaveUser _saveUser;
         public User ActualUser { get; set; } = null;
+        
+
+        public UserManager()
+        {
+            _saveUser = SaveUser.GetInstance();
+        }
 
         public static UserManager GetInstance()
         {
@@ -41,7 +48,8 @@ namespace NSecurity
                         user.IsConnected = false;
                         users.Add(user);
                     }
-                    SaveUser.GetInstance().SaveUsersIntoFile(users);
+
+                    _saveUser.SaveUsersIntoFile(users);
                     Console.WriteLine("User ajouté");
                 }
                 else
@@ -60,7 +68,8 @@ namespace NSecurity
                     _user.IsConnected = false;
                 }
                 users.Add(user);
-                SaveUser.GetInstance().SaveUsersIntoFile(users);
+                _saveUser.UserTag(user.Username, user.Id);
+                _saveUser.SaveUsersIntoFile(users);
                 Console.WriteLine("User ajouté");
             }
             else
@@ -108,6 +117,7 @@ namespace NSecurity
             if (user != null)
             {
                 ActualUser = user;
+                _saveUser.UserTag(user.Username, user.Id);
                 return true;
             }
             return false;
@@ -121,6 +131,7 @@ namespace NSecurity
                 if (user.IsConnected)
                 {
                     ActualUser = user;
+                    _saveUser.UserTag(user.Username, user.Id);
                     return true;
                 }
             }
@@ -137,6 +148,7 @@ namespace NSecurity
                 if (motDePasseHacheAVerifier == _user.Password)
                 {
                     ActualUser = _user;
+                    _saveUser.UserTag(_user.Username, _user.Id);
                     return true;
                 }
 
@@ -146,13 +158,23 @@ namespace NSecurity
 
         public void LoadUsers()
         {
-            users = SaveUser.GetInstance().LoadUserFromSaveFile();
+            users = _saveUser.LoadUserFromSaveFile();
             this.CheckConnexion();
         }
 
         public void UnloadUsers()
         {
             users.Clear();
+        }
+
+        public string GetUserTag()
+        {
+            return _saveUser.GetUserTag();
+        }
+
+        public List<string> GetSavesOfUser()
+        {
+            return _saveUser.ListSaveFiles();
         }
     }
 }

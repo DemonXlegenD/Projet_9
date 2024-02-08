@@ -16,6 +16,7 @@ namespace NModules
 
         public SceneModule()
         {
+
         }
 
         public override void Init()
@@ -43,7 +44,7 @@ namespace NModules
             mainScene.Update(timeModule.GetDeltaTime());
         }
 
-        public SceneAbstract SetScene<T>(bool replaceScenes = true) where T : SceneAbstract, new()
+        public T SetScene<T>(bool replaceScenes = true) where T : SceneAbstract, new()
         {
             if (replaceScenes)
             {
