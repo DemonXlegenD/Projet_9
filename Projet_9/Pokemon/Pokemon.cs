@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using NGlobal;
+using Projet_9.Datas;
 
 namespace NPokemon
 {
@@ -72,6 +74,7 @@ namespace NPokemon
 
         public List<VolatileStatus> STATUSVOLATILE = new List<VolatileStatus>();
         public NonVolatileStatus STATUSNONVOLATILE = NonVolatileStatus.None;
+        private Pokemon pokemon;
 
         // Formula of Gen1 of pokemon
         public int StatCalculationOtherGen1(int BaseStat, int IVStat, int StateXp = 0)
@@ -104,6 +107,41 @@ namespace NPokemon
             MaxDefenseSpe = StatCalculationOtherGen3(BaseDefenseSpe, IVDefenseSpe);
             MaxSpeed = StatCalculationOtherGen3(BaseSpeed, IVSpeed);
         }
+
+
+        public void LearnMoves()
+        {
+            Dictionary<string, Dictionary<int, object>> DicLearnSets = PokemonsLearnSet.LearnSets;
+
+            Dictionary<int, object> learnset = DicLearnSets.TryGetValue(OriginalName+"_LearnSet", out var value) ? value : null;
+
+            if (learnset != null)
+            {
+                foreach (int key in learnset.Keys)
+                {
+                    if (learnset[key] is List<string> moveList)
+                    {
+                        foreach (string move in moveList)
+                        {
+                            if(Moves.Count < 4 && key < Level+1)
+                            {
+                                Moves.Add(Global.ReadAttacksDatas(move));
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("La clé 'Jarod_LearnSet' n'a pas été trouvée dans le dictionnaire.");
+            }
+        }
+
+        // Constructor
 
         public Pokemon()
         {
@@ -181,6 +219,7 @@ namespace NPokemon
             DefenseSpe = MaxDefenseSpe;
             Speed = MaxSpeed;
             //GiveMoves();
+            LearnMoves();
         }
 
         public void ApplyStats(IPokemon ipokemon)
@@ -203,6 +242,10 @@ namespace NPokemon
         {
             PokemonsData.GetIPokemonWithId(idPokemon);
         }
+        public Pokemon(Pokemon pokemon)
+        {
+            this.pokemon = pokemon;
+        }
 
 
         // func Restore() -> void: ## To restore the pokemon Hp and restore all the Pp of all his moves
@@ -214,6 +257,15 @@ namespace NPokemon
         {
             Hp = MaxHp;
             foreach (Attack i in Moves) { i.ResetPp(); }
+        }
+
+        public void AfterFight()
+        {
+            Attack = MaxAttack;
+            AttackSpe = MaxAttackSpe;
+            Defense = MaxDefense;
+            DefenseSpe = MaxDefenseSpe;
+            Speed = MaxSpeed;
         }
 
         public bool IsAlive()
@@ -374,7 +426,7 @@ namespace NPokemon
             Pokemon pokemon = new Pokemon();
             reader.Read();
 
-            // Lire les propri�t�s de l'objet JSON
+            // Lire les propri�t�s de l'objet JSON
             while (reader.TokenType == JsonToken.PropertyName)
             {
                 string propertyName = reader.Value.ToString();

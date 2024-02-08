@@ -222,6 +222,7 @@ private List<string> collidable = new List<string>() { "C", "T", "W" };
                             {
                                 if (playerPosition.GetX() == enemy.Value.GetX() && playerPosition.GetY() == enemy.Value.GetY())
                                 {
+                                    // Changer les enemyPokemons avant
                                     enemyFound = true;
                                     Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
                                 }
