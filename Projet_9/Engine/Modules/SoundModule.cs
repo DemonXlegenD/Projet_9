@@ -55,6 +55,7 @@ namespace NModules
                 loopingStates.Add(id, false);
             }
 
+
         }
         public SoundModule(Dictionary<string, string> musiqueEtChemins)
         {
@@ -156,10 +157,10 @@ namespace NModules
 
         public void StopAll()
         {
-            foreach(var kvp in waveOutDevices.Values)
+            foreach (var kvp in waveOutDevices)
             {
-                kvp.PlaybackStopped -= OnPlaybackStopped;
-                kvp.Stop();
+                kvp.Value.PlaybackStopped -= OnPlaybackStopped;
+                kvp.Value.Stop();
             }
         }
 

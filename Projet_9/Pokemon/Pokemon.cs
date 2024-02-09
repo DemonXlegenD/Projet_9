@@ -180,7 +180,9 @@ namespace NPokemon
             Id = ipokemon.Id;
             Name = ipokemon.Name;
             Types = ipokemon.Types;
-
+            Level = 1;
+            Xp = 0;
+            XpNext = Level * 20 / 4;
 
             BaseHp = ipokemon.Hp;
             BaseAttack = ipokemon.Att;

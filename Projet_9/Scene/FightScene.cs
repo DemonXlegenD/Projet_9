@@ -69,7 +69,8 @@ namespace NScene
         // TO START A FIGHT : CHANGE ( IsWildFight,EnemyPokemons,PlayerPokemons )
         public FightScene() : base("FightScene")
         {
-            if(Global.IsWildFight)
+            Engine.GetInstance().ModuleManager.GetModule<SoundModule>().StopAll();
+            if (Global.IsWildFight)
             {
                 Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Play("Savage_Pokemon");
             }
@@ -82,7 +83,14 @@ namespace NScene
             List2 = Global.EnemyPokemons;
 
             Potion potion = new Potion();
-            PlayerItems.Add(potion.Id, potion);
+            if (PlayerItems.ContainsKey(potion.Id))
+            {
+                PlayerItems[potion.Id].Quantity++;
+            }
+            else
+            {
+                PlayerItems.Add(potion.Id, potion);
+            }
 
             foreach (Pokemon p in List1)
             {
@@ -129,6 +137,7 @@ namespace NScene
             if (List2.Find(p => p.IsAlive()) == null)
             {
                 Global.actualTrainer.Lose = true;
+                Global.firstFight = true;
                 Global.AllTrainers[Global.map].Remove(Global.actualTrainer);
                 Engine.GetInstance().ModuleManager.GetModule<SoundModule>().StopAll();
                 Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
@@ -188,6 +197,7 @@ namespace NScene
                                     {
                                         AfterFightTeamPokemon(PlayerPokemons);
                                         PlayerPokemons.Add(P2);
+                                        Global.capturer = true;
                                         Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
                                         // Go to map scene
                                     }
@@ -289,6 +299,7 @@ namespace NScene
                                     {
                                         AfterFightTeamPokemon(PlayerPokemons);
                                         PlayerPokemons.Add(P2);
+                                        Global.capturer = true;
                                         Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
                                         // Go to map scene
                                     }

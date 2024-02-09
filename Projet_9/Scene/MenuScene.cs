@@ -19,6 +19,7 @@ namespace NScene
 
         public override void Init()
         {
+            Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Play("Menu", true);
             UIButton loadGameButton = new UIButton("Charger Partie")
             {
                 IsHovered = true
@@ -42,6 +43,7 @@ namespace NScene
             UIButton leaveButton = new UIButton("Quitter");
             leaveButton.AddEvent(() =>
             {
+                Engine.GetInstance().ModuleManager.GetModule<SoundModule>().StopAll();
                 Engine.GetInstance().Quit();
             });
             
@@ -111,7 +113,7 @@ namespace NScene
             Global.WriteSprites(new List<string> { "BIENVENUE " + userName });
 
             System.Threading.Thread.Sleep(3000);
-
+            Engine.GetInstance().ModuleManager.GetModule<SoundModule>().StopAll();
             Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<SceneIntroduction>(true);
         }
 
@@ -186,9 +188,11 @@ namespace NScene
                 panel.SelectButton();
             } while (playerManager.GetActualPlayer() == null);
 
-            Console.WriteLine("Chargement ..." + playerManager.GetActualPlayer().FirstName);
+            Console.WriteLine("Chargement ... " + playerManager.GetActualPlayer().FirstName);
+
             System.Threading.Thread.Sleep(2000);
 
+            Engine.GetInstance().ModuleManager.GetModule<SoundModule>().StopAll();
             Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
         }
 

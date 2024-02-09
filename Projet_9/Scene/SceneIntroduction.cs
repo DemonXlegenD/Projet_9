@@ -13,7 +13,9 @@ namespace NScene
 {
     public class SceneIntroduction : SceneAbstract
     {
-        public SceneIntroduction() : base("Scene Introduction") { }
+        public SceneIntroduction() : base("Scene Introduction") {
+            Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Play("Flocombe", true);
+        }
 
         private int cursorDefault = 0;
         public override void Launch()
@@ -194,6 +196,7 @@ namespace NScene
             WaitForPressing($"Aller, la bise {firstname}.");
 
             Console.Clear();
+            Engine.GetInstance().ModuleManager.GetModule<SoundModule>().StopAll();
             Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
         }
     }

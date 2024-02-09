@@ -32,6 +32,9 @@ namespace NGlobal
         public static string map { get; set; } = "Map1";
 
         public static bool passTrainers = true;
+        public static bool capturer { get; set; } = false;
+        public static bool firstFight { get; set; } = false;
+        public static bool foundLigue { get; set; } = false;
 
         public static Dictionary<string, ItemAbstract> PlayerItems = new Dictionary<string, ItemAbstract>();
 
@@ -73,7 +76,7 @@ namespace NGlobal
                 new Pokemon("3", "Francois", new List<string> { "Fire" }, 30, 10, 10, 10, 10, 10, 5),
             }),
 
-            new Trainer("D", "Jarod le fou", new Vector2i(20, 10), new List<Pokemon>()
+            new Trainer("D", "Jarod le fou", new Vector2i(18, 10), new List<Pokemon>()
             {
                 new Pokemon("12", "TrollFlame", new List<string> { "Fire" }, 50, 70, 25, 55, 55, 60, 5),
             }),
@@ -83,7 +86,7 @@ namespace NGlobal
                 new Pokemon("10", "GigaGamer", new List<string> { "Steel" }, 90, 110, 100, 80, 90, 95, 10),
             }),
 
-            new Trainer("D", "Quentin 21", new Vector2i(10, 20), new List<Pokemon>()
+            new Trainer("D", "Quentin 21", new Vector2i(10, 25), new List<Pokemon>()
             {
                 new Pokemon("9", "Memeosaur", new List<string> { "Dragon","Psychic" }, 80, 100, 120, 70, 80, 100, 10),
             })

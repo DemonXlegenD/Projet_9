@@ -1,4 +1,5 @@
 ﻿using NEngine;
+using NModules;
 using System;
 using System.Collections.Generic;
 
@@ -20,6 +21,7 @@ namespace NScene
 
         public override void Init()
         {
+            Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Play("Credit", true);
             Console.Clear();
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
@@ -77,7 +79,8 @@ namespace NScene
 
                 if (key.Key == ConsoleKey.Spacebar || key.Key == ConsoleKey.Escape || key.Key == ConsoleKey.Enter)
                 {
-                    Engine.GetInstance().Quit();
+                    Engine.GetInstance().ModuleManager.GetModule<SoundModule>().StopAll();
+                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MenuScene>();
                 }
             }
 
