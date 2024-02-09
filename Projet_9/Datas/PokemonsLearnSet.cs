@@ -85,7 +85,7 @@ namespace Projet_9.Datas
                 {
                     { 1, new List<string> { "Charge" } },
                     { 5, new List<string> { "Rest" } },
-                    { 5, new List<string> { "Rest" } },
+                    { 6, new List<string> { "Rest" } },
                 }
             },
             {
