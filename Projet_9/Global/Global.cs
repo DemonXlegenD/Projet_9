@@ -25,29 +25,31 @@ namespace NGlobal
         /// <summary> List of the pokemons of the player </summary>
         public static List<Pokemon> PlayerPokemons = new List<Pokemon>() {
             new Pokemon("1", "Jarod", new List<string> { "Water" }, 20, 20, 20, 20, 20, 20, 10),
-            new Pokemon("5", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5)
-
+            new Pokemon("3", "Francois", new List<string> { "Fire" }, 10, 10, 10, 10, 10, 10, 5)
         };
 
 
-        private string map { get; set; } = "Map1";
+        public static string map { get; set; } = "Map1";
 
+        public static bool passTrainers = true;
 
         public static Dictionary<string, ItemAbstract> PlayerItems = new Dictionary<string, ItemAbstract>();
 
         /// <summary> List of trainers available </summary>
         public static Dictionary<string, List<Trainer>> AllTrainers = new Dictionary<string, List<Trainer>>();
 
+        public static Trainer actualTrainer { get; set; }
+
         public static List<Trainer> Map1Trainers = new List<Trainer>()
         {
             new Trainer("D","Maximilien premier le frero", new Vector2i(10, 4), new List<Pokemon>()
             {
-                new Pokemon("0", "Jarod", new List<string> { "Water" }, 40, 20, 20, 20, 20, 20, 10)
+                new Pokemon("1", "Jarod", new List<string> { "Water" }, 40, 20, 20, 20, 20, 20, 10)
             }),
 
             new Trainer("D","Maximilien second le frero", new Vector2i(10, 6), new List<Pokemon>()
             {
-                new Pokemon("2", "Francois", new List<string> { "Fire" }, 50, 10, 10, 10, 10, 10, 5),
+                new Pokemon("3", "Francois", new List<string> { "Fire" }, 50, 10, 10, 10, 10, 10, 5),
             })
         };
 
@@ -55,26 +57,41 @@ namespace NGlobal
         {
             new Trainer("D","Jean Baptout le fragil", new Vector2i(36, 21), new List<Pokemon>()
             {
-                new Pokemon("0", "Jarod", new List<string> { "Water" }, 60, 20, 20, 20, 20, 20, 10),
-                new Pokemon("0", "Francois", new List<string> { "Fire" }, 100, 10, 10, 10, 10, 10, 5),
+                new Pokemon("1", "Jarod", new List<string> { "Water" }, 60, 20, 20, 20, 20, 20, 10),
+                new Pokemon("3", "Francois", new List<string> { "Fire" }, 100, 10, 10, 10, 10, 10, 5),
             }),
 
             new Trainer("D","Shanky le disparu", new Vector2i(36, 22), new List<Pokemon>()
             {
-                new Pokemon("0", "Francois", new List<string> { "Fire" }, 30, 10, 10, 10, 10, 10, 5),
+                new Pokemon("3", "Francois", new List<string> { "Fire" }, 30, 10, 10, 10, 10, 10, 5),
             }),
 
             new Trainer("D", "Maurad le dormeur", new Vector2i(36, 23), new List<Pokemon>()
             {
-                new Pokemon("0", "Francois", new List<string> { "Fire" }, 30, 10, 10, 10, 10, 10, 5),
-                new Pokemon("0", "Francois", new List<string> { "Fire" }, 30, 10, 10, 10, 10, 10, 5),
-                new Pokemon("0", "Francois", new List<string> { "Fire" }, 30, 10, 10, 10, 10, 10, 5),
+                new Pokemon("3", "Francois", new List<string> { "Fire" }, 30, 10, 10, 10, 10, 10, 5),
+                new Pokemon("3", "Francois", new List<string> { "Fire" }, 30, 10, 10, 10, 10, 10, 5),
+                new Pokemon("3", "Francois", new List<string> { "Fire" }, 30, 10, 10, 10, 10, 10, 5),
+            }),
+
+            new Trainer("D", "Jarod le fou", new Vector2i(20, 10), new List<Pokemon>()
+            {
+                new Pokemon("12", "TrollFlame", new List<string> { "Fire" }, 50, 70, 25, 55, 55, 60, 5),
+            }),
+
+            new Trainer("D", "Francois le Tyran", new Vector2i(10, 20), new List<Pokemon>()
+            {
+                new Pokemon("10", "GigaGamer", new List<string> { "Steel" }, 90, 110, 100, 80, 90, 95, 10),
+            }),
+
+            new Trainer("D", "Quentin 21", new Vector2i(10, 20), new List<Pokemon>()
+            {
+                new Pokemon("9", "Memeosaur", new List<string> { "Dragon","Psychic" }, 80, 100, 120, 70, 80, 100, 10),
             })
         };
 
         public static List<Trainer> League1Trainer = new List<Trainer>()
         {
-            new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
+            new Trainer("D", "Maximilien premier le frero", new Vector2i(9, 5), new List<Pokemon>()
             {
                 new Pokemon("10", "GigaGamer", new List<string> { "Steel" }, 90, 110, 100, 80, 90, 95, 10),
                 new Pokemon("7", "MystiWitch", new List<string> { "Ghost","Fairy" }, 85, 75, 95, 65, 85, 110, 10),
@@ -84,7 +101,7 @@ namespace NGlobal
 
         public static List<Trainer> League2Trainer = new List<Trainer>()
         {
-            new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
+            new Trainer("D", "Maximilien premier le frero", new Vector2i(9, 5), new List<Pokemon>()
             {
                 new Pokemon("6", "Aurora", new List<string> { "Ice" }, 70, 60, 65, 55, 50, 45, 5),
                 new Pokemon("25", "Lucas", new List<string> { "Psychic" }, 60, 40, 80, 50, 60, 55, 10),
@@ -94,7 +111,7 @@ namespace NGlobal
 
         public static List<Trainer> League3Trainer = new List<Trainer>()
         {
-            new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
+            new Trainer("D", "Maximilien premier le frero", new Vector2i(9, 5), new List<Pokemon>()
             {
                 new Pokemon("29", "SonicBolt", new List<string> { "Normal" }, 75, 85, 110, 55, 60, 140, 5),
                 new Pokemon("29", "SonicBolt", new List<string> { "Normal" }, 75, 85, 110, 55, 60, 140, 5),
@@ -103,7 +120,7 @@ namespace NGlobal
 
         public static List<Trainer> League4Trainer = new List<Trainer>()
         {
-            new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
+            new Trainer("D", "Maximilien premier le frero", new Vector2i(9, 5), new List<Pokemon>()
             {
                 new Pokemon("12", "TrollFlame", new List<string> { "Fire" }, 50, 70, 25, 55, 55, 60, 5),
                 new Pokemon("14", "DogeVine", new List<string> { "Grass" }, 35, 35, 90, 30, 30, 100, 10),
@@ -113,7 +130,7 @@ namespace NGlobal
 
         public static List<Trainer> League5Trainer = new List<Trainer>()
         {
-            new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
+            new Trainer("D", "Maximilien premier le frero", new Vector2i(9, 5), new List<Pokemon>()
             {
                 new Pokemon("20", "PixelKnight", new List<string> { "Dark","Steel" }, 95, 120, 85, 85, 100, 80, 10),
                 new Pokemon("23", "Sonicachu", new List<string> { "Electric","Normal" }, 75, 85, 110, 55, 60, 140, 10),

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NEngine;
+using System;
 using System.Collections.Generic;
 
 namespace NScene
@@ -19,6 +20,9 @@ namespace NScene
 
         public override void Init()
         {
+            Console.Clear();
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
             ResultJarod.Add("       _|                                      _|        _|_|_|                                _|                                ");
             ResultJarod.Add("       _|    _|_|_|  _|  _|_|    _|_|      _|_|_|      _|        _|    _|  _|  _|_|  _|  _|_|        _|_|    _|  _|_|    _|_|    ");
             ResultJarod.Add("       _|  _|    _|  _|_|      _|    _|  _|    _|      _|        _|    _|  _|_|      _|_|      _|  _|_|_|_|  _|_|      _|_|_|_|  ");
@@ -44,27 +48,40 @@ namespace NScene
         {
             Console.Clear();
             base.Launch();
-                switch (_indexPerson)
-                {
-                    case 0:
-                        WriteLine(ResultJarod);
-                        break;
-                    case 1:
-                        WriteLine(ResultMaurad);
-                        break;
-                    case 2:
-                        WriteLine(ResultFrancois);
-                        break;
-                    default:
-                        Console.WriteLine("Ok");
-                        break;
-                }
-                ChangeIndex();
-                System.Threading.Thread.Sleep(20);
-           
+            switch (_indexPerson)
+            {
+                case 0:
+                    WriteLine(ResultJarod);
+                    break;
+                case 1:
+                    WriteLine(ResultMaurad);
+                    break;
+                case 2:
+                    WriteLine(ResultFrancois);
+                    break;
+                default:
+                    Console.WriteLine("Ok");
+                    break;
+            }
+            ChangeIndex();
+            System.Threading.Thread.Sleep(20);
+            HandleInput();
 
         }
 
+        public void HandleInput()
+        {
+            if (Console.KeyAvailable)
+            {
+                ConsoleKeyInfo key = Console.ReadKey(true);
+
+                if (key.Key == ConsoleKey.Spacebar || key.Key == ConsoleKey.Escape || key.Key == ConsoleKey.Enter)
+                {
+                    Engine.GetInstance().Quit();
+                }
+            }
+
+        }
         public void WriteLine(List<string> name)
         {
 

@@ -117,7 +117,13 @@ namespace NSecurity
             if (user != null)
             {
                 ActualUser = user;
+                foreach (var _user in users)
+                {
+                    _user.IsConnected = false;
+                }
+                ActualUser.IsConnected = true;
                 _saveUser.UserTag(user.Username, user.Id);
+                _saveUser.SaveUsersIntoFile(users);
                 return true;
             }
             return false;
@@ -131,7 +137,13 @@ namespace NSecurity
                 if (user.IsConnected)
                 {
                     ActualUser = user;
+                    foreach (var _user in users)
+                    {
+                        _user.IsConnected = false;
+                    }
+                    ActualUser.IsConnected = true;
                     _saveUser.UserTag(user.Username, user.Id);
+                    _saveUser.SaveUsersIntoFile(users);
                     return true;
                 }
             }
@@ -154,6 +166,7 @@ namespace NSecurity
                     }
                     ActualUser.IsConnected = true;
                     _saveUser.UserTag(_user.Username, _user.Id);
+                    _saveUser.SaveUsersIntoFile(users);
                     return true;
                 }
 
