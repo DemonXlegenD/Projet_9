@@ -3,15 +3,12 @@ using NEngine;
 using Newtonsoft.Json;
 using NGlobal;
 using NModules;
+using NPokemon;
+using NTrainer;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using NGlobal;
-using System.Linq;
-using System.Windows.Documents;
-using NTrainer;
-using System.Xml.Linq;
 
 
 namespace NScene
@@ -27,8 +24,8 @@ namespace NScene
         private enum MenuActions
         {
             INVENTORY,
-            FIGHT,
-            STATS,
+            SAVE,
+            PAUSE,
             LEAVE
         }
 
@@ -37,7 +34,11 @@ namespace NScene
 
         private string playerCharacter = "☺";
         private Vector2i playerPosition = new Vector2i(1, 1);
+
+        private int ligneSelection = 0;
+        private int finMapLigne = 0;
         private bool stop = false;
+        private bool selection = false;
 
         private Dictionary<string, Vector2i> enemy1 = new Dictionary<string, Vector2i>();
 
@@ -132,14 +133,20 @@ namespace NScene
 
         public override void Launch()
         {
+            Console.Clear();
             stop = false;
+            selection = false;
             DisplayMap();
             DisplaySelection();
             do
             {
                 HandleInput();
+                if (selection)
+                {
+                    Global.ClearLines(ligneSelection);
+                    DisplaySelection();
+                }
             } while (!stop);
-
             /*HandleTeleport();*/
 
             Console.Clear();
@@ -229,13 +236,18 @@ namespace NScene
                             Console.BackgroundColor = ConsoleColor.Black;
                             Global.IsWildFight = true;
                             Global.EnemyPokemons.Clear();
-                            List<string> PokemonsList = new List<string>() { "Maurad","Jarod","Francois" };
-                            Global.EnemyPokemons.Add(Global.ReadPokemonDatas(PokemonsList[rnd.Next(0, PokemonsList.Count-1)], rnd.Next(1,5)));
-                            Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
+                            Pokemon pokemonRandom = new Pokemon(Pokemon.LoadIPokemonAndReturn("" + rnd.Next(1, 3)))
+                            {
+                                Level = rnd.Next(1, 5)
+                            };
+                            Global.EnemyPokemons.Add(pokemonRandom);
+                            Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
                         }
                     }
+                    Console.SetCursorPosition(0, ligneSelection+1);
                     if (key.Key == ConsoleKey.Escape)
                     {
+                        selection = true;
                         currentAction = Actions.MENU;
                     }
                     break;
@@ -245,6 +257,7 @@ namespace NScene
                     int ActionCount = Enum.GetNames(typeof(MenuActions)).Length;
                     if (key.Key == ConsoleKey.Escape)
                     {
+                        selection = false;
                         currentAction = Actions.MOVING;
                     }
 
@@ -288,9 +301,29 @@ namespace NScene
                     {
                         switch (selectedMenuAction)
                         {
+                            case MenuActions.PAUSE:
+                                {
+                                    selection = false;
+                                    stop = true;
+                                    Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<PauseMenu>(true);
+                                    break;
+                                }
+                            case MenuActions.SAVE:
+                                {
+                                    PlayerManager.SavePlayerInFile(1);
+                                    Console.WriteLine("Sauvegardé !");
+                                    System.Threading.Thread.Sleep(2000);
+                                    break;
+                                }
                             case MenuActions.LEAVE:
                                 {
+                                    selection = false;
+                                    stop = true;
                                     Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MenuScene>(true);
+                                    break;
+                                }
+                            default:
+                                {
                                     break;
                                 }
                         }
@@ -352,14 +385,14 @@ namespace NScene
                 }
                 Console.Write("\n");
             }
-
+            finMapLigne = Console.CursorTop;
         }
 
         private void DisplaySelection()
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-
+            ligneSelection = Console.CursorTop;
             Console.Write("\n");
             Console.WriteLine("╔════════════════════════════════════╗");
             Console.WriteLine("║                                    ║");
@@ -368,37 +401,37 @@ namespace NScene
             {
                 if (selectedMenuAction == MenuActions.INVENTORY)
                 {
-                    Console.WriteLine("║ > INVENTAIRE <           SE BATTRE ║");
+                    Console.WriteLine("║ > INVENTAIRE <            SAVE     ║");
                 }
-                else if (selectedMenuAction == MenuActions.FIGHT)
+                else if (selectedMenuAction == MenuActions.SAVE)
                 {
-                    Console.WriteLine("║ INVENTAIRE           > SE BATTRE < ║");
+                    Console.WriteLine("║ INVENTAIRE              > SAVE <   ║");
                 }
                 else
                 {
-                    Console.WriteLine("║ INVENTAIRE               SE BATTRE ║");
+                    Console.WriteLine("║ INVENTAIRE                SAVE     ║");
                 }
 
                 Console.WriteLine("║                                    ║");
 
-                if (selectedMenuAction == MenuActions.STATS)
+                if (selectedMenuAction == MenuActions.PAUSE)
                 {
-                    Console.WriteLine("║ > STATS <                  QUITTER ║");
+                    Console.WriteLine("║ > PAUSE <                  QUITTER ║");
                 }
                 else if (selectedMenuAction == MenuActions.LEAVE)
                 {
-                    Console.WriteLine("║ STATS                  > QUITTER < ║");
+                    Console.WriteLine("║ PAUSE                  > QUITTER < ║");
                 }
                 else
                 {
-                    Console.WriteLine("║ STATS                      QUITTER ║");
+                    Console.WriteLine("║ PAUSE                      QUITTER ║");
                 }
             }
             else
             {
-                Console.WriteLine("║ INVENTAIRE               SE BATTRE ║");
+                Console.WriteLine("║ INVENTAIRE                  SAVE   ║");
                 Console.WriteLine("║                                    ║");
-                Console.WriteLine("║ STATS                      QUITTER ║");
+                Console.WriteLine("║ PAUSE                      QUITTER ║");
             }
 
             Console.WriteLine("║                                    ║");

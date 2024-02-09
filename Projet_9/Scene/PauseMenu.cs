@@ -61,13 +61,16 @@ namespace NScene
                 Console.Clear();
                 panel.SelectButton();
             } while (!quit1);
-
+            Console.Clear();
 
         }
 
         public void Save()
         {
-
+            PlayerManager.SavePlayerInFile(1);
+            Console.WriteLine("Sauvegardé!");
+            System.Threading.Thread.Sleep(2000);
+            Console.Clear();
         }
 
         public void ShowPanel() {
