@@ -76,8 +76,9 @@ namespace NGlobal
         {
             new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
             {
-                new Pokemon("10", "FrostyDream", new List<string> { "Dragon" }, 70, 10, 10, 10, 10, 10, 10),
-                new Pokemon("7", "PikaFairy", new List<string> { "Water" }, 45, 20, 20, 20, 20, 20, 10)
+                new Pokemon("10", "GigaGamer", new List<string> { "Steel" }, 90, 110, 100, 80, 90, 95, 10),
+                new Pokemon("7", "MystiWitch", new List<string> { "Ghost","Fairy" }, 85, 75, 95, 65, 85, 110, 10),
+                new Pokemon("9", "Memeosaur", new List<string> { "Dragon","Psychic" }, 80, 100, 120, 70, 80, 100, 10)
             })
         };
 
@@ -85,8 +86,9 @@ namespace NGlobal
         {
             new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
             {
-                new Pokemon("0", "Francois", new List<string> { "Fire" }, 70, 10, 10, 10, 10, 10, 5),
-                new Pokemon("0", "Jarod", new List<string> { "Water" }, 45, 20, 20, 20, 20, 20, 10)
+                new Pokemon("6", "Aurora", new List<string> { "Ice" }, 70, 60, 65, 55, 50, 45, 5),
+                new Pokemon("25", "Lucas", new List<string> { "Psychic" }, 60, 40, 80, 50, 60, 55, 10),
+                new Pokemon("0", "Sylvia", new List<string> { "Electric" }, 45, 65, 70, 40, 55, 85, 10)
             })
         };
 
@@ -94,8 +96,8 @@ namespace NGlobal
         {
             new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
             {
-                new Pokemon("0", "Francois", new List<string> { "Fire" }, 70, 10, 10, 10, 10, 10, 5),
-                new Pokemon("0", "Jarod", new List<string> { "Water" }, 45, 20, 20, 20, 20, 20, 10)
+                new Pokemon("29", "SonicBolt", new List<string> { "Normal" }, 75, 85, 110, 55, 60, 140, 5),
+                new Pokemon("29", "SonicBolt", new List<string> { "Normal" }, 75, 85, 110, 55, 60, 140, 5),
             })
         };
 
@@ -103,8 +105,9 @@ namespace NGlobal
         {
             new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
             {
-                new Pokemon("0", "Francois", new List<string> { "Fire" }, 70, 10, 10, 10, 10, 10, 5),
-                new Pokemon("0", "Jarod", new List<string> { "Water" }, 45, 20, 20, 20, 20, 20, 10)
+                new Pokemon("12", "TrollFlame", new List<string> { "Fire" }, 50, 70, 25, 55, 55, 60, 5),
+                new Pokemon("14", "DogeVine", new List<string> { "Grass" }, 35, 35, 90, 30, 30, 100, 10),
+                new Pokemon("16", "PikaPool", new List<string> { "Electric","Fairy" }, 70, 80, 90, 60, 70, 120, 10)
             })
         };
 
@@ -112,8 +115,10 @@ namespace NGlobal
         {
             new Trainer("D", "Maximilien premier le frero", new Vector2i(10, 2), new List<Pokemon>()
             {
-                new Pokemon("0", "Francois", new List<string> { "Fire" }, 70, 10, 10, 10, 10, 10, 5),
-                new Pokemon("0", "Jarod", new List<string> { "Water" }, 45, 20, 20, 20, 20, 20, 10)
+                new Pokemon("20", "PixelKnight", new List<string> { "Dark","Steel" }, 95, 120, 85, 85, 100, 80, 10),
+                new Pokemon("23", "Sonicachu", new List<string> { "Electric","Normal" }, 75, 85, 110, 55, 60, 140, 10),
+                new Pokemon("17", "MetalMage", new List<string> { "Steel", "Psychic" }, 90, 110, 100, 80, 90, 95, 15),
+                new Pokemon("25", "Minecraftian", new List<string> { "Ground" }, 55, 60, 30, 50, 65, 70, 10)
             })
         };
 

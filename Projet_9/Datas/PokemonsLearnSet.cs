@@ -59,22 +59,25 @@ namespace Projet_9.Datas
             {
                 "Sylvia_LearnSet", new Dictionary<int, object>()
                 {
-                    { 1, new List<string> { "Charge" } },
-                    { 5, new List<string> { "Eclair" } },
+                    { 1, new List<string> { "Hadoken" } },
+                    { 4, new List<string> { "PixelStorm" } },
+                    { 5, new List<string> { "ThunderPunch" } },
                 }
             },
             {
                 "Lucas_LearnSet", new Dictionary<int, object>()
                 {
                     { 1, new List<string> { "Charge" } },
-                    { 5, new List<string> { "Force" } },
+                    { 4, new List<string> { "PsychoCut" } },
+                    { 5, new List<string> { "MemeOverload" } },
                 }
             },
             {
                 "Aurora_LearnSet", new Dictionary<int, object>()
                 {
-                    { 1, new List<string> { "Charge" } },
-                    { 5, new List<string> { "Cout" } },
+                    { 1, new List<string> { "AquaJet" } },
+                    { 4, new List<string> { "Rest" } },
+                    { 5, new List<string> { "IceShard" } },
                 }
             },
             {
@@ -82,55 +85,66 @@ namespace Projet_9.Datas
                 {
                     { 1, new List<string> { "Charge" } },
                     { 5, new List<string> { "Rest" } },
+                    { 5, new List<string> { "Rest" } },
                 }
             },
             {
                 "Sonicachu_LearnSet", new Dictionary<int, object>()
                 {
                     { 1, new List<string> { "Charge" } },
-                    { 5, new List<string> { "Eclair" } },
+                    { 5, new List<string> { "PixelStorm" } },
+                    { 7, new List<string> { "MemeOverload" } },
+                    { 9, new List<string> { "ThunderPunch" } }
                 }
             },
             {
                 "Memeosaur_LearnSet", new Dictionary<int, object>()
                 {
-                    { 1, new List<string> { "Charge" } },
-                    { 5, new List<string> { "Force" } },
+                    { 1, new List<string> { "PsychoCut" } },
+                    { 5, new List<string> { "DragonBreath" } },
+                    { 6, new List<string> { "DragonClaw" } },
                 }
             },
             {
                 "MystiWitch_LearnSet", new Dictionary<int, object>()
                 {
                     { 1, new List<string> { "Charge" } },
-                    { 5, new List<string> { "Bulle" } },
+                    { 5, new List<string> { "ShadowClaw" } },
+                    { 7, new List<string> { "ShadowBall" } },
+                    { 9, new List<string> { "Avalanche" } },
                 }
             },
             {
                 "GigaGamer_LearnSet", new Dictionary<int, object>()
                 {
                     { 1, new List<string> { "Charge" } },
-                    { 5, new List<string> { "GUN" } },
+                    { 5, new List<string> { "Hadoken" } },
+                    { 6, new List<string> { "ThunderPunch" } },
+                    { 9, new List<string> { "FlameWheel" } },
                 }
             },
             {
                 "PixelKnight_LearnSet", new Dictionary<int, object>()
                 {
-                    { 1, new List<string> { "Charge" } },
-                    { 5, new List<string> { "Capitalism" } },
+                    { 1, new List<string> { "CriticalError" } },
+                    { 2, new List<string> { "RealityBite" } },
+                    { 3, new List<string> { "MeteorMash" } },
+                    { 4, new List<string> { "MagnetBomb" } },
                 }
             },
             {
                 "DogeVine_LearnSet", new Dictionary<int, object>()
                 {
-                    { 1, new List<string> { "Charge" } },
-                    { 5, new List<string> { "Capitalism" } },
+                    { 1, new List<string> { "Capitalism" } },
+                    { 5, new List<string> { "PowerWhip" } },
                 }
             },
             {
                 "TrollFlame_LearnSet", new Dictionary<int, object>()
                 {
                     { 1, new List<string> { "Charge" } },
-                    { 5, new List<string> { "Capitalism" } },
+                    { 4, new List<string> { "BrickBreak" } },
+                    { 5, new List<string> { "FirePunch" } }
                 }
             },
 
@@ -139,7 +153,9 @@ namespace Projet_9.Datas
                 "Minecraftian_LearnSet", new Dictionary<int, object>()
                 {
                     { 1, new List<string> { "Charge" } },
-                    { 5, new List<string> { "Capitalism" } },
+                    { 5, new List<string> { "Earthquake" } },
+                    { 6, new List<string> { "MemeOverload" } },
+                    { 7, new List<string> { "Capitalism" } },
                 }
             },
             {
@@ -190,7 +206,7 @@ namespace Projet_9.Datas
             {
                 "SonicBolt_LearnSet", new Dictionary<int, object>()
                 {
-                    { 1, new List<string> { "Charge" } },
+                    { 1, new List<string> { "Hadoken" } },
                     { 5, new List<string> { "Capitalism" } },
                     { 15, new List<string> { "FlameWheel" } },
                 }
@@ -213,9 +229,9 @@ namespace Projet_9.Datas
             {
                 "MetalMage_LearnSet", new Dictionary<int, object>()
                 {
-                    { 1, new List<string> { "Charge" } },
-                    { 5, new List<string> { "Capitalism" } },
-                    { 15, new List<string> { "FlameWheel" } },
+                    { 1, new List<string> { "MeteorMash" } },
+                    { 5, new List<string> { "PsychoCut" } },
+                    { 14, new List<string> { "FlameWheel" } },
                 }
             },
             {
