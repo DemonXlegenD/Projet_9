@@ -586,6 +586,7 @@ namespace NGlobal
             } while (defaultTop < Cursor);
             Console.SetCursorPosition(0, Cursor);
         }
+ 
     }
 }
 

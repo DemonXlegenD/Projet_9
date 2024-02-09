@@ -263,6 +263,11 @@ namespace NPokemon
             RedoStats();
         }
 
+        public static IPokemon LoadIPokemonAndReturn(string idPokemon)
+        {
+            return PokemonsData.GetIPokemonWithId(idPokemon);
+        }
+
         public void LoadPokemonFromFile(string idPokemon)
         {
             ApplyStats(PokemonsData.GetIPokemonWithId(idPokemon));
