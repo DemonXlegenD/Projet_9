@@ -319,7 +319,7 @@ namespace NPokemon
         public void ChangeXp(int x)
         {
             Xp += x;
-            if (Xp > XpNext)
+            while (Xp > XpNext)
             {
                 int LeftOverXp = Xp - XpNext;
                 Xp = LeftOverXp;

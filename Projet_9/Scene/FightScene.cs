@@ -137,9 +137,12 @@ namespace NScene
 
             if (List2.Find(p => p.IsAlive()) == null)
             {
-                Global.actualTrainer.Lose = true;
-                Global.firstFight = true;
-                Global.AllTrainers[Global.map].Remove(Global.actualTrainer);
+                if (!IsWildFight)
+                {
+                    Global.actualTrainer.Lose = true;
+                    Global.firstFight = true;
+                    Global.AllTrainers[Global.map].Remove(Global.actualTrainer);
+                }
                 Engine.GetInstance().ModuleManager.GetModule<SoundModule>().StopAll();
                 Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
             }
@@ -1069,11 +1072,15 @@ namespace NScene
                 if (o <= 0) 
                 {
                     AfterFightTeamPokemon(List1);
-                    try
+                    if (!IsWildFight)
                     {
-                        Global.actualTrainer.Lose = true;
+                        try
+                        {
+                            Global.actualTrainer.Lose = true;
+                        }
+                        catch { }
                     }
-                    catch { }
+
                     Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
                     // Change to main scene
                 }
