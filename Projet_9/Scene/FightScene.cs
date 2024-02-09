@@ -69,6 +69,7 @@ namespace NScene
         // TO START A FIGHT : CHANGE ( IsWildFight,EnemyPokemons,PlayerPokemons )
         public FightScene() : base("FightScene")
         {
+
             Engine.GetInstance().ModuleManager.GetModule<SoundModule>().StopAll();
             if (Global.IsWildFight)
             {
@@ -118,7 +119,7 @@ namespace NScene
             //System.Drawing.FontFamily fontFamily = new System.Drawing.FontFamily(@"");
             Console.Clear();
             //Console.BackgroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine("SelectedIndex:" + SelectedIndex);
+            //Console.WriteLine("SelectedIndex:" + SelectedIndex);
             ToWrite();
             TextQueue.Clear();
             // Peut read le truc pour l'attaque
@@ -215,7 +216,7 @@ namespace NScene
                                             }
                                             else
                                             {
-                                                P2 = List2[choice + 1];
+                                                P2 = List2[Math.Abs(choice) - 1];
                                                 P2Used = false;
                                             }
                                         }
@@ -257,7 +258,7 @@ namespace NScene
                                             }
                                             else
                                             {
-                                                P2 = List2[choice + 1];
+                                                P2 = List2[Math.Abs(choice) - 1];
                                                 P2Used = false;
                                             }
                                         }
@@ -317,7 +318,7 @@ namespace NScene
                                             }
                                             else
                                             {
-                                                P2 = List2[choice + 1];
+                                                P2 = List2[Math.Abs(choice) - 1];
                                                 P2Used = false;
                                             }
                                         }
@@ -361,7 +362,7 @@ namespace NScene
                                             }
                                             else
                                             {
-                                                P2 = List2[choice + 1];
+                                                P2 = List2[Math.Abs(choice) - 1];
                                                 P2Used = false;
                                             }
                                         }
@@ -399,7 +400,7 @@ namespace NScene
                                 }
                                 else
                                 {
-                                    P2 = List2[choice + 1];
+                                    P2 = List2[Math.Abs(choice) - 1];
                                     P2Used = false;
                                 }
                             }
@@ -432,7 +433,7 @@ namespace NScene
                                 }
                                 else
                                 {
-                                    P2 = List2[choice + 1];
+                                    P2 = List2[Math.Abs(choice) - 1];
                                     P2Used = false;
                                 }
                             }
@@ -475,7 +476,7 @@ namespace NScene
                                         }
                                         else
                                         {
-                                            P2 = List2[choice + 1];
+                                            P2 = List2[Math.Abs(choice) - 1];
                                             P2Used = false;
                                         }
                                     }
@@ -527,7 +528,7 @@ namespace NScene
                                         }
                                         else
                                         {
-                                            P2 = List2[choice + 1];
+                                            P2 = List2[Math.Abs(choice) - 1];
                                             P2Used = false;
                                         }
                                     }
@@ -624,7 +625,7 @@ namespace NScene
                                     }
                                     else
                                     {
-                                        P2 = List2[choice + 1];
+                                        P2 = List2[Math.Abs(choice) - 1];
                                         P2Used = false;
                                     }
                                 }
@@ -669,7 +670,7 @@ namespace NScene
                                     }
                                     else
                                     {
-                                        P2 = List2[choice + 1];
+                                        P2 = List2[Math.Abs(choice) - 1];
                                         P2Used = false;
                                     }
                                 }
@@ -1068,6 +1069,11 @@ namespace NScene
                 if (o <= 0) 
                 {
                     AfterFightTeamPokemon(List1);
+                    try
+                    {
+                        Global.actualTrainer.Lose = true;
+                    }
+                    catch { }
                     Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
                     // Change to main scene
                 }

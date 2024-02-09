@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
+using System.Threading;
 
 namespace NScene
 {
@@ -132,6 +132,11 @@ namespace NScene
 
         public override void Launch()
         {
+
+
+
+
+
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
@@ -158,6 +163,38 @@ namespace NScene
                 Console.WriteLine("Quête 3 : Trouvez la ligue et vainquez la");
             }
             Console.ForegroundColor = ConsoleColor.White;
+
+            if(Global.map == "League1")
+            {
+                Console.WriteLine("La tension monte");
+                Thread.Sleep(2000);
+                Global.ClearLine();
+            }
+            if (Global.map == "League2")
+            {
+                Console.WriteLine("La tension monte");
+                Thread.Sleep(2000);
+                Global.ClearLine();
+            }
+            if (Global.map == "League3")
+            {
+                Console.WriteLine("Le stress, les combats, cette préssion, tu en es capable ?");
+                Thread.Sleep(2000);
+                Global.ClearLine();
+            }
+            if (Global.map == "League4")
+            {
+                Console.WriteLine("Tu commence à y arriver ? Impressionnant");
+                Thread.Sleep(2000);
+                Global.ClearLine();
+            }
+            if (Global.map == "League5")
+            {
+                Console.WriteLine("Le dernier combat, celui décisif, tu ne vas pas y arriver...");
+                Thread.Sleep(2000);
+                Global.ClearLine();
+            }
+
             do
             {
                 HandleInput();
@@ -272,6 +309,7 @@ namespace NScene
                             LoadMap(Global.map, true);
                             stop = true;
                             Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Play("Ligue_Pokemon", true);
+
                         }
                         else if (Global.map == "League2" && Global.League2Trainer[0].Lose)
                         {
@@ -281,6 +319,7 @@ namespace NScene
                             Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Stop("Port_Yoneuve");
                             Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Stop("Ligue_Pokemon");
                             Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Play("Ligue_Pokemon", true);
+
                         }
                         else if (Global.map == "League3" && Global.League3Trainer[0].Lose) 
                         {
@@ -290,6 +329,7 @@ namespace NScene
                             Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Stop("Port_Yoneuve");
                             Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Stop("Ligue_Pokemon");
                             Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Play("Ligue_Pokemon", true);
+
                         }
                         else if (Global.map == "League4" && Global.League4Trainer[0].Lose)
                         {
@@ -299,6 +339,7 @@ namespace NScene
                             Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Stop("Port_Yoneuve");
                             Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Stop("Ligue_Pokemon");
                             Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Play("Ligue_Pokemon", true);
+
                         }
                         else if (Global.map == "League5" && Global.League5Trainer[0].Lose) 
                         {

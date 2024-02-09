@@ -18,7 +18,7 @@ namespace NPokemon
             int x = 0;
             foreach (Attack a in PokemonInBattleSelf.Moves)
             {
-                if (a.GetCat() == "Physical" || a.GetCat() == "Special")
+                if (a.GetCat() == "Physical" || a.GetCat() == "Special" && a.GetPp() > 0)
                 {
                     float typeMul = 0;
                     int i = 0;
@@ -55,9 +55,12 @@ namespace NPokemon
                         int y = 0;
                         foreach (Pokemon p in PokemonListSelf)
                         {
-                            if (Global.Chart[(int)Global.TypeToIndex(a.GetType()), (int)Global.TypeToIndex(p.GetTypes()[0])] < 1 && p != PokemonInBattleSelf)
+                            if (p.IsAlive())
                             {
-                                return -1 - y;
+                                if (Global.Chart[(int)Global.TypeToIndex(a.GetType()), (int)Global.TypeToIndex(p.GetTypes()[0])] < 1 && p != PokemonInBattleSelf)
+                                {
+                                    return -1 - y;
+                                }
                             }
                             y++;
                         }
@@ -85,7 +88,10 @@ namespace NPokemon
             {
                 return ChangeTo(PokemonListSelf, PokemonListEnemy, PokemonInBattleSelf, PokemonInBattleEnemy);
             }
-
+            if (PokemonInBattleSelf.Moves[0].GetPp() > 0)
+            {
+                return 1;
+            }
             return 0;
 
         }
