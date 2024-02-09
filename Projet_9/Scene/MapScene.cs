@@ -162,6 +162,7 @@ namespace NScene
                     {
                         if (!collidable.Contains(map[playerPosition.GetY() + 1, playerPosition.GetX()]))
                         {
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
                             GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
                             playerPosition.SetY(playerPosition.GetY() + 1);
@@ -174,6 +175,7 @@ namespace NScene
                     {
                         if (!collidable.Contains(map[playerPosition.GetY() - 1, playerPosition.GetX()]))
                         {
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
                             GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
                             playerPosition.SetY(playerPosition.GetY() - 1);
@@ -186,7 +188,7 @@ namespace NScene
                     {
                         if (!collidable.Contains(map[playerPosition.GetY(), playerPosition.GetX() - 1]))
                         {
-
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
                             GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
                             playerPosition.SetX(playerPosition.GetX() - 1);
@@ -199,6 +201,7 @@ namespace NScene
                     {
                         if (!collidable.Contains(map[playerPosition.GetY(), playerPosition.GetX() + 1]))
                         {
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
                             GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
                             playerPosition.SetX(playerPosition.GetX() + 1);
