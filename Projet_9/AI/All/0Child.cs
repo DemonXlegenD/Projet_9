@@ -14,7 +14,7 @@ namespace NPokemon
         public static int  MakeChoice(Pokemon PokemonInBattle)
         {
             Random random = new Random();
-            return random.Next(0,PokemonInBattle.Moves.Count-1);
+            return random.Next(0, PokemonInBattle.Moves.Count-1);
 }
 
         public int GetChoice(){return ChoiceAttack;}

@@ -13,6 +13,7 @@ namespace NTrainer
 
         public string Id { get; set; }
         public string Name;
+        public bool Lose { get; set; } = false;
         public Vector2i Position { get; set; }
         public List<Pokemon> Pokemons { get; set; } = new List<Pokemon>();
         public Trainer(string id, string name, Vector2i position, List<Pokemon> pokemons)

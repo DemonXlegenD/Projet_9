@@ -131,7 +131,7 @@ namespace NPokemon
         {
             Dictionary<string, Dictionary<int, object>> DicLearnSets = PokemonsLearnSet.LearnSets;
 
-            Dictionary<int, object> learnset = DicLearnSets.TryGetValue(OriginalName+"_LearnSet", out var value) ? value : null;
+            Dictionary<int, object> learnset = DicLearnSets.TryGetValue(Name+"_LearnSet", out var value) ? value : null;
 
             if (learnset != null)
             {
@@ -204,6 +204,8 @@ namespace NPokemon
             Defense = MaxDefense;
             DefenseSpe = MaxDefenseSpe;
             Speed = MaxSpeed;
+
+            LearnMoves();
         }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -252,7 +254,6 @@ namespace NPokemon
             Id = ipokemon.Id;
             Name = ipokemon.Name;
             Types = ipokemon.Types;
-            Moves = ipokemon.Moves;
             BaseHp = ipokemon.Hp;
             BaseAttack = ipokemon.Att;
             BaseAttackSpe = ipokemon.AttSpe;
@@ -261,6 +262,7 @@ namespace NPokemon
             BaseSpeed = ipokemon.Speed;
 
             RedoStats();
+            LearnMoves();
         }
 
         public static IPokemon LoadIPokemonAndReturn(string idPokemon)
@@ -271,11 +273,13 @@ namespace NPokemon
         public void LoadPokemonFromFile(string idPokemon)
         {
             ApplyStats(PokemonsData.GetIPokemonWithId(idPokemon));
+            LearnMoves();
         }
 
         public Pokemon(Pokemon pokemon)
         {
             this.pokemon = pokemon;
+            LearnMoves();
         }
 
         public void HpChange(int x)

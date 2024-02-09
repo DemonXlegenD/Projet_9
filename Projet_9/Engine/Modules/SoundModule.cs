@@ -154,6 +154,15 @@ namespace NModules
             }
         }
 
+        public void StopAll()
+        {
+            foreach(var kvp in waveOutDevices.Values)
+            {
+                kvp.PlaybackStopped -= OnPlaybackStopped;
+                kvp.Stop();
+            }
+        }
+
         public void Dispose()
         {
             foreach (var waveOutDevice in waveOutDevices.Values)

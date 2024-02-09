@@ -17,6 +17,7 @@ using NPotionType;
 using System.Reflection;
 using NHealing;
 using NEngine;
+using System.Threading;
 
 namespace NScene
 {
@@ -68,6 +69,15 @@ namespace NScene
         // TO START A FIGHT : CHANGE ( IsWildFight,EnemyPokemons,PlayerPokemons )
         public FightScene() : base("FightScene")
         {
+            if(Global.IsWildFight)
+            {
+                Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Play("Savage_Pokemon");
+            }
+            else
+            {
+                Engine.GetInstance().ModuleManager.GetModule<SoundModule>().Play("Trainer_Fight");
+            }
+
             List1 = Global.PlayerPokemons;
             List2 = Global.EnemyPokemons;
 
@@ -90,7 +100,6 @@ namespace NScene
                     break;
                 }
             }
-            
 
         }
 
@@ -110,6 +119,20 @@ namespace NScene
             ConsoleKeyInfo key = Console.ReadKey();
             ActionToDo(key);
             Input(key);
+
+            if (List1.Find(p => p.IsAlive()) == null)
+            {
+                Engine.GetInstance().ModuleManager.GetModule<SoundModule>().StopAll();
+                Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
+            }
+
+            if (List2.Find(p => p.IsAlive()) == null)
+            {
+                Global.actualTrainer.Lose = true;
+                Global.AllTrainers[Global.map].Remove(Global.actualTrainer);
+                Engine.GetInstance().ModuleManager.GetModule<SoundModule>().StopAll();
+                Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<MapScene>(true);
+            }
         }
 
         private void Input(ConsoleKeyInfo key)
@@ -410,6 +433,7 @@ namespace NScene
                             STATE = States.TURN;
                             PSelectIndex = 0;
                         }
+                        Console.Clear();
                     }
                     break;
 

@@ -33,7 +33,6 @@ namespace NScene
         private MenuActions selectedMenuAction = MenuActions.INVENTORY;
 
         private string playerCharacter = "☺";
-        private Vector2i playerPosition = new Vector2i(1, 1);
 
         private int ligneSelection = 0;
         private int finMapLigne = 0;
@@ -45,7 +44,6 @@ namespace NScene
         List<Dictionary<string, Vector2i>> enemies = new List<Dictionary<string, Vector2i>>();
 
         private string[,] map;
-        private string mapName;
         private int height = 0;
         private int width = 0;
         private List<string> collidable = new List<string>() { "C", "T" };
@@ -59,8 +57,7 @@ namespace NScene
         public override void Init()
         {
             Console.OutputEncoding = Encoding.UTF8;
-            mapName = "Map2";
-            LoadMap(mapName, false);
+            LoadMap(Global.map, false);
             Global.LoadTrainers();
             if (collidable.Contains(map[GetPlayer().Position.GetX(), GetPlayer().Position.GetY()]))
             {
@@ -133,11 +130,15 @@ namespace NScene
 
         public override void Launch()
         {
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
             stop = false;
             selection = false;
             DisplayMap();
             DisplaySelection();
+            if(Global.map == "Map1") Console.WriteLine("Quête 1 : Combattez, entrainez vos pokemon");
+            if (Global.map == "Map2") Console.WriteLine("Quête 2 : Trouvez la ligue et vainquez la");
             do
             {
                 HandleInput();
@@ -147,7 +148,6 @@ namespace NScene
                     DisplaySelection();
                 }
             } while (!stop);
-            /*HandleTeleport();*/
 
             Console.Clear();
         }
@@ -160,75 +160,123 @@ namespace NScene
                 case Actions.MOVING:
                     if (key.Key == ConsoleKey.DownArrow)
                     {
-                        if (!collidable.Contains(map[playerPosition.GetY() + 1, playerPosition.GetX()]))
+                        if (!collidable.Contains(map[GetPlayer().Position.GetY() + 1, GetPlayer().Position.GetX()]))
                         {
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
-                            playerPosition.SetY(playerPosition.GetY() + 1);
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
+                            Console.SetCursorPosition(GetPlayer().Position.GetX() * 3, GetPlayer().Position.GetY());
+                            GetTiles(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX()], true);
+                            GetPlayer().Position.SetY(GetPlayer().Position.GetY() + 1);
+                            Console.SetCursorPosition(GetPlayer().Position.GetX() * 3, GetPlayer().Position.GetY());
+                            GetTiles(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX()], false);
                             Console.Write(" " + playerCharacter + " ");
                         }
                     }
                     else if (key.Key == ConsoleKey.UpArrow)
                     {
-                        if (!collidable.Contains(map[playerPosition.GetY() - 1, playerPosition.GetX()]))
+                        if (!collidable.Contains(map[GetPlayer().Position.GetY() - 1, GetPlayer().Position.GetX()]))
                         {
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
-                            playerPosition.SetY(playerPosition.GetY() - 1);
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
+                            Console.SetCursorPosition(GetPlayer().Position.GetX() * 3, GetPlayer().Position.GetY());
+                            GetTiles(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX()], true);
+                            GetPlayer().Position.SetY(GetPlayer().Position.GetY() - 1);
+                            Console.SetCursorPosition(GetPlayer().Position.GetX() * 3, GetPlayer().Position.GetY());
+                            GetTiles(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX()], false);
                             Console.Write(" " + playerCharacter + " ");
                         }
                     }
                     else if (key.Key == ConsoleKey.LeftArrow)
                     {
-                        if (!collidable.Contains(map[playerPosition.GetY(), playerPosition.GetX() - 1]))
+                        if (!collidable.Contains(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX() - 1]))
                         {
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
-                            playerPosition.SetX(playerPosition.GetX() - 1);
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
+                            Console.SetCursorPosition(GetPlayer().Position.GetX() * 3, GetPlayer().Position.GetY());
+                            GetTiles(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX()], true);
+                            GetPlayer().Position.SetX(GetPlayer().Position.GetX() - 1);
+                            Console.SetCursorPosition(GetPlayer().Position.GetX() * 3, GetPlayer().Position.GetY());
+                            GetTiles(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX()], false);
                             Console.Write(" " + playerCharacter + " ");
                         }
                     }
                     else if (key.Key == ConsoleKey.RightArrow)
                     {
-                        if (!collidable.Contains(map[playerPosition.GetY(), playerPosition.GetX() + 1]))
+                        if (!collidable.Contains(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX() + 1]))
                         {
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], true);
-                            playerPosition.SetX(playerPosition.GetX() + 1);
-                            Console.SetCursorPosition(playerPosition.GetX() * 3, playerPosition.GetY());
-                            GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
+                            Console.SetCursorPosition(GetPlayer().Position.GetX() * 3, GetPlayer().Position.GetY());
+                            GetTiles(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX()], true);
+                            GetPlayer().Position.SetX(GetPlayer().Position.GetX() + 1);
+                            Console.SetCursorPosition(GetPlayer().Position.GetX() * 3, GetPlayer().Position.GetY());
+                            GetTiles(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX()], false);
                             Console.Write(" " + playerCharacter + " ");
                         }
                     }
                     foreach (var entry in Global.AllTrainers)
                     {
-                        if (entry.Key == mapName && entry.Value != null)
+                        if (entry.Key == Global.map && entry.Value != null)
                         {
                             foreach (Trainer enemy in entry.Value)
                             {
-                                if (enemy.Position.GetX() == playerPosition.GetX() && enemy.Position.GetY() == playerPosition.GetY())
+                                if (enemy.Position.GetX() == GetPlayer().Position.GetX() && enemy.Position.GetY() == GetPlayer().Position.GetY() && !enemy.Lose)
                                 {
                                     stop = true;
-                                    GetTiles(map[playerPosition.GetY(), playerPosition.GetX()], false);
+                                    GetTiles(map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX()], false);
                                     Global.IsWildFight = false;
                                     Global.EnemyPokemons = enemy.Pokemons;
+                                    Global.actualTrainer = enemy;
                                     Console.BackgroundColor = ConsoleColor.Black;
                                     Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<FightScene>(true);
                                 }
                             }
                         }
                     }
-                    if (map[playerPosition.GetY(), playerPosition.GetX()] == "#")
+                    if (map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX()] == "DR")
+                    {
+                        if(Global.map == "Map1")
+                        {
+                            Global.map = "Map2";
+                            LoadMap(Global.map, true);
+                            stop = true;
+                        } 
+                        else if(Global.map == "Map2")
+                        {
+                            Global.map = "League1";
+                            LoadMap(Global.map, true);
+                            stop = true;
+                        }
+                        else if (Global.map == "League1" && Global.League1Trainer[0].Lose)
+                        {
+                            Global.map = "League2";
+                            LoadMap(Global.map, true);
+                            stop = true;
+                        }
+                        else if (Global.map == "League2" && Global.League2Trainer[0].Lose)
+                        {
+                            Global.map = "League3";
+                            LoadMap(Global.map, true);
+                            stop = true;
+                        }
+                        else if (Global.map == "League3" && Global.League3Trainer[0].Lose) 
+                        {
+                            Global.map = "League4";
+                            LoadMap(Global.map, true);
+                            stop = true;
+                        }
+                        else if (Global.map == "League4" && Global.League4Trainer[0].Lose)
+                        {
+                            Global.map = "League5";
+                            LoadMap(Global.map, true);
+                            stop = true;
+                        }
+                        else if (Global.map == "League5" && Global.League5Trainer[0].Lose) 
+                        {
+                            stop = true;
+                            selection = false;
+                         
+                            Engine.GetInstance().ModuleManager.GetModule<SceneModule>().SetScene<SceneCredit>(true);
+                        }
+                    }
+
+                    if (map[GetPlayer().Position.GetY(), GetPlayer().Position.GetX()] == "#")
                     {
                         Random rnd = new Random();
                         int chance = rnd.Next(1, 10);
@@ -314,8 +362,6 @@ namespace NScene
                             case MenuActions.SAVE:
                                 {
                                     PlayerManager.SavePlayerInFile(1);
-                                    Console.WriteLine("Sauvegardé !");
-                                    System.Threading.Thread.Sleep(2000);
                                     break;
                                 }
                             case MenuActions.LEAVE:
@@ -348,13 +394,13 @@ namespace NScene
                     var enemyTile = false;
                     foreach (var entry in Global.AllTrainers)
                     {
-                        if (entry.Key == mapName && entry.Value != null)
+                        if (entry.Key == Global.map && entry.Value != null)
                         {
                             foreach (Trainer enemy in entry.Value)
                             {
                                 if (enemy.Position.GetX() == j && enemy.Position.GetY() == i)
                                 {
-                                    GetTiles(map[i, j], true);
+                                    GetTiles(map[i, j], false);
                                     Console.Write(" " + enemy.Id + " ");
                                     enemyTile = true;
                                 }
@@ -469,10 +515,10 @@ namespace NScene
                 for (int j = 0; j < width; j++)
                 {
                     map[i, j] = deserializedObject.Tiles[(i * width) + j];
-                    if (map[i, j] == mapName)
+                    /*if (map[i, j] == Global.map)
                     {
                         spawn = new Vector2i(deserializedObject.Spawn2[0], deserializedObject.Spawn2[1]);
-                    }
+                    }*/
                 }
             }
 
@@ -481,7 +527,7 @@ namespace NScene
                 GetPlayer().Position = spawn;
             }
 
-            mapName = _map;
+            Global.map = _map;
 
             return;
         }
